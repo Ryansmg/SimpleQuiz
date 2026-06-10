@@ -232,13 +232,35 @@ p {
 }
 
 .quizTopBarInfo {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  align-items: center;
+
   gap: 16px;
   margin-bottom: 12px;
 
   color: var(--foreground-muted);
   font-size: 0.92rem;
+}
+
+.quizTopBarInfo > :nth-child(1) {
+  justify-self: start;
+}
+
+.quizTopBarInfo > :nth-child(2) {
+  justify-self: center;
+}
+
+.quizTopBarInfo > :nth-child(3) {
+  justify-self: center;
+}
+
+.quizTopBarInfo > :nth-child(4) {
+  justify-self: center;
+}
+
+.quizTopBarInfo > :nth-child(5) {
+  justify-self: end;
 }
 
 .quizTopBarStrong {
@@ -252,7 +274,7 @@ p {
   position: relative;
   overflow: hidden;
 
-  height: 18px;
+  height: 32px;
   border-radius: 999px;
 
   background: rgba(255, 255, 255, 0.08);
@@ -261,7 +283,7 @@ p {
 
 .progressFill {
   height: 100%;
-  width: 0%;
+  width: 0;
 
   border-radius: inherit;
   background: linear-gradient(90deg, var(--primary), #4ade80);
@@ -276,7 +298,7 @@ p {
   display: grid;
   place-items: center;
 
-  font-size: 0.75rem;
+  font-size: 0.888rem;
   font-weight: 800;
   color: white;
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
@@ -285,7 +307,7 @@ p {
 /* 문제 영역 */
 
 .questionPanel {
-  margin-top: 32px;
+  margin-top: -32px;
 }
 
 .questionNumber {
@@ -322,8 +344,8 @@ p {
 }
 
 .choiceButton {
-  min-height: 72px;
-  padding: 18px 20px;
+  min-height: 24px;
+  padding: 5px 20px;
 
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
@@ -341,7 +363,12 @@ p {
           background-color 140ms ease,
           border-color 140ms ease,
           box-shadow 140ms ease;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
+
 
 .choiceButton:hover {
   transform: translateY(-2px);
@@ -367,11 +394,12 @@ p {
 /* 결과 화면 */
 
 .resultScore {
-  margin: 12px 0;
-  font-size: clamp(3rem, 8vw, 5rem);
+  font-size: 4rem;
   line-height: 1;
   font-weight: 900;
-  letter-spacing: -0.06em;
+  /*letter-spacing: -0.06em;*/
+  margin-top: -20px;
+  margin-bottom: -10px;
 
   background: linear-gradient(90deg, var(--primary-hover), var(--success));
   -webkit-background-clip: text;
@@ -387,7 +415,7 @@ p {
 }
 
 .startDesc {
-  margin-top: 0px;
+  margin-top: 0;
 }
 
 .startMeta {
@@ -425,6 +453,166 @@ p {
 
 /* 모바일 대응 */
 
+.answerRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.answerRow .answerInput {
+  flex: 1;
+}
+
+.choiceNumber {
+  color: var(--primary-hover);
+  font-weight: 900;
+  min-width: 28px;
+}
+
+.feedbackBox {
+  margin-top: 22px;
+  padding: 20px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.feedbackBox h2 {
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+}
+
+.feedbackBox p {
+  margin-bottom: 8px;
+  color: var(--foreground);
+}
+
+.feedbackAccepted {
+  border-color: rgba(74, 222, 128, 0.65);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.feedbackAccepted h2 {
+  color: var(--success);
+}
+
+.feedbackWrong {
+  border-color: rgba(251, 113, 133, 0.65);
+  background: rgba(251, 113, 133, 0.12);
+}
+
+.feedbackWrong h2 {
+  color: var(--danger);
+}
+
+.feedbackCommentary {
+  margin-top: 14px;
+  white-space: pre-line;
+}
+
+.answerRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.answerRow .answerInput {
+  flex: 1;
+}
+
+.answerInput {
+  width: 100%;
+  min-height: 56px;
+  padding: 0 18px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--foreground);
+
+  font-size: 1.05rem;
+  font-weight: 700;
+
+  outline: none;
+
+  transition:
+          border-color 140ms ease,
+          background-color 140ms ease,
+          box-shadow 140ms ease;
+}
+
+.answerInput::placeholder {
+  color: var(--foreground-muted);
+}
+
+.answerInput:focus {
+  background: rgba(255, 255, 255, 0.09);
+  border-color: rgba(124, 140, 255, 0.65);
+  box-shadow: 0 0 0 4px rgba(124, 140, 255, 0.16);
+}
+
+.choiceNumber {
+  color: var(--primary-hover);
+  font-weight: 900;
+  min-width: 28px;
+}
+
+.feedbackBox {
+  margin-top: 22px;
+  padding: 20px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.feedbackBox h2 {
+  margin-bottom: 12px;
+  font-size: 1.4rem;
+}
+
+.feedbackBox p {
+  margin-bottom: 8px;
+  color: var(--foreground);
+}
+
+.feedbackAccepted {
+  border-color: rgba(74, 222, 128, 0.65);
+  background: rgba(74, 222, 128, 0.12);
+}
+
+.feedbackAccepted h2 {
+  color: var(--success);
+}
+
+.feedbackWrong {
+  border-color: rgba(251, 113, 133, 0.65);
+  background: rgba(251, 113, 133, 0.12);
+}
+
+.feedbackWrong h2 {
+  color: var(--danger);
+}
+
+.feedbackCommentary {
+  margin-top: 14px;
+  white-space: pre-line;
+}
+
+@media (max-width: 720px) {
+  .answerRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+
 @media (max-width: 720px) {
   main,
   .page {
@@ -449,6 +637,12 @@ p {
 
   .card {
     padding: 22px;
+  }
+
+
+  .answerRow {
+    flex-direction: column;
+    align-items: stretch;
   }
 }
 

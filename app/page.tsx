@@ -6,7 +6,7 @@ export default function Home() {
       <main>
         <section className="card">
           <h2>문제 세트 선택</h2>
-          <p>원하는 문제 세트를 선택하고, 제한 시간 안에 최대한 높은 점수를 얻어 보세요.</p>
+          <p style={{marginBottom: 22}}>원하는 문제 세트를 선택하고, 제한 시간 안에 최대한 높은 점수를 얻어 보세요.</p>
 
           <div className="grid">
             {quizzes.map((quiz, index) => (
