@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Problem, ProblemSet, QuizInfo, QuizResult } from "@/types/quiz";
 
@@ -92,12 +92,27 @@ function getUserAnswerText(problem: Problem, input: string | number): string {
     return String(input);
 }
 
+function shuffleProblems(problems: Problem[]): Problem[] {
+    const shuffled = [...problems];
+
+    for (let i = shuffled.length - 1; i > 0; i -= 1) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    return shuffled;
+}
+
 export default function QuizPlayer({ quiz, problemSet }: Props) {
     const router = useRouter();
 
-    const problems = useMemo(() => {
-        return problemSet.problems.slice(0, quiz.length);
-    }, [problemSet.problems, quiz.length]);
+    const [problems] = useState(() => {
+        const orderedProblems = quiz.shuffle
+            ? shuffleProblems(problemSet.problems)
+            : problemSet.problems;
+
+        return orderedProblems.slice(0, quiz.length);
+    });
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
