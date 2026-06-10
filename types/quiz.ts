@@ -4,6 +4,7 @@ export type QuizInfo = {
     description: string;
     length: number;
     shuffle: boolean;
+    choiceLayout?: "grid" | "stack";
 
     maxScore: number;
     minScore: number;
@@ -18,6 +19,7 @@ export type ChoiceProblem = {
     legend: string;
     choices: string[];
     answer: number;
+    choiceText?: string;
     commentary?: string;
 };
 
@@ -26,6 +28,7 @@ export type AutoChoiceProblem = {
     legend: string;
     choices: `auto_${number}`;
     answer: string;
+    choiceText?: string;
     commentary?: string;
 };
 
@@ -33,6 +36,8 @@ export type FillProblem = {
     type: "fill";
     legend: string;
     answer: string;
+    choices?: string[] | `auto_${number}`;
+    choiceText?: string;
     commentary?: string;
     ignoreCase?: boolean;
     ignoreWhitespace?: boolean;

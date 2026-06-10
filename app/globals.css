@@ -338,9 +338,14 @@ p {
 /* 선택지 */
 
 .choiceGrid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.choiceGrid .choiceButton {
+  flex: 1 1 0;
 }
 
 .choiceStack {
@@ -348,7 +353,6 @@ p {
   flex-direction: column;
   gap: 12px;
 }
-
 
 .choiceButton {
   min-height: 24px;
@@ -396,6 +400,16 @@ p {
 .choiceButtonWrong {
   background: rgba(251, 113, 133, 0.18);
   border-color: rgba(251, 113, 133, 0.65);
+}
+
+.choiceButtonStatic,
+.choiceButtonStatic:hover,
+.choiceButtonStatic:active {
+  cursor: default;
+  transform: none;
+  box-shadow: none;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: var(--border);
 }
 
 /* 결과 화면 */
@@ -696,6 +710,13 @@ p {
     text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
   }
 
+  .choiceGrid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
   .choiceStack {
     display: flex;
     flex-direction: column;
@@ -751,4 +772,3 @@ p {
   }
 
 }
-

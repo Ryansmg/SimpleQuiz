@@ -1,0 +1,14 @@
+{
+  "id": "42stage2",
+  "name": "시사영어 2026 Stage 2",
+  "description": "주어진 뜻에 적합한 단어 고르기",
+  "length": 40,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

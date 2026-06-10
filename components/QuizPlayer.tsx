@@ -15,6 +15,7 @@ type Feedback = {
     correct: boolean;
     userAnswerText: string;
     correctAnswerText: string;
+    selectedChoiceIndex?: number;
     commentary?: string;
 };
 
@@ -107,7 +108,11 @@ function isChoiceProblem(problem: Problem): problem is ChoiceProblem {
     return problem.type === "choice" && Array.isArray(problem.choices);
 }
 
-function getAnswerText(problem: Problem): string | null {
+function getProblemChoiceText(problem: Problem): string | null {
+    if (problem.choiceText) {
+        return problem.choiceText;
+    }
+
     if (problem.type === "fill") {
         return problem.answer;
     }
@@ -119,28 +124,47 @@ function getAnswerText(problem: Problem): string | null {
     return typeof problem.answer === "string" ? problem.answer : null;
 }
 
-function createAutoChoiceProblem(problem: Problem, allProblems: Problem[]): PlayableProblem {
+function createAutoChoices(problem: Problem, allProblems: Problem[]): string[] | null {
+    if (!problem.choices || Array.isArray(problem.choices)) {
+        return null;
+    }
+
+    const match = /^auto_(\d+)$/.exec(problem.choices);
+    if (!match) {
+        return null;
+    }
+
+    const choiceCount = Number(match[1]);
+    const correctChoice = getProblemChoiceText(problem);
+    if (!correctChoice) {
+        return null;
+    }
+
+    const wrongChoices = shuffleProblems(
+        allProblems
+            .filter((candidate) => candidate !== problem)
+            .map(getProblemChoiceText)
+            .filter((choice): choice is string => choice !== null && choice !== correctChoice)
+            .filter((choice, index, choices) => choices.indexOf(choice) === index)
+    ).slice(0, Math.max(choiceCount - 1, 0));
+
+    return shuffleProblems([correctChoice, ...wrongChoices]);
+}
+
+function createPlayableProblem(problem: Problem, allProblems: Problem[]): PlayableProblem {
+    const autoChoices = createAutoChoices(problem, allProblems);
+
     if (problem.type === "fill") {
-        return problem;
+        return autoChoices ? { ...problem, choices: autoChoices } : problem;
     }
 
     if (isChoiceProblem(problem)) {
         return problem;
     }
 
-    const match = /^auto_(\d+)$/.exec(problem.choices);
-    const choiceCount = match ? Number(match[1]) : 0;
-    const correctAnswer = problem.answer;
-    const wrongChoices = shuffleProblems(
-        allProblems
-            .filter((candidate) => candidate !== problem)
-            .map(getAnswerText)
-            .filter((answer): answer is string => answer !== null && answer !== correctAnswer)
-            .filter((answer, index, answers) => answers.indexOf(answer) === index)
-    ).slice(0, Math.max(choiceCount - 1, 0));
-
-    const choices = shuffleProblems([correctAnswer, ...wrongChoices]);
-    const answer = choices.indexOf(correctAnswer);
+    const choices = autoChoices ?? [problem.choiceText ?? problem.answer];
+    const answerText = problem.choiceText ?? problem.answer;
+    const answer = choices.indexOf(answerText);
 
     return {
         ...problem,
@@ -151,8 +175,27 @@ function createAutoChoiceProblem(problem: Problem, allProblems: Problem[]): Play
 
 function createPlayableProblems(problemSet: ProblemSet): PlayableProblem[] {
     return problemSet.problems.map((problem) =>
-        createAutoChoiceProblem(problem, problemSet.problems)
+        createPlayableProblem(problem, problemSet.problems)
     );
+}
+
+function getChoiceButtonClass(
+    problem: Extract<PlayableProblem, { type: "choice" }>,
+    index: number,
+    feedback: Feedback | null,
+    phase: Phase
+): string {
+    const classes = ["choiceButton"];
+
+    if (phase === "feedback") {
+        if (index === problem.answer) {
+            classes.push("choiceButtonCorrect");
+        } else if (index === feedback?.selectedChoiceIndex) {
+            classes.push("choiceButtonWrong");
+        }
+    }
+
+    return classes.join(" ");
 }
 
 export default function QuizPlayer({ quiz, problemSet }: Props) {
@@ -260,6 +303,10 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
             correct,
             userAnswerText: getUserAnswerText(currentProblem, rawInput),
             correctAnswerText: getCorrectAnswerText(currentProblem),
+            selectedChoiceIndex:
+                currentProblem.type === "choice" && typeof rawInput === "number"
+                    ? rawInput
+                    : undefined,
             commentary: currentProblem.commentary,
         });
 
@@ -325,6 +372,15 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
     }
 
     const progress = ((currentIndex + 1) / problems.length) * 100;
+    const shouldShowFeedback =
+        phase === "feedback" &&
+        feedback &&
+        (currentProblem.type !== "choice" || feedback.commentary);
+    const visibleChoices = Array.isArray(currentProblem.choices)
+        ? currentProblem.choices
+        : null;
+    const choiceLayoutClass =
+        quiz.choiceLayout === "stack" ? "choiceStack" : "choiceGrid";
 
     return (
         <>
@@ -388,14 +444,30 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
 
                     <p className="questionText">{currentProblem.legend}</p>
 
-                    {currentProblem.type === "choice" && (
-                        <div className="choiceStack">
-                            {currentProblem.choices.map((choice, index) => (
+                    {visibleChoices && (
+                        <div className={choiceLayoutClass}>
+                            {visibleChoices.map((choice, index) => (
                                 <button
                                     key={`${currentIndex}-${index}`}
-                                    className="choiceButton"
-                                    onClick={() => submitChoiceAnswer(index)}
-                                    disabled={phase === "feedback"}
+                                    className={
+                                        currentProblem.type === "choice"
+                                            ? getChoiceButtonClass(
+                                                currentProblem,
+                                                index,
+                                                feedback,
+                                                phase
+                                            )
+                                            : "choiceButton choiceButtonStatic"
+                                    }
+                                    onClick={
+                                        currentProblem.type === "choice"
+                                            ? () => submitChoiceAnswer(index)
+                                            : undefined
+                                    }
+                                    disabled={
+                                        currentProblem.type === "fill" ||
+                                        phase === "feedback"
+                                    }
                                 >
                                     <span className="choiceNumber">{index + 1}.</span>
                                     <span>{choice}</span>
@@ -404,7 +476,7 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                         </div>
                     )}
 
-                    {phase === "feedback" && feedback && (
+                    {shouldShowFeedback && (
                         <section
                             className={
                                 feedback.correct
@@ -412,15 +484,19 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                                     : "feedbackBox feedbackWrong"
                             }
                         >
-                            <h2>{feedback.correct ? "Accepted" : "Wrong Answer"}</h2>
+                            {currentProblem.type !== "choice" && (
+                                <>
+                                    <h2>{feedback.correct ? "Accepted" : "Wrong Answer"}</h2>
 
-                            <p>
-                                <strong>답변:</strong> {feedback.userAnswerText}
-                            </p>
+                                    <p>
+                                        <strong>답변:</strong> {feedback.userAnswerText}
+                                    </p>
 
-                            <p>
-                                <strong>정답:</strong> {feedback.correctAnswerText}
-                            </p>
+                                    <p>
+                                        <strong>정답:</strong> {feedback.correctAnswerText}
+                                    </p>
+                                </>
+                            )}
 
                             {feedback.commentary && (
                                 <p className="feedbackCommentary">

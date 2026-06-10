@@ -1,0 +1,14 @@
+{
+  "id": "42stage4",
+  "name": "시사영어 2026 Stage 4",
+  "description": "보기 중 적절한 것으로 문장 빈칸 채우기",
+  "length": 44,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

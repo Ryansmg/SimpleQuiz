@@ -1,0 +1,245 @@
+{
+  "id": "42stage1",
+  "problems": [
+    {
+      "type": "choice",
+      "legend": "vulnerable",
+      "choices": "auto_5",
+      "answer": "상처받기 쉬운; 취약한, 저항력이 없는"
+    },
+    {
+      "type": "choice",
+      "legend": "bureaucracy",
+      "choices": "auto_5",
+      "answer": "관료 제도, 관료 정치; 관료주의"
+    },
+    {
+      "type": "choice",
+      "legend": "amplify",
+      "choices": "auto_5",
+      "answer": "증폭시키다"
+    },
+    {
+      "type": "choice",
+      "legend": "mount",
+      "choices": "auto_5",
+      "answer": "(조직하여) 시작하다; 올라가다; 증가하다; 산 ((M~))"
+    },
+    {
+      "type": "choice",
+      "legend": "static",
+      "choices": "auto_5",
+      "answer": "정적인; 잡음; 정전기"
+    },
+    {
+      "type": "choice",
+      "legend": "alleviate",
+      "choices": "auto_5",
+      "answer": "완화시키다, 경감하다"
+    },
+    {
+      "type": "choice",
+      "legend": "ambiguity",
+      "choices": "auto_5",
+      "answer": "모호함, 불명료"
+    },
+    {
+      "type": "choice",
+      "legend": "abhorrent",
+      "choices": "auto_5",
+      "answer": "몹시 싫은, 딱 질색인"
+    },
+    {
+      "type": "choice",
+      "legend": "refrain",
+      "choices": "auto_5",
+      "answer": "억제하다, 삼가다"
+    },
+    {
+      "type": "choice",
+      "legend": "intrigue",
+      "choices": "auto_5",
+      "answer": "호기심을 자극하다; 음모를 꾸미다; 음모"
+    },
+    {
+      "type": "choice",
+      "legend": "coherent",
+      "choices": "auto_5",
+      "answer": "일관성 있는, 논리적인"
+    },
+    {
+      "type": "choice",
+      "legend": "crude",
+      "choices": "auto_5",
+      "answer": "천연 그대로의, 가공하지 않은; 조잡한"
+    },
+    {
+      "type": "choice",
+      "legend": "spontaneous",
+      "choices": "auto_5",
+      "answer": "자발적인; 즉흥적인"
+    },
+    {
+      "type": "choice",
+      "legend": "hierarchy",
+      "choices": "auto_5",
+      "answer": "계급제(도), 계층제, 서열"
+    },
+    {
+      "type": "choice",
+      "legend": "endorse",
+      "choices": "auto_5",
+      "answer": "지지하다; 기입하다, 서명하다"
+    },
+    {
+      "type": "choice",
+      "legend": "formulate",
+      "choices": "auto_5",
+      "answer": "고안하다; 명확히 나타내다"
+    },
+    {
+      "type": "choice",
+      "legend": "grotesque",
+      "choices": "auto_5",
+      "answer": "그로테스크 풍의; 기괴한; 기괴한 것"
+    },
+    {
+      "type": "choice",
+      "legend": "notorious",
+      "choices": "auto_5",
+      "answer": "악명 높은"
+    },
+    {
+      "type": "choice",
+      "legend": "replicate",
+      "choices": "auto_5",
+      "answer": "복제하다, 모사하다; 자기 복제를 하다"
+    },
+    {
+      "type": "choice",
+      "legend": "flatter",
+      "choices": "auto_5",
+      "answer": "아첨하다, 비위 맞추다"
+    },
+    {
+      "type": "choice",
+      "legend": "mandate",
+      "choices": "auto_5",
+      "answer": "위임 통치; 위임, 권한; 통치를 위임하다; (~하도록) 명령하다"
+    },
+    {
+      "type": "choice",
+      "legend": "speculate",
+      "choices": "auto_5",
+      "answer": "사색하다; 추측하다; (주식· 토지 등에) 투기하다"
+    },
+    {
+      "type": "choice",
+      "legend": "sober",
+      "choices": "auto_5",
+      "answer": "술에 취하지 않은; 분별 있는; 술이 깨다; 진지해지다"
+    },
+    {
+      "type": "choice",
+      "legend": "retrieve",
+      "choices": "auto_5",
+      "answer": "되찾다, 만회하다"
+    },
+    {
+      "type": "choice",
+      "legend": "regime",
+      "choices": "auto_5",
+      "answer": "정치 제도; 정권; 사회 제도"
+    },
+    {
+      "type": "choice",
+      "legend": "contemplate",
+      "choices": "auto_5",
+      "answer": "심사숙고하다; 응시하다; 예상하다"
+    },
+    {
+      "type": "choice",
+      "legend": "compartment",
+      "choices": "auto_5",
+      "answer": "구획, 칸막이; 칸막이 객실"
+    },
+    {
+      "type": "choice",
+      "legend": "congestion",
+      "choices": "auto_5",
+      "answer": "밀집, 혼잡"
+    },
+    {
+      "type": "choice",
+      "legend": "retrospect",
+      "choices": "auto_5",
+      "answer": "회상, 추억"
+    },
+    {
+      "type": "choice",
+      "legend": "stake",
+      "choices": "auto_5",
+      "answer": "말뚝, 막대기; 내기; 이해관계"
+    },
+    {
+      "type": "choice",
+      "legend": "delude",
+      "choices": "auto_5",
+      "answer": "속이다, 착각하게 하다"
+    },
+    {
+      "type": "choice",
+      "legend": "discreet",
+      "choices": "auto_5",
+      "answer": "분별 있는; 신중한; 조심스러운"
+    },
+    {
+      "type": "choice",
+      "legend": "legitimate",
+      "choices": "auto_5",
+      "answer": "합법적인, 정당한; 진짜의"
+    },
+    {
+      "type": "choice",
+      "legend": "cope",
+      "choices": "auto_5",
+      "answer": "잘 처리하다"
+    },
+    {
+      "type": "choice",
+      "legend": "intimidate",
+      "choices": "auto_5",
+      "answer": "두려워하게 하다, 겁주다, 협박하다"
+    },
+    {
+      "type": "choice",
+      "legend": "acute",
+      "choices": "auto_5",
+      "answer": "심한, 격렬한; 날카로운, 예리한"
+    },
+    {
+      "type": "choice",
+      "legend": "durable",
+      "choices": "auto_5",
+      "answer": "내구력이 있는, 튼튼한; 영속성 있는"
+    },
+    {
+      "type": "choice",
+      "legend": "relieve",
+      "choices": "auto_5",
+      "answer": "(고통 등을) 경감시키다; (문제의 심각성을) 완화하다; 교대하다"
+    },
+    {
+      "type": "choice",
+      "legend": "temperate",
+      "choices": "auto_5",
+      "answer": "(기후·지역이) 온화한; (행동이) 절제된"
+    },
+    {
+      "type": "choice",
+      "legend": "demonstrate",
+      "choices": "auto_5",
+      "answer": "입증하다; (사용법 등을) 설명하다; 시위하다"
+    }
+  ]
+}

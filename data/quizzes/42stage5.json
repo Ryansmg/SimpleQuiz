@@ -1,0 +1,14 @@
+{
+  "id": "42stage5",
+  "name": "시사영어 2026 Stage 5",
+  "description": "첫 글자로 시작하는 단어 넣어 문장 완성하기",
+  "length": 80,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

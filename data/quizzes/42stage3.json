@@ -1,0 +1,14 @@
+{
+  "id": "42stage3",
+  "name": "시사영어 2026 Stage 3",
+  "description": "영영 풀이에 해당하는 단어 고르기",
+  "length": 40,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

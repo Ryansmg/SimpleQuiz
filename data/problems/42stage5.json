@@ -1,0 +1,485 @@
+{
+  "id": "42stage5",
+  "problems": [
+    {
+      "type": "fill",
+      "legend": "The water level in the r___ fell rapidly.\n저수지의 수위가 빠르게 낮아졌다.",
+      "answer": "reservoir",
+      "commentary": "reservoir: 저수지, 저장소"
+    },
+    {
+      "type": "fill",
+      "legend": "A c___ of personalities has made it difficult for them to work together.\n성격의 충돌 때문에 그들이 함께 일하기 어려워졌다.",
+      "answer": "clash",
+      "commentary": "clash: 충돌, 대립; 충돌하다, 대립하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Getting a driver's license has become the r___ of passage to the adult world.\n운전면허를 따는 것은 성인 세계로 들어가는 통과 의례가 되었다.",
+      "answer": "rite",
+      "commentary": "rite: 의식, 의례"
+    },
+    {
+      "type": "fill",
+      "legend": "The refrigerator was o___ with magnets.\n그 냉장고는 자석으로 장식되어 있었다.",
+      "answer": "ornamented",
+      "commentary": "ornament: 장식품; 장식; 장식하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He p___ good study habits to his students.\n그는 학생들에게 좋은 공부 습관을 설교한다.",
+      "answer": "preaches",
+      "commentary": "preach: 전도하다, 설교하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The pirates demanded r___ for the hostages.\n해적들은 인질들의 몸값을 요구했다.",
+      "answer": "ransom",
+      "commentary": "ransom: 몸값, 배상금; (배상금을 치르고) 되찾다"
+    },
+    {
+      "type": "fill",
+      "legend": "I always feel d___ after lunch.\n나는 점심 식사 후에 항상 졸린다.",
+      "answer": "drowsy",
+      "commentary": "drowsy: 졸리는, 나른한"
+    },
+    {
+      "type": "fill",
+      "legend": "She ate the entire s___ of pancakes for breakfast.\n그녀는 아침으로 팬케이크 한 더미를 전부 먹었다.",
+      "answer": "stack",
+      "commentary": "stack: 더미, 무더기; 쌓아 올리다"
+    },
+    {
+      "type": "fill",
+      "legend": "The door opens i___ to prevent injuries.\n그 문은 부상을 막기 위해 안쪽으로 열린다.",
+      "answer": "inward",
+      "commentary": "inward: 안으로; 안의, 내부의"
+    },
+    {
+      "type": "fill",
+      "legend": "Everyone t___ him about the squaky sound of his weak voice.\n모두가 그의 약한 목소리에서 나는 삐걱거리는 소리로 그를 놀렸다.",
+      "answer": "teased",
+      "commentary": "tease: 괴롭히다, 놀리다"
+    },
+    {
+      "type": "fill",
+      "legend": "The cell phone has become a u___ and essential part of life.\n휴대전화는 어디에나 있으며 삶에 필수적인 부분이 되었다.",
+      "answer": "ubiquitous",
+      "commentary": "ubiquitous: (동시에) 어디에나 있는"
+    },
+    {
+      "type": "fill",
+      "legend": "I put water in the b___ to wash my face.\n나는 세수하기 위해 대야에 물을 담았다.",
+      "answer": "basin",
+      "commentary": "basin: 대야; 세면대"
+    },
+    {
+      "type": "fill",
+      "legend": "The abandoned boat is d___ at sea.\n버려진 배가 바다에서 표류하고 있다.",
+      "answer": "drifting",
+      "commentary": "drift: 표류; 퇴적물; 일반적인 경향; 떠돌다; 방황하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The loud students was e___ from the class.\n시끄러운 학생들은 수업에서 쫓겨났다.",
+      "answer": "ejected",
+      "commentary": "eject: 내쫓다; 해고하다"
+    },
+    {
+      "type": "fill",
+      "legend": "She s___ and fell to the ground.\n그녀는 비틀거리다가 땅에 넘어졌다.",
+      "answer": "stumbled",
+      "commentary": "stumble: 비틀거리다; 넘어질 뻔하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The volcano e___ and the whole town disappeared.\n화산이 폭발했고 온 마을이 사라졌다.",
+      "answer": "erupted",
+      "commentary": "erupt: (화산이) 분출하다, 폭발하다"
+    },
+    {
+      "type": "fill",
+      "legend": "She s___ at the thought of the accident.\n그녀는 그 사고를 생각하고 몸서리쳤다.",
+      "answer": "shuddered",
+      "commentary": "shudder: (공포·추위로) 떨다, 몸서리치다; 떨림"
+    },
+    {
+      "type": "fill",
+      "legend": "Water and air are e___ for living things.\n물과 공기는 생물에게 필수적이다.",
+      "answer": "essential",
+      "commentary": "essential: 본질적인; 가장 중요한, 필수의; 기본적인 요소"
+    },
+    {
+      "type": "fill",
+      "legend": "I think that man is too h___.\n나는 그 남자가 너무 겸손하다고 생각한다.",
+      "answer": "humble",
+      "commentary": "humble: 겸손한; (신분이) 낮은, 비천한; 변변찮은"
+    },
+    {
+      "type": "fill",
+      "legend": "He wanted to conceal his h___ background.\n그는 자신의 비천한 배경을 숨기고 싶어 했다.",
+      "answer": "humble",
+      "commentary": "humble: 겸손한; (신분이) 낮은, 비천한; 변변찮은"
+    },
+    {
+      "type": "fill",
+      "legend": "The couple lives in a h___ cottage.\n그 부부는 변변찮은 오두막집에 산다.",
+      "answer": "humble",
+      "commentary": "humble: 겸손한; (신분이) 낮은, 비천한; 변변찮은"
+    },
+    {
+      "type": "fill",
+      "legend": "Ottawa is the c___ of Canada.\n오타와는 캐나다의 수도이다.",
+      "answer": "capital",
+      "commentary": "capital: 수도; 자본; 대문자; 대문자의; 자본의; 사형의"
+    },
+    {
+      "type": "fill",
+      "legend": "The company needs more c___ to grow.\n그 회사는 성장하기 위해 더 많은 자본이 필요하다.",
+      "answer": "capital",
+      "commentary": "capital: 수도; 자본; 대문자; 대문자의; 자본의; 사형의"
+    },
+    {
+      "type": "fill",
+      "legend": "The term 'Internet' begins with a c___ letter.\n'Internet'이라는 용어는 대문자로 시작한다.",
+      "answer": "capital",
+      "commentary": "capital: 수도; 자본; 대문자; 대문자의; 자본의; 사형의"
+    },
+    {
+      "type": "fill",
+      "legend": "The website s___ service.\n그 웹사이트는 서비스를 일시 중지했다.",
+      "answer": "suspended",
+      "commentary": "suspend: 일시 중지하다; 정학[정직]시키다; 매달다; 보류하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The girl will be s___ from school.\n그 소녀는 학교에서 정학당할 것이다.",
+      "answer": "suspended",
+      "commentary": "suspend: 일시 중지하다; 정학[정직]시키다; 매달다; 보류하다"
+    },
+    {
+      "type": "fill",
+      "legend": "They're s___ mirror balls from the ceiling.\n그들은 천장에 미러볼을 매달고 있다.",
+      "answer": "suspending",
+      "commentary": "suspend: 일시 중지하다; 정학[정직]시키다; 매달다; 보류하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He c___ the magnitude of the problem.\n그는 그 문제의 중대성을 이해했다.",
+      "answer": "comprehended",
+      "commentary": "comprehend: 이해하다, 파악하다; 포함하다, 내포하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The price c___ the delivery charge.\n그 가격은 배송비를 포함한다.",
+      "answer": "comprehends",
+      "commentary": "comprehend: 이해하다, 파악하다; 포함하다, 내포하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Read the c___ carefully before you sign.\n서명하기 전에 계약서를 주의 깊게 읽어라.",
+      "answer": "contract",
+      "commentary": "contract: 계약(서); 계약하다; 수축하다[시키다], 줄어들다; (병에) 걸리다"
+    },
+    {
+      "type": "fill",
+      "legend": "Light causes the pupils to expand and c___.\n빛은 동공이 확대되고 수축하게 만든다.",
+      "answer": "contract",
+      "commentary": "contract: 계약(서); 계약하다; 수축하다[시키다], 줄어들다; (병에) 걸리다"
+    },
+    {
+      "type": "fill",
+      "legend": "His son c___ the flu.\n그의 아들은 독감에 걸렸다.",
+      "answer": "contracted",
+      "commentary": "contract: 계약(서); 계약하다; 수축하다[시키다], 줄어들다; (병에) 걸리다"
+    },
+    {
+      "type": "fill",
+      "legend": "What are the c___ of the package?\n그 소포의 내용물은 무엇인가?",
+      "answer": "contents",
+      "commentary": "content: ((~s)) 내용(물); 함유량; (연설·문서 등의) 내용; 만족한; 만족시키다"
+    },
+    {
+      "type": "fill",
+      "legend": "the c___ of the lecture\n그 강의의 내용",
+      "answer": "contents",
+      "commentary": "content: ((~s)) 내용(물); 함유량; (연설·문서 등의) 내용; 만족한; 만족시키다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'm c___ with my job.\n나는 내 직업에 만족한다.",
+      "answer": "content",
+      "commentary": "content: ((~s)) 내용(물); 함유량; (연설·문서 등의) 내용; 만족한; 만족시키다"
+    },
+    {
+      "type": "fill",
+      "legend": "We c___ him for his mistake.\n우리는 그의 실수에 대해 그를 비난했다.",
+      "answer": "condemned",
+      "commentary": "condemn: 비난하다; 선고를 내리다; (좋지 않은 상황에) 처하게 하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The judge c___ the accused to four years in prison.\n판사는 피고인에게 징역 4년을 선고했다.",
+      "answer": "condemned",
+      "commentary": "condemn: 비난하다; 선고를 내리다; (좋지 않은 상황에) 처하게 하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Joe was c___ to a life of loneliness.\n조는 외로운 삶을 살게 되었다.",
+      "answer": "condemned",
+      "commentary": "condemn: 비난하다; 선고를 내리다; (좋지 않은 상황에) 처하게 하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The hotel can a___ about 300 people.\n그 호텔은 약 300명을 수용할 수 있다.",
+      "answer": "accommodate",
+      "commentary": "accommodate: 수용하다, 공간을 제공하다; (의견 등을) 수용하다; (환경 등에) 적응하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He tried to a___ others' opinions.\n그는 다른 사람들의 의견을 수용하려고 노력했다.",
+      "answer": "accommodate",
+      "commentary": "accommodate: 수용하다, 공간을 제공하다; (의견 등을) 수용하다; (환경 등에) 적응하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He doesn't a___ to new environments easily.\n그는 새로운 환경에 쉽게 적응하지 못한다.",
+      "answer": "accommodate",
+      "commentary": "accommodate: 수용하다, 공간을 제공하다; (의견 등을) 수용하다; (환경 등에) 적응하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Her a___ are estimated at about one billion won.\n그녀의 자산은 약 10억 원으로 추정된다.",
+      "answer": "assets",
+      "commentary": "asset: 자산, 재산; 자산(이 되는 사람·물건)"
+    },
+    {
+      "type": "fill",
+      "legend": "He will be a great a___ to the company.\n그는 회사에 큰 자산이 될 것이다.",
+      "answer": "asset",
+      "commentary": "asset: 자산, 재산; 자산(이 되는 사람·물건)"
+    },
+    {
+      "type": "fill",
+      "legend": "Drivers are b___ from using cell phones while driving.\n운전자들은 운전 중 휴대전화를 사용하는 것이 금지되어 있다.",
+      "answer": "barred",
+      "commentary": "bar: 막다, 금하다; 잠그다; 술집; 막대기 (모양의 것)"
+    },
+    {
+      "type": "fill",
+      "legend": "The door is b___ form the outside.\n그 문은 바깥쪽에서 잠겨 있다.",
+      "answer": "barred",
+      "commentary": "bar: 막다, 금하다; 잠그다; 술집; 막대기 (모양의 것)"
+    },
+    {
+      "type": "fill",
+      "legend": "He gave me a b___ of chocolate.\n그는 나에게 초콜릿 한 개를 주었다.",
+      "answer": "bar",
+      "commentary": "bar: 막다, 금하다; 잠그다; 술집; 막대기 (모양의 것)"
+    },
+    {
+      "type": "fill",
+      "legend": "If you wake up late, you're b___ to miss the train.\n늦게 일어나면 너는 기차를 놓칠 가능성이 크다.",
+      "answer": "bound",
+      "commentary": "bound: ~할 가능성이 큰; (법·의무 등에) 얽매인; ~행의; 껑충껑충 뛰어가다; 경계를 이루다; 뛰어오르기"
+    },
+    {
+      "type": "fill",
+      "legend": "This plane is b___ for Los Angeles.\n이 비행기는 로스앤젤레스행이다.",
+      "answer": "bound",
+      "commentary": "bound: ~할 가능성이 큰; (법·의무 등에) 얽매인; ~행의; 껑충껑충 뛰어가다; 경계를 이루다; 뛰어오르기"
+    },
+    {
+      "type": "fill",
+      "legend": "Korea is b___ on three sides by the sea.\n한국은 삼면이 바다로 둘러싸여 있다.",
+      "answer": "bounded",
+      "commentary": "bound: ~할 가능성이 큰; (법·의무 등에) 얽매인; ~행의; 껑충껑충 뛰어가다; 경계를 이루다; 뛰어오르기"
+    },
+    {
+      "type": "fill",
+      "legend": "Under the Constitution, the president's t___ of office is five years.\n헌법상 대통령의 임기는 5년이다.",
+      "answer": "term",
+      "commentary": "term: 기간, 임기; 용어; 학기; ((~s)) 조건"
+    },
+    {
+      "type": "fill",
+      "legend": "Medical t___ are difficult to understand.\n의학 용어는 이해하기 어렵다.",
+      "answer": "terms",
+      "commentary": "term: 기간, 임기; 용어; 학기; ((~s)) 조건"
+    },
+    {
+      "type": "fill",
+      "legend": "The new t___ will start on March 2.\n새 학기는 3월 2일에 시작될 것이다.",
+      "answer": "term",
+      "commentary": "term: 기간, 임기; 용어; 학기; ((~s)) 조건"
+    },
+    {
+      "type": "fill",
+      "legend": "She's going to l___ a small business soon.\n그녀는 곧 작은 사업을 시작할 것이다.",
+      "answer": "launch",
+      "commentary": "launch: 시작하다, 착수하다; 출시하다; 발사하다; 출시; 발사"
+    },
+    {
+      "type": "fill",
+      "legend": "We will l___ a new product next month.\n우리는 다음 달에 신제품을 출시할 것이다.",
+      "answer": "launch",
+      "commentary": "launch: 시작하다, 착수하다; 출시하다; 발사하다; 출시; 발사"
+    },
+    {
+      "type": "fill",
+      "legend": "They have successfully l___ a rocket.\n그들은 성공적으로 로켓을 발사했다.",
+      "answer": "launched",
+      "commentary": "launch: 시작하다, 착수하다; 출시하다; 발사하다; 출시; 발사"
+    },
+    {
+      "type": "fill",
+      "legend": "Airbag failed to i___ in the crash.\n그 충돌 사고에서 에어백이 부풀지 않았다.",
+      "answer": "inflate",
+      "commentary": "inflate: 부풀리다[부풀다]; 과장하다; (물가·가격을) 올리다[오르다]"
+    },
+    {
+      "type": "fill",
+      "legend": "Ted tends to i___ the facts.\n테드는 사실을 과장하는 경향이 있다.",
+      "answer": "inflate",
+      "commentary": "inflate: 부풀리다[부풀다]; 과장하다; (물가·가격을) 올리다[오르다]"
+    },
+    {
+      "type": "fill",
+      "legend": "They illegally i___ the price of their stocks.\n그들은 불법적으로 자기 회사 주식의 가격을 올렸다.",
+      "answer": "inflated",
+      "commentary": "inflate: 부풀리다[부풀다]; 과장하다; (물가·가격을) 올리다[오르다]"
+    },
+    {
+      "type": "fill",
+      "legend": "Her face f___ red with anger.\n그녀의 얼굴은 분노로 빨갛게 달아올랐다.",
+      "answer": "flushed",
+      "commentary": "flush: (얼굴이) 붉어지다; 물로 씻어내리다; 홍조; 물로 씻어냄"
+    },
+    {
+      "type": "fill",
+      "legend": "Please f___ the toilet after using it.\n사용 후에는 변기 물을 내려 주세요.",
+      "answer": "flush",
+      "commentary": "flush: (얼굴이) 붉어지다; 물로 씻어내리다; 홍조; 물로 씻어냄"
+    },
+    {
+      "type": "fill",
+      "legend": "It is hard to break an old c___.\n오래된 관습을 깨는 것은 어렵다.",
+      "answer": "custom",
+      "commentary": "custom: 관습; 습관; ((~s)) 관세, 세관"
+    },
+    {
+      "type": "fill",
+      "legend": "She ate breakfast, as was her c___.\n그녀는 습관대로 아침을 먹었다.",
+      "answer": "custom",
+      "commentary": "custom: 관습; 습관; ((~s)) 관세, 세관"
+    },
+    {
+      "type": "fill",
+      "legend": "These products are exempt from c___ duties.\n이 제품들은 관세가 면제된다.",
+      "answer": "customs",
+      "commentary": "custom: 관습; 습관; ((~s)) 관세, 세관"
+    },
+    {
+      "type": "fill",
+      "legend": "I can't r___ the title of the book.\n나는 그 책의 제목을 기억해 낼 수 없다.",
+      "answer": "recall",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "The government r___ the ambassador.\n정부는 대사를 소환했다.",
+      "answer": "recalled",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "The products were r___ due to risk of fire.\n그 제품들은 화재 위험 때문에 회수되었다.",
+      "answer": "recalled",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "Critics r___ that the film was full of cliches.\n비평가들은 그 영화가 진부한 표현으로 가득하다고 논평했다.",
+      "answer": "remarked",
+      "commentary": "remark: 말하다, 논평하다; 알아채다; 말, 의견"
+    },
+    {
+      "type": "fill",
+      "legend": "No one r___ on his absence.\n아무도 그의 부재에 대해 언급하지 않았다.",
+      "answer": "remarked",
+      "commentary": "remark: 말하다, 논평하다; 알아채다; 말, 의견"
+    },
+    {
+      "type": "fill",
+      "legend": "A needle s___ into my finger while sewing on a button.\n단추를 꿰매는 동안 바늘이 내 손가락을 찔렀다.",
+      "answer": "stuck",
+      "commentary": "stick: 찌르다; 붙이다; 꼼짝하지 않다; 막대기"
+    },
+    {
+      "type": "fill",
+      "legend": "She s___ labels on all the bottles.\n그녀는 모든 병에 라벨을 붙였다.",
+      "answer": "stuck",
+      "commentary": "stick: 찌르다; 붙이다; 꼼짝하지 않다; 막대기"
+    },
+    {
+      "type": "fill",
+      "legend": "The paper is s___ in the printer.\n종이가 프린터에 걸려 있다.",
+      "answer": "stuck",
+      "commentary": "stick: 찌르다; 붙이다; 꼼짝하지 않다; 막대기"
+    },
+    {
+      "type": "fill",
+      "legend": "T___ others the way you would like to be treated.\n네가 대우받고 싶은 방식으로 다른 사람들을 대하라.",
+      "answer": "Treat",
+      "commentary": "treat: 대우하다, 취급하다; 간주하다; 치료하다; 대접하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The dentist t___ her for free.\n그 치과의사는 그녀를 무료로 치료해 주었다.",
+      "answer": "treated",
+      "commentary": "treat: 대우하다, 취급하다; 간주하다; 치료하다; 대접하다"
+    },
+    {
+      "type": "fill",
+      "legend": "We were t___ with great courtesy.\n우리는 매우 정중하게 대우받았다.",
+      "answer": "treated",
+      "commentary": "treat: 대우하다, 취급하다; 간주하다; 치료하다; 대접하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The two caps are similar with a s___ difference in color.\n그 두 모자는 색상에 약간의 차이가 있을 뿐 비슷하다.",
+      "answer": "slight",
+      "commentary": "slight: 약간의, 경미한; 가냘픈; 무시하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Jane is a s___ woman with short brown hair.\n제인은 짧은 갈색 머리를 가진 가냘픈 여성이다.",
+      "answer": "slight",
+      "commentary": "slight: 약간의, 경미한; 가냘픈; 무시하다"
+    },
+    {
+      "type": "fill",
+      "legend": "I felt s___ when he didn't answer my question.\n그가 내 질문에 대답하지 않았을 때 나는 무시당했다고 느꼈다.",
+      "answer": "slighted",
+      "commentary": "slight: 약간의, 경미한; 가냘픈; 무시하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Can you s___ me ten minutes?\n나에게 10분만 시간을 내줄 수 있니?",
+      "answer": "spare",
+      "commentary": "spare: (시간·돈을) 할애하다, 내다; (고생 등을) 면하게 하다; 여분의"
+    },
+    {
+      "type": "fill",
+      "legend": "You could have s___ yourself the effort by reserving a table.\n테이블을 예약했다면 그런 수고를 덜 수 있었을 것이다.",
+      "answer": "spared",
+      "commentary": "spare: (시간·돈을) 할애하다, 내다; (고생 등을) 면하게 하다; 여분의"
+    },
+    {
+      "type": "fill",
+      "legend": "I carry a s___ tire in case we get a flat.\n나는 타이어가 펑크 날 경우를 대비해 여분의 타이어를 가지고 다닌다.",
+      "answer": "spare",
+      "commentary": "spare: (시간·돈을) 할애하다, 내다; (고생 등을) 면하게 하다; 여분의"
+    }
+  ]
+}

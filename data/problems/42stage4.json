@@ -1,0 +1,357 @@
+{
+  "id": "42stage4",
+  "problems": [
+    {
+      "type": "fill",
+      "legend": "We generally ___ myths with the ancient Greeks.",
+      "choices": "auto_5",
+      "choiceText": "equate",
+      "answer": "equate",
+      "commentary": "equate: 동등하다고 생각하다\n우리는 일반적으로 신화를 고대 그리스와 연관 지어 생각한다."
+    },
+    {
+      "type": "fill",
+      "legend": "Our society ___ honor and bravery.",
+      "choices": "auto_5",
+      "choiceText": "cherish",
+      "answer": "cherishes",
+      "commentary": "cherish: 소중히 하다, 자상히 돌보다\n우리 사회는 명예와 용기를 소중히 여긴다."
+    },
+    {
+      "type": "fill",
+      "legend": "Many people lost their lives in the ___ accident.",
+      "choices": "auto_5",
+      "choiceText": "catastrophic",
+      "answer": "catastrophic",
+      "commentary": "catastrophic: 대이변의, 큰 재앙의, 비극적인\n많은 사람들이 그 비극적인 사고로 목숨을 잃었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Many people are ___ into buying products by advertising.",
+      "choices": "auto_5",
+      "choiceText": "lure",
+      "answer": "lured",
+      "commentary": "lure: 유혹하다, 유인하다; 유혹물, 매력\n많은 사람들이 광고에 유혹되어 제품을 산다."
+    },
+    {
+      "type": "fill",
+      "legend": "Sound waves can ___ the wall through cracks.",
+      "choices": "auto_5",
+      "choiceText": "penetrate",
+      "answer": "penetrate",
+      "commentary": "penetrate: 관통하다, 꿰뚫다, 투과하다\n음파는 틈을 통해 벽을 관통할 수 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "As children, we are ___ and sustained by others.",
+      "choices": "auto_5",
+      "choiceText": "nurture",
+      "answer": "nurtured",
+      "commentary": "nurture: 양육하다; 양성하다; 교육\n어린 시절 우리는 다른 사람들에게 양육되고 지탱된다."
+    },
+    {
+      "type": "fill",
+      "legend": "A lot of ___ are smuggled out of the country.",
+      "choices": "auto_5",
+      "choiceText": "artifact",
+      "answer": "artifacts",
+      "commentary": "artifact: (문화) 유물\n많은 유물들이 그 나라 밖으로 밀반출된다."
+    },
+    {
+      "type": "fill",
+      "legend": "Yogurt is produced when milk is ___ by certain bacteria.",
+      "choices": "auto_5",
+      "choiceText": "ferment",
+      "answer": "fermented",
+      "commentary": "ferment: 발효시키다; 불안, 정치적 동요\n요구르트는 우유가 특정 박테리아에 의해 발효될 때 만들어진다."
+    },
+    {
+      "type": "fill",
+      "legend": "He ___ a new career in the art business.",
+      "choices": "auto_5",
+      "choiceText": "forge",
+      "answer": "forged",
+      "commentary": "forge: 구축하다; 위조하다\n그는 미술 사업에서 새로운 경력을 구축했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Critics ___ that movie.",
+      "choices": "auto_5",
+      "choiceText": "scorn",
+      "answer": "scorned",
+      "commentary": "scorn: 경멸하다, 비웃다; 경멸, 모욕\n비평가들은 그 영화를 비웃었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Developing countries should invest in ___ projects.",
+      "choices": "auto_5",
+      "choiceText": "infrastructure",
+      "answer": "infrastructure",
+      "commentary": "infrastructure: 기반 시설\n개발도상국들은 기반 시설 사업에 투자해야 한다."
+    },
+    {
+      "type": "fill",
+      "legend": "The Internet has ___ rapidly all across the world.",
+      "choices": "auto_5",
+      "choiceText": "diffuse",
+      "answer": "diffused",
+      "commentary": "diffuse: 발산하다; 보급하다[보급되다]\n인터넷은 전 세계에 빠르게 보급되었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Don't ___ to old habits, and learn about new things instead.",
+      "choices": "auto_5",
+      "choiceText": "cling",
+      "answer": "cling",
+      "commentary": "cling: 달라붙다; 고집하다\n낡은 습관에 매달리지 말고, 대신 새로운 것들을 배워라."
+    },
+    {
+      "type": "fill",
+      "legend": "He has kayaked off the coast and ___ down the river.",
+      "choices": "auto_5",
+      "choiceText": "paddle",
+      "answer": "paddled",
+      "commentary": "paddle: 노; 노를 저어 나아가다\n그는 해안에서 카약을 타고 강을 따라 노를 저어 내려갔다."
+    },
+    {
+      "type": "fill",
+      "legend": "We decided to ___ the profits equally.",
+      "choices": "auto_5",
+      "choiceText": "allot",
+      "answer": "allot",
+      "commentary": "allot: 할당하다, 분배하다\n우리는 이익을 똑같이 분배하기로 결정했다."
+    },
+    {
+      "type": "fill",
+      "legend": "The airplane ___ into the Pacific Ocean a year ago.",
+      "choices": "auto_5",
+      "choiceText": "plunge",
+      "answer": "plunged",
+      "commentary": "plunge: 뛰어들다, 곤두박질치다, 추락하다\n그 비행기는 1년 전에 태평양으로 추락했다."
+    },
+    {
+      "type": "fill",
+      "legend": "A bicycle rider ___ by turning the handlebars.",
+      "choices": "auto_5",
+      "choiceText": "steer",
+      "answer": "steers",
+      "commentary": "steer: 조종하다\n자전거를 타는 사람은 핸들을 돌려 방향을 조종한다."
+    },
+    {
+      "type": "fill",
+      "legend": "The student was ___ to the principal's office.",
+      "choices": "auto_5",
+      "choiceText": "summon",
+      "answer": "summoned",
+      "commentary": "summon: 소환하다; (의회 등을) 소집하다\n그 학생은 교장실로 불려 갔다."
+    },
+    {
+      "type": "fill",
+      "legend": "The small restaurant is ___ even in the current depressed economy.",
+      "choices": "auto_5",
+      "choiceText": "flourish",
+      "answer": "flourishing",
+      "commentary": "flourish: 번창하다, 번성하다; 건강하다\n그 작은 식당은 현재의 침체된 경제 상황 속에서도 번창하고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "___ eagles have the ability to see a mouse in the grass from a mile away.",
+      "choices": "auto_5",
+      "choiceText": "soar",
+      "answer": "Soaring",
+      "commentary": "soar: 급등하다; 날아오르다, 하늘 높이 날다\n하늘 높이 나는 독수리들은 1마일 떨어진 곳에서도 풀숲의 쥐를 볼 수 있는 능력이 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Some English words are ___ from Latin and Greek.",
+      "choices": "auto_5",
+      "choiceText": "derive",
+      "answer": "derived",
+      "commentary": "derive: 얻다, 끌어내다; (~에서) 비롯되다, 나오다\n몇몇 영어 단어들은 라틴어와 그리스어에서 유래했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Our school has very ___ rules and regulations.",
+      "choices": "auto_5",
+      "choiceText": "rigid",
+      "answer": "rigid",
+      "commentary": "rigid: 굳은; 고정된; 엄격한\n우리 학교에는 매우 엄격한 규칙과 규정이 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Two men in traditional costumes ___ down a street.",
+      "choices": "auto_5",
+      "choiceText": "stride",
+      "answer": "strode",
+      "commentary": "stride: 성큼성큼 걷다\n전통 의상을 입은 두 남자가 거리를 성큼성큼 걸어갔다."
+    },
+    {
+      "type": "fill",
+      "legend": "This fabric is ___ by hand.",
+      "choices": "auto_5",
+      "choiceText": "weave",
+      "answer": "woven",
+      "commentary": "weave: (천을) 짜다, 엮다; 짜기, 엮는 법\n이 천은 손으로 짜인 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "I ___ my sore feet in very warm water for ten minutes.",
+      "choices": "auto_5",
+      "choiceText": "immerse",
+      "answer": "immersed",
+      "commentary": "immerse: 담그다, 적시다; 열중[몰두]시키다\n나는 아픈 발을 매우 따뜻한 물에 10분 동안 담갔다."
+    },
+    {
+      "type": "fill",
+      "legend": "The house is superbly ___ throughout for winter comfort.",
+      "choices": "auto_5",
+      "choiceText": "insulate",
+      "answer": "insulated",
+      "commentary": "insulate: 절연[단열, 방음]하다; 고립시키다\n그 집은 겨울철의 쾌적함을 위해 전체적으로 훌륭하게 단열되어 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Drying my eyes with her handkerchief, she ___ me with gentle talk.",
+      "choices": "auto_5",
+      "choiceText": "console",
+      "answer": "consoled",
+      "commentary": "console: 위로하다, 힘내게 하다\n그녀는 손수건으로 내 눈물을 닦아 주며 부드러운 말로 나를 위로했다."
+    },
+    {
+      "type": "fill",
+      "legend": "His dreams of traveling were ___ by his busy schedule.",
+      "choices": "auto_5",
+      "choiceText": "shatter",
+      "answer": "shattered",
+      "commentary": "shatter: 산산이 부수다; 파괴하다\n여행에 대한 그의 꿈은 바쁜 일정 때문에 산산이 부서졌다."
+    },
+    {
+      "type": "fill",
+      "legend": "Some plants ___ seeds by using the wind.",
+      "choices": "auto_5",
+      "choiceText": "disperse",
+      "answer": "disperse",
+      "commentary": "disperse: 흩어지게 하다, 분산시키다; 뿌리다\n어떤 식물들은 바람을 이용해 씨앗을 퍼뜨린다."
+    },
+    {
+      "type": "fill",
+      "legend": "People have ___ to conserve the wild plants growing in Korea.",
+      "choices": "auto_5",
+      "choiceText": "strive",
+      "answer": "striven",
+      "commentary": "strive: 노력하다, 분발하다\n사람들은 한국에서 자라는 야생 식물들을 보존하기 위해 노력해 왔다."
+    },
+    {
+      "type": "fill",
+      "legend": "He was ___ from the club for violating the rules.",
+      "choices": "auto_5",
+      "choiceText": "banish",
+      "answer": "banished",
+      "commentary": "banish: 추방하다, 제거하다\n그는 규칙을 어겨 동아리에서 추방되었다."
+    },
+    {
+      "type": "fill",
+      "legend": "The bread has gone ___ already.",
+      "choices": "auto_5",
+      "choiceText": "stale",
+      "answer": "stale",
+      "commentary": "stale: 신선하지 않은; 상한\n그 빵은 벌써 신선하지 않게 되었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Soft music ___ the sould and helps us relax.",
+      "choices": "auto_5",
+      "choiceText": "soothe",
+      "answer": "soothes",
+      "commentary": "soothe: 달래다, 위로하다; 편안하게 해주다\n부드러운 음악은 영혼을 달래고 우리가 긴장을 풀도록 도와준다."
+    },
+    {
+      "type": "fill",
+      "legend": "This hairband is ___, so it will fit anyone.",
+      "choices": "auto_5",
+      "choiceText": "elastic",
+      "answer": "elastic",
+      "commentary": "elastic: 탄력 있는, 탄성의; 고무줄\n이 머리끈은 탄력이 있어서 누구에게나 맞을 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "I let my children ___ freely on the beach.",
+      "choices": "auto_5",
+      "choiceText": "roam",
+      "answer": "roam",
+      "commentary": "roam: 걸어 다니다, 거닐다\n나는 아이들이 해변에서 자유롭게 돌아다니게 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "She ___ as though it did not matter.",
+      "choices": "auto_5",
+      "choiceText": "shrug",
+      "answer": "shrugged",
+      "commentary": "shrug: 어깨를 으쓱하다; 어깨를 으쓱하기\n그녀는 그것이 중요하지 않다는 듯 어깨를 으쓱했다."
+    },
+    {
+      "type": "fill",
+      "legend": "His ___ speech was very moving.",
+      "choices": "auto_5",
+      "choiceText": "brief",
+      "answer": "brief",
+      "commentary": "brief: 잠깐의; 간결한; (요점만 정리된) 요약서\n그의 짧은 연설은 매우 감동적이었다."
+    },
+    {
+      "type": "fill",
+      "legend": "They will modernize ___ public facilities.",
+      "choices": "auto_5",
+      "choiceText": "outdated",
+      "answer": "outdated",
+      "commentary": "outdated: 구식의, 시대에 뒤진\n그들은 낡은 공공시설을 현대화할 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "They sat on the ___ of the cliff.",
+      "choices": "auto_5",
+      "choiceText": "edge",
+      "answer": "edge",
+      "commentary": "edge: 가장자리, 끝; (칼 등의) 날; 조금씩 움직이다\n그들은 절벽 끝에 앉았다."
+    },
+    {
+      "type": "fill",
+      "legend": "The knife has a sharp ___.",
+      "choices": "auto_5",
+      "choiceText": "edge",
+      "answer": "edge",
+      "commentary": "edge: 가장자리, 끝; (칼 등의) 날; 조금씩 움직이다\n그 칼은 날카로운 날을 가지고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "The man ___ towards me a little.",
+      "choices": "auto_5",
+      "choiceText": "edge",
+      "answer": "edged",
+      "commentary": "edge: 가장자리, 끝; (칼 등의) 날; 조금씩 움직이다\n그 남자는 나를 향해 조금씩 다가왔다."
+    },
+    {
+      "type": "fill",
+      "legend": "He made some note in the ___ of the book.",
+      "choices": "auto_5",
+      "choiceText": "margin",
+      "answer": "margins",
+      "commentary": "margin: 여백; (득표 수 등의) 차이; 마진, 수익\n그는 책의 여백에 몇 가지 메모를 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "She won by a ___ of ten votes.",
+      "choices": "auto_5",
+      "choiceText": "margin",
+      "answer": "margin",
+      "commentary": "margin: 여백; (득표 수 등의) 차이; 마진, 수익\n그녀는 10표 차이로 이겼다."
+    },
+    {
+      "type": "fill",
+      "legend": "The product has a small profit ___.",
+      "choices": "auto_5",
+      "choiceText": "margin",
+      "answer": "margin",
+      "commentary": "margin: 여백; (득표 수 등의) 차이; 마진, 수익\n그 제품은 작은 이윤 폭을 가지고 있다."
+    }
+  ]
+}

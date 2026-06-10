@@ -1,0 +1,245 @@
+{
+  "id": "42stage2",
+  "problems": [
+    {
+      "type": "choice",
+      "legend": "(직)선의, 선 모양의; 길이와 관계하는",
+      "choices": "auto_5",
+      "answer": "linear"
+    },
+    {
+      "type": "choice",
+      "legend": "측면의, 옆의, 옆을 향한",
+      "choices": "auto_5",
+      "answer": "lateral"
+    },
+    {
+      "type": "choice",
+      "legend": "~하기 쉬운; (납작) 엎드린",
+      "choices": "auto_5",
+      "answer": "prone"
+    },
+    {
+      "type": "choice",
+      "legend": "나머지, 여분; 나머지의",
+      "choices": "auto_5",
+      "answer": "surplus"
+    },
+    {
+      "type": "choice",
+      "legend": "서약, 공약; 담보; 서약하다",
+      "choices": "auto_5",
+      "answer": "pledge"
+    },
+    {
+      "type": "choice",
+      "legend": "임의의, 제멋대로의; 독단적인",
+      "choices": "auto_5",
+      "answer": "arbitrary"
+    },
+    {
+      "type": "choice",
+      "legend": "없어서는 안 될, 필수의; 통합된, 완전한",
+      "choices": "auto_5",
+      "answer": "integral"
+    },
+    {
+      "type": "choice",
+      "legend": "평행의; 유사한; 유사 ; ~와 유사하다",
+      "choices": "auto_5",
+      "answer": "parallel"
+    },
+    {
+      "type": "choice",
+      "legend": "웅변의, 청중을 사로잡는; 표현[표정]이 풍부한",
+      "choices": "auto_5",
+      "answer": "eloquent"
+    },
+    {
+      "type": "choice",
+      "legend": "영구적인, 끊임없는",
+      "choices": "auto_5",
+      "answer": "perpetual"
+    },
+    {
+      "type": "choice",
+      "legend": "괴롭히다, 들볶다",
+      "choices": "auto_5",
+      "answer": "afflict"
+    },
+    {
+      "type": "choice",
+      "legend": "침식하다[되다]",
+      "choices": "auto_5",
+      "answer": "erode"
+    },
+    {
+      "type": "choice",
+      "legend": "스치다; (피부 등이) 까지다; (가축이) 풀을 뜯어먹다",
+      "choices": "auto_5",
+      "answer": "graze"
+    },
+    {
+      "type": "choice",
+      "legend": "흘끗 보다, 대충 훑어보다; 흘끗 봄",
+      "choices": "auto_5",
+      "answer": "glance"
+    },
+    {
+      "type": "choice",
+      "legend": "노려보다; 번쩍번쩍 빛나다; 노려봄; 눈부신 빛",
+      "choices": "auto_5",
+      "answer": "glare"
+    },
+    {
+      "type": "choice",
+      "legend": "흘끗 봄; 흘끗 보다",
+      "choices": "auto_5",
+      "answer": "glimpse"
+    },
+    {
+      "type": "choice",
+      "legend": "응시하다, 빤히 보다",
+      "choices": "auto_5",
+      "answer": "stare"
+    },
+    {
+      "type": "choice",
+      "legend": "신속한, 재빠른; 자극하다",
+      "choices": "auto_5",
+      "answer": "prompt"
+    },
+    {
+      "type": "choice",
+      "legend": "빠른, 신속한",
+      "choices": "auto_5",
+      "answer": "rapid"
+    },
+    {
+      "type": "choice",
+      "legend": "시간을 잘 지키는, 시간을 엄수하는",
+      "choices": "auto_5",
+      "answer": "punctual"
+    },
+    {
+      "type": "choice",
+      "legend": "가까운; 대략의; (~에) 가깝다",
+      "choices": "auto_5",
+      "answer": "approximate"
+    },
+    {
+      "type": "choice",
+      "legend": "간신히; 거의 ~ 않다",
+      "choices": "auto_5",
+      "answer": "barely"
+    },
+    {
+      "type": "choice",
+      "legend": "전부의, 총체적인; 전반적으로",
+      "choices": "auto_5",
+      "answer": "overall"
+    },
+    {
+      "type": "choice",
+      "legend": "상당한",
+      "choices": "auto_5",
+      "answer": "substantial"
+    },
+    {
+      "type": "choice",
+      "legend": "거대한, 막대한",
+      "choices": "auto_5",
+      "answer": "vast"
+    },
+    {
+      "type": "choice",
+      "legend": "부족한, 드문",
+      "choices": "auto_5",
+      "answer": "scarce"
+    },
+    {
+      "type": "choice",
+      "legend": "처음의, 초기의; 이름의 첫 글자",
+      "choices": "auto_5",
+      "answer": "initial"
+    },
+    {
+      "type": "choice",
+      "legend": "보통의, 적당한; 중도의, 온건한; 완화하다, 누그러뜨리다",
+      "choices": "auto_5",
+      "answer": "moderate"
+    },
+    {
+      "type": "choice",
+      "legend": "겸손한; (가격·크기 등이) 적당한, 대단하지 않은; 얌전한, 수수한",
+      "choices": "auto_5",
+      "answer": "modest"
+    },
+    {
+      "type": "choice",
+      "legend": "계약금, 보증금; 예금; 퇴적물, 침전물; 두다; 예금하다; 퇴적[침전]시키다",
+      "choices": "auto_5",
+      "answer": "deposit"
+    },
+    {
+      "type": "choice",
+      "legend": "묶다, 감다; 결속시키다; 의무를 지우다",
+      "choices": "auto_5",
+      "answer": "bind"
+    },
+    {
+      "type": "choice",
+      "legend": "들러붙다; (주의·신념·의견에) 충실하다, 고수하다",
+      "choices": "auto_5",
+      "answer": "adhere"
+    },
+    {
+      "type": "choice",
+      "legend": "단단한, 딱딱한; 흔들리지 않는, 확고한; 회사",
+      "choices": "auto_5",
+      "answer": "firm"
+    },
+    {
+      "type": "choice",
+      "legend": "근본적인; 급진적인; 급진주의자",
+      "choices": "auto_5",
+      "answer": "radical"
+    },
+    {
+      "type": "choice",
+      "legend": "미묘한, 감지하기 힘든; 교묘한; 예민한",
+      "choices": "auto_5",
+      "answer": "subtle"
+    },
+    {
+      "type": "choice",
+      "legend": "얕은; 피상적인; (호흡이) 약한",
+      "choices": "auto_5",
+      "answer": "shallow"
+    },
+    {
+      "type": "choice",
+      "legend": "없애다; 떨어뜨리다, 흘리다; (빛을) 비추다; 헛간",
+      "choices": "auto_5",
+      "answer": "shed"
+    },
+    {
+      "type": "choice",
+      "legend": "(시선·미소 등을) 던지다; 배역을 정하다; 주조하다; 출연자; 깁스",
+      "choices": "auto_5",
+      "answer": "cast"
+    },
+    {
+      "type": "choice",
+      "legend": "동시에 일어나는, 동시의",
+      "choices": "auto_5",
+      "answer": "simultaneous"
+    },
+    {
+      "type": "choice",
+      "legend": "삼키다; 삼키기; 제비",
+      "choices": "auto_5",
+      "answer": "swallow"
+    }
+  ]
+}

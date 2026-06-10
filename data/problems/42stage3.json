@@ -1,0 +1,285 @@
+{
+  "id": "42stage3",
+  "problems": [
+    {
+      "type": "choice",
+      "legend": "to become worse in quality, condition, or value",
+      "choices": "auto_5",
+      "answer": "deteriorate",
+      "commentary": "악화되다"
+    },
+    {
+      "type": "choice",
+      "legend": "to experience something unpleasant as a result of one's actions",
+      "choices": "auto_5",
+      "answer": "incur",
+      "commentary": "초래하다; (빚 등을) 지다"
+    },
+    {
+      "type": "choice",
+      "legend": "a person, thing, or situation that is annoying or causes trouble",
+      "choices": "auto_5",
+      "answer": "nuisance",
+      "commentary": "귀찮은 것[사람]"
+    },
+    {
+      "type": "choice",
+      "legend": "made or done by someone whose name is not known or not given",
+      "choices": "auto_5",
+      "answer": "anonymous",
+      "commentary": "익명의; 작자 불명의"
+    },
+    {
+      "type": "choice",
+      "legend": "separate and distinct from other things",
+      "choices": "auto_5",
+      "answer": "discrete",
+      "commentary": "분리된, 별개의"
+    },
+    {
+      "type": "choice",
+      "legend": "to represent or describe someone or something in words, pictures, or art",
+      "choices": "auto_5",
+      "answer": "depict",
+      "commentary": "그리다, 묘사하다"
+    },
+    {
+      "type": "choice",
+      "legend": "to provide someone or something with money, qualities, or abilities",
+      "choices": "auto_5",
+      "answer": "endow",
+      "commentary": "(돈 등을) 기부하다; (재능·권리 등을) 주다, 부여하다"
+    },
+    {
+      "type": "choice",
+      "legend": "to fail to work or operate correctly",
+      "choices": "auto_5",
+      "answer": "malfunction",
+      "commentary": "고장, 기능 부전; 제 기능을 발휘하지 않다"
+    },
+    {
+      "type": "choice",
+      "legend": "to give or allow someone to have something, often officially",
+      "choices": "auto_5",
+      "answer": "grant",
+      "commentary": "주다, 수여하다; 인정하다; 보조금"
+    },
+    {
+      "type": "choice",
+      "legend": "to hit or crash into something or someone",
+      "choices": "auto_5",
+      "answer": "collide",
+      "commentary": "충돌하다, 부딪치다; 일치하지 않다"
+    },
+    {
+      "type": "choice",
+      "legend": "a disadvantage or problem that makes something less useful or successful",
+      "choices": "auto_5",
+      "answer": "drawback",
+      "commentary": "장애, 방해, 결점, 불리"
+    },
+    {
+      "type": "choice",
+      "legend": "unwilling and hesitant to do something",
+      "choices": "auto_5",
+      "answer": "reluctant",
+      "commentary": "(마음이) 내키지 않는, 꺼리는"
+    },
+    {
+      "type": "choice",
+      "legend": "to bring someone or something under control by force or persuasion",
+      "choices": "auto_5",
+      "answer": "subdue",
+      "commentary": "(나라·국민 등을) 정복하다, 진압하다; 복종시키다; (감정·충동 등을) 억누르다"
+    },
+    {
+      "type": "choice",
+      "legend": "to make a person, place, or quality poor or weaker",
+      "choices": "auto_5",
+      "answer": "impoverish",
+      "commentary": "가난하게 하다, 피폐하게 하다; 저하시키다"
+    },
+    {
+      "type": "choice",
+      "legend": "to live in a particular place",
+      "choices": "auto_5",
+      "answer": "dwell",
+      "commentary": "살다, 거주하다"
+    },
+    {
+      "type": "choice",
+      "legend": "to add something to improve or complete something else",
+      "choices": "auto_5",
+      "answer": "supplement",
+      "commentary": "보완하다; 보완, 보충"
+    },
+    {
+      "type": "choice",
+      "legend": "a person or company that sells goods or services",
+      "choices": "auto_5",
+      "answer": "vendor",
+      "commentary": "행상인, 노점 상인"
+    },
+    {
+      "type": "choice",
+      "legend": "having a lot of money and a high standard of living",
+      "choices": "auto_5",
+      "answer": "affluent",
+      "commentary": "부유한, 유복한"
+    },
+    {
+      "type": "choice",
+      "legend": "to move or cause something to move into a sloping position",
+      "choices": "auto_5",
+      "answer": "tilt",
+      "commentary": "기울(이)다, 경사지게 하다"
+    },
+    {
+      "type": "choice",
+      "legend": "a person who rents and lives in or uses land or a building",
+      "choices": "auto_5",
+      "answer": "tenant",
+      "commentary": "임차인, 차용자, 소작인"
+    },
+    {
+      "type": "choice",
+      "legend": "the amount by which something is less than what is needed or expected",
+      "choices": "auto_5",
+      "answer": "deficit",
+      "commentary": "부족(액), 적자"
+    },
+    {
+      "type": "choice",
+      "legend": "a purpose, reason, or benefit for doing something",
+      "choices": "auto_5",
+      "answer": "sake",
+      "commentary": "동기, 이익, 목적"
+    },
+    {
+      "type": "choice",
+      "legend": "an unfair preference for or against a person, group, or idea",
+      "choices": "auto_5",
+      "answer": "bias",
+      "commentary": "선입관; 편견"
+    },
+    {
+      "type": "choice",
+      "legend": "repeated behavior that annoys, threatens, or upsets someone",
+      "choices": "auto_5",
+      "answer": "harassment",
+      "commentary": "괴롭힘, 희롱"
+    },
+    {
+      "type": "choice",
+      "legend": "an agreement or connection between people, groups, or countries for a shared purpose",
+      "choices": "auto_5",
+      "answer": "alliance",
+      "commentary": "동맹, 협정, 연합"
+    },
+    {
+      "type": "choice",
+      "legend": "to stop moving, happening, or continuing",
+      "choices": "auto_5",
+      "answer": "halt",
+      "commentary": "정지, 멈춤; 정지시키다"
+    },
+    {
+      "type": "choice",
+      "legend": "a person who is among the first to explore or develop a new area or idea",
+      "choices": "auto_5",
+      "answer": "pioneer",
+      "commentary": "개척자; 개척하다"
+    },
+    {
+      "type": "choice",
+      "legend": "the highest point of a mountain, or an important meeting between leaders",
+      "choices": "auto_5",
+      "answer": "summit",
+      "commentary": "정상, 꼭대기; 정상 회담"
+    },
+    {
+      "type": "choice",
+      "legend": "the practice of keeping yourself and your surroundings clean to prevent disease",
+      "choices": "auto_5",
+      "answer": "hygiene",
+      "commentary": "위생; 위생학"
+    },
+    {
+      "type": "choice",
+      "legend": "able to speak, write, or express oneself easily and smoothly",
+      "choices": "auto_5",
+      "answer": "fluent",
+      "commentary": "유창한, 유창하게 말하는"
+    },
+    {
+      "type": "choice",
+      "legend": "something owned by a person or group, or a quality that something has",
+      "choices": "auto_5",
+      "answer": "property",
+      "commentary": "재산, 소유물; 부동산; 특성"
+    },
+    {
+      "type": "choice",
+      "legend": "serious and important, especially in a worrying or dangerous way",
+      "choices": "auto_5",
+      "answer": "grave",
+      "commentary": "무덤; 심각한; 중대한"
+    },
+    {
+      "type": "choice",
+      "legend": "a building, service, or piece of equipment provided for a particular purpose",
+      "choices": "auto_5",
+      "answer": "facility",
+      "commentary": "((~s)) 설비, 시설; 기능; 건물, 장소; 재능, 능력"
+    },
+    {
+      "type": "choice",
+      "legend": "to move someone or something from one place, position, or situation to another",
+      "choices": "auto_5",
+      "answer": "transfer",
+      "commentary": "이동하다, 전근[전학]하다; 환승하다; 전송하다; 이동, 이적, 전학; 환승"
+    },
+    {
+      "type": "choice",
+      "legend": "the teaching staff of a school or university, or a natural ability",
+      "choices": "auto_5",
+      "answer": "faculty",
+      "commentary": "교수진, 교직원; (대학의) 학부; 재능, 능력"
+    },
+    {
+      "type": "choice",
+      "legend": "an activity involving skill in making things by hand, or a vehicle such as a boat or aircraft",
+      "choices": "auto_5",
+      "answer": "craft",
+      "commentary": "(수)공예; 기술; 배, 비행기, 우주선; 공들여 만들다"
+    },
+    {
+      "type": "choice",
+      "legend": "to control, guide, or show someone the way; going straight to a place",
+      "choices": "auto_5",
+      "answer": "direct",
+      "commentary": "지도하다; (길을) 안내하다; 감독하다; 직접적인; 직행의"
+    },
+    {
+      "type": "choice",
+      "legend": "training that makes people obey rules or control their behavior",
+      "choices": "auto_5",
+      "answer": "discipline",
+      "commentary": "규율, 훈육; 절제력; 단련, 수련; 징계하다; 훈육하다"
+    },
+    {
+      "type": "choice",
+      "legend": "to move one's hand gently over something, or a hit made with a hand or object",
+      "choices": "auto_5",
+      "answer": "stroke",
+      "commentary": "쓰다듬다; (공 등을) 치다; 타격; 뇌졸중"
+    },
+    {
+      "type": "choice",
+      "legend": "a formal examination of evidence in court, or a test of something",
+      "choices": "auto_5",
+      "answer": "trial",
+      "commentary": "재판 ; 시험, 실험; 시련; 시험하다"
+    }
+  ]
+}

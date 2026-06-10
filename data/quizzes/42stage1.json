@@ -1,8 +1,8 @@
 {
-  "id": "autoChoiceTest",
-  "name": "AutoChoiceTest",
-  "description": "선택지 자동 생성 테스트",
-  "length": 10,
+  "id": "42stage1",
+  "name": "시사영어 2026 Stage 1",
+  "description": "단어의 뜻 고르기",
+  "length": 40,
   "shuffle": true,
   "choiceLayout": "stack",
 
