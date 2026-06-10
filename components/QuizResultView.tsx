@@ -81,12 +81,15 @@ export default function QuizResultView({ quiz }: Props) {
                 <div className="resultScore">{result.score}{""}점</div>
 
                 <div className="resultMeta">
+                    <span className="badge">{result.problemCount}문제</span>
+                    <span className="badge feedbackAccepted">정답 {result.correctCount}</span>
+                    <span className="badge feedbackWrong">오답 {result.wrongCount}</span>
+                </div>
+
+                <div className="resultMeta" style={{marginTop: -7, marginBottom: 10}}>
                   <span className="badge">
                     전체 시간 {formatTime(result.totalTime)}
                   </span>
-                    <span className="badge">문제 수 {result.problemCount}</span>
-                    <span className="badge">정답 {result.correctCount}</span>
-                    <span className="badge">오답 {result.wrongCount}</span>
                     <span className="badge">최종 콤보 {result.finalCombo}</span>
                 </div>
 

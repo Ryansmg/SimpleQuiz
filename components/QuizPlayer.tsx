@@ -288,6 +288,24 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                     </div>
                 </div>
 
+                <div className="mobileTopBarInfo">
+                    <div>
+                        전체{" "}
+                        <span className="quizTopBarStrong">{formatTime(totalTime)}</span>
+                    </div>
+
+                    <div>
+                        현재{" "}
+                        <span className="quizTopBarStrong">{formatTime(currentTime)}</span>
+                    </div>
+
+                    <div>
+                        점수 <span className="quizTopBarStrong">{score}
+                        {phase === "answering" ? ` (+${expectedScoreDiff})` : null}</span>
+                    </div>
+
+                </div>
+
                 <div className="progressBar">
                     <div className="progressFill" style={{ width: `${progress}%` }} />
                     <div className="progressText">
@@ -346,7 +364,7 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
 
                     <div className="answerRow">
                         <input
-                            className="answerInput"
+                            className={`answerInput${(currentProblem.type === "choice" || phase === "feedback") ? " hideOnMobile" : ""}`}
                             value={input}
                             readOnly={phase === "feedback"}
                             onChange={(e) => {
@@ -367,7 +385,8 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                             }
                         />
 
-                        <button className="button" onClick={submitInputAnswer}>
+                        <button className={`button${currentProblem.type === "choice" && phase === "answering" ? " hideOnMobile" : ""}`}
+                                onClick={submitInputAnswer}>
                             {phase === "answering" ? "제출" : "다음"}
                         </button>
                     </div>

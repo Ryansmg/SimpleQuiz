@@ -394,12 +394,12 @@ p {
 /* 결과 화면 */
 
 .resultScore {
-  font-size: 4rem;
+  font-size: 6rem;
   line-height: 1;
   font-weight: 900;
-  /*letter-spacing: -0.06em;*/
+  letter-spacing: -0.06em;
   margin-top: -20px;
-  margin-bottom: -10px;
+  margin-bottom: 0px;
 
   background: linear-gradient(90deg, var(--primary-hover), var(--success));
   -webkit-background-clip: text;
@@ -517,7 +517,7 @@ p {
   display: flex;
   gap: 12px;
   align-items: center;
-  margin-top: 18px;
+  margin-top: 28px;
 }
 
 .answerRow .answerInput {
@@ -605,11 +605,12 @@ p {
   white-space: pre-line;
 }
 
-@media (max-width: 720px) {
-  .answerRow {
-    flex-direction: column;
-    align-items: stretch;
-  }
+.mobileTopBarInfo {
+  display: none;
+}
+
+.hideOnMobile {
+
 }
 
 
@@ -644,5 +645,49 @@ p {
     flex-direction: column;
     align-items: stretch;
   }
+
+  .quizTopBarInfo {
+    display: none;
+  }
+
+  .hideOnMobile {
+    display: none;
+  }
+
+  .mobileTopBarInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    margin-bottom: 10px;
+
+    color: var(--foreground-muted);
+    font-size: 0.8rem;
+  }
+
+  .progressBar {
+    position: relative;
+    overflow: hidden;
+
+    height: 22px;
+    border-radius: 999px;
+
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--border);
+  }
+
+  .progressText {
+    position: absolute;
+    inset: 0;
+
+    display: grid;
+    place-items: center;
+
+    font-size: 0.74rem;
+    font-weight: 800;
+    color: white;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+  }
+
 }
 
