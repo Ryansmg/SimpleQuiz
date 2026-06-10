@@ -487,11 +487,11 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                             {currentProblem.type !== "choice" && (
                                 <>
                                     <h2>{feedback.correct ? "Accepted" : "Wrong Answer"}</h2>
-
+                                    {feedback.correct ? null :
                                     <p>
                                         <strong>답변:</strong> {feedback.userAnswerText}
                                     </p>
-
+                                    }
                                     <p>
                                         <strong>정답:</strong> {feedback.correctAnswerText}
                                     </p>
