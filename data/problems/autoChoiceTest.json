@@ -1,0 +1,15 @@
+{
+  "id": "autoChoiceTest",
+  "problems": [
+    {"type": "choice","legend": "0","choices": "auto_3","answer": "0"},
+    {"type": "choice","legend": "1","choices": "auto_3","answer": "1"},
+    {"type": "choice","legend": "2","choices": "auto_3","answer": "2"},
+    {"type": "choice","legend": "3","choices": "auto_4","answer": "3"},
+    {"type": "choice","legend": "4","choices": "auto_4","answer": "4"},
+    {"type": "choice","legend": "5","choices": "auto_4","answer": "5"},
+    {"type": "choice","legend": "6","choices": "auto_5","answer": "6"},
+    {"type": "choice","legend": "7","choices": "auto_5","answer": "7"},
+    {"type": "choice","legend": "8","choices": "auto_5","answer": "8"},
+    {"type": "choice","legend": "9","choices": "auto_5","answer": "9"}
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "id": "autoChoiceTest",
+  "name": "AutoChoiceTest",
+  "description": "선택지 자동 생성 테스트",
+  "length": 10,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

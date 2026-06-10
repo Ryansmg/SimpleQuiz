@@ -21,6 +21,14 @@ export type ChoiceProblem = {
     commentary?: string;
 };
 
+export type AutoChoiceProblem = {
+    type: "choice";
+    legend: string;
+    choices: `auto_${number}`;
+    answer: string;
+    commentary?: string;
+};
+
 export type FillProblem = {
     type: "fill";
     legend: string;
@@ -30,7 +38,8 @@ export type FillProblem = {
     ignoreWhitespace?: boolean;
 };
 
-export type Problem = ChoiceProblem | FillProblem;
+export type Problem = ChoiceProblem | AutoChoiceProblem | FillProblem;
+export type PlayableProblem = ChoiceProblem | FillProblem;
 
 export type ProblemSet = {
     id: string;

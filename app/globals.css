@@ -399,7 +399,7 @@ p {
   font-weight: 900;
   letter-spacing: -0.06em;
   margin-top: -20px;
-  margin-bottom: 0px;
+  margin-bottom: 0;
 
   background: linear-gradient(90deg, var(--primary-hover), var(--success));
   -webkit-background-clip: text;

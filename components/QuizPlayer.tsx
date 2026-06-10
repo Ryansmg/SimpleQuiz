@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Problem, ProblemSet, QuizInfo, QuizResult } from "@/types/quiz";
+import type { ChoiceProblem, PlayableProblem, Problem, ProblemSet, QuizInfo, QuizResult } from "@/types/quiz";
 
 type Props = {
     quiz: QuizInfo;
@@ -43,7 +43,7 @@ function calculateProblemScore(
 }
 
 function normalizeFillAnswer(
-    problem: Extract<Problem, { type: "fill" }>,
+    problem: Extract<PlayableProblem, { type: "fill" }>,
     value: string
 ): string {
     let result = value.trim();
@@ -59,7 +59,7 @@ function normalizeFillAnswer(
     return result;
 }
 
-function judgeAnswer(problem: Problem, input: string | number): boolean {
+function judgeAnswer(problem: PlayableProblem, input: string | number): boolean {
     if (problem.type === "choice") {
         return input === problem.answer;
     }
@@ -70,7 +70,7 @@ function judgeAnswer(problem: Problem, input: string | number): boolean {
     return userAnswer === correctAnswer;
 }
 
-function getCorrectAnswerText(problem: Problem): string {
+function getCorrectAnswerText(problem: PlayableProblem): string {
     if (problem.type === "choice") {
         return `${problem.answer + 1}. ${problem.choices[problem.answer]}`;
     }
@@ -78,7 +78,7 @@ function getCorrectAnswerText(problem: Problem): string {
     return problem.answer;
 }
 
-function getUserAnswerText(problem: Problem, input: string | number): string {
+function getUserAnswerText(problem: PlayableProblem, input: string | number): string {
     if (problem.type === "choice") {
         const index = Number(input);
 
@@ -92,7 +92,7 @@ function getUserAnswerText(problem: Problem, input: string | number): string {
     return String(input);
 }
 
-function shuffleProblems(problems: Problem[]): Problem[] {
+function shuffleProblems<T>(problems: T[]): T[] {
     const shuffled = [...problems];
 
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
@@ -103,13 +103,66 @@ function shuffleProblems(problems: Problem[]): Problem[] {
     return shuffled;
 }
 
+function isChoiceProblem(problem: Problem): problem is ChoiceProblem {
+    return problem.type === "choice" && Array.isArray(problem.choices);
+}
+
+function getAnswerText(problem: Problem): string | null {
+    if (problem.type === "fill") {
+        return problem.answer;
+    }
+
+    if (isChoiceProblem(problem)) {
+        return problem.choices[problem.answer] ?? null;
+    }
+
+    return typeof problem.answer === "string" ? problem.answer : null;
+}
+
+function createAutoChoiceProblem(problem: Problem, allProblems: Problem[]): PlayableProblem {
+    if (problem.type === "fill") {
+        return problem;
+    }
+
+    if (isChoiceProblem(problem)) {
+        return problem;
+    }
+
+    const match = /^auto_(\d+)$/.exec(problem.choices);
+    const choiceCount = match ? Number(match[1]) : 0;
+    const correctAnswer = problem.answer;
+    const wrongChoices = shuffleProblems(
+        allProblems
+            .filter((candidate) => candidate !== problem)
+            .map(getAnswerText)
+            .filter((answer): answer is string => answer !== null && answer !== correctAnswer)
+            .filter((answer, index, answers) => answers.indexOf(answer) === index)
+    ).slice(0, Math.max(choiceCount - 1, 0));
+
+    const choices = shuffleProblems([correctAnswer, ...wrongChoices]);
+    const answer = choices.indexOf(correctAnswer);
+
+    return {
+        ...problem,
+        choices,
+        answer,
+    };
+}
+
+function createPlayableProblems(problemSet: ProblemSet): PlayableProblem[] {
+    return problemSet.problems.map((problem) =>
+        createAutoChoiceProblem(problem, problemSet.problems)
+    );
+}
+
 export default function QuizPlayer({ quiz, problemSet }: Props) {
     const router = useRouter();
 
     const [problems] = useState(() => {
+        const playableProblems = createPlayableProblems(problemSet);
         const orderedProblems = quiz.shuffle
-            ? shuffleProblems(problemSet.problems)
-            : problemSet.problems;
+            ? shuffleProblems(playableProblems)
+            : playableProblems;
 
         return orderedProblems.slice(0, quiz.length);
     });
