@@ -1,26 +1,454 @@
-@import "tailwindcss";
-
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f1220;
+  --background-soft: #171a2e;
+  --background-card: #20243a;
+
+  --foreground: #f4f6ff;
+  --foreground-muted: #aab0c5;
+
+  --primary: #7c8cff;
+  --primary-hover: #9aa6ff;
+  --primary-soft: rgba(124, 140, 255, 0.18);
+
+  --success: #4ade80;
+  --danger: #fb7185;
+  --warning: #facc15;
+
+  --border: rgba(255, 255, 255, 0.12);
+  --shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --max-width: 960px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+* {
+  box-sizing: border-box;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  min-height: 100%;
 }
 
 body {
-  background: var(--background);
+  min-height: 100vh;
+  margin: 0;
+
+  background:
+          radial-gradient(circle at top left, rgba(124, 140, 255, 0.22), transparent 32rem),
+          radial-gradient(circle at bottom right, rgba(74, 222, 128, 0.12), transparent 28rem),
+          var(--background);
+
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family:
+          Inter,
+          Pretendard,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          "Apple SD Gothic Neo",
+          "Noto Sans KR",
+          sans-serif;
+
+  line-height: 1.5;
 }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+button {
+  border: none;
+}
+
+main {
+  width: min(100% - 32px, var(--max-width));
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+p {
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3.6rem);
+  line-height: 1.1;
+  letter-spacing: -0.04em;
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+}
+
+p {
+  color: var(--foreground);
+}
+
+/* 공통 레이아웃 */
+
+.page {
+  width: min(100% - 32px, var(--max-width));
+  margin: 0 auto;
+  padding: 48px 0;
+}
+
+.centerPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 32px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.spaceBetween {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* 카드 */
+
+.card {
+  background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.025)),
+          var(--background-card);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+
+  padding: 28px;
+}
+
+.cardTitle {
+  margin-bottom: 8px;
+  font-size: 1.35rem;
+  font-weight: 750;
+}
+
+.cardDescription {
+  margin-bottom: 0;
+  color: var(--foreground-muted);
+}
+
+/* 버튼 */
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 44px;
+  padding: 0 18px;
+
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: white;
+
+  font-weight: 700;
+  cursor: pointer;
+
+  transition:
+          transform 150ms ease,
+          background-color 150ms ease,
+          box-shadow 150ms ease;
+}
+
+.button:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(124, 140, 255, 0.35);
+}
+
+.button:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
+.buttonSecondary {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+}
+
+.buttonSecondary:hover {
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: none;
+}
+
+.buttonRow {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* 퀴즈 상단바 */
+
+.quizTopBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+
+  width: min(100% - 32px, var(--max-width));
+  margin: 16px auto 0;
+  padding: 16px 18px;
+
+  background: rgba(23, 26, 46, 0.82);
+  backdrop-filter: blur(18px);
+
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 12px 36px rgba(0, 0, 0, 0.28);
+}
+
+.quizTopBarInfo {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 12px;
+
+  color: var(--foreground-muted);
+  font-size: 0.92rem;
+}
+
+.quizTopBarStrong {
+  color: var(--foreground);
+  font-weight: 800;
+}
+
+/* 프로그래스 바 */
+
+.progressBar {
+  position: relative;
+  overflow: hidden;
+
+  height: 18px;
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+}
+
+.progressFill {
+  height: 100%;
+  width: 0%;
+
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--primary), #4ade80);
+
+  transition: width 250ms ease;
+}
+
+.progressText {
+  position: absolute;
+  inset: 0;
+
+  display: grid;
+  place-items: center;
+
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: white;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.55);
+}
+
+/* 문제 영역 */
+
+.questionPanel {
+  margin-top: 32px;
+}
+
+.questionNumber {
+  display: inline-flex;
+  align-items: center;
+
+  margin-bottom: 14px;
+  padding: 6px 10px;
+
+  border-radius: 999px;
+  background: var(--primary-soft);
+  color: var(--primary-hover);
+
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.questionText {
+  white-space: pre-line;
+  margin-left: 4px;
+  margin-bottom: 28px;
+  /*font-size: clamp(1.6rem, 4vw, 2.6rem);*/
+  color: var(--foreground);
+  line-height: 1.517;
+  /*letter-spacing: -0.03em;*/
+}
+
+/* 선택지 */
+
+.choiceGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.choiceButton {
+  min-height: 72px;
+  padding: 18px 20px;
+
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--foreground);
+
+  text-align: left;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+          transform 140ms ease,
+          background-color 140ms ease,
+          border-color 140ms ease,
+          box-shadow 140ms ease;
+}
+
+.choiceButton:hover {
+  transform: translateY(-2px);
+  background: rgba(124, 140, 255, 0.16);
+  border-color: rgba(124, 140, 255, 0.45);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.22);
+}
+
+.choiceButton:active {
+  transform: translateY(0);
+}
+
+.choiceButtonCorrect {
+  background: rgba(74, 222, 128, 0.18);
+  border-color: rgba(74, 222, 128, 0.65);
+}
+
+.choiceButtonWrong {
+  background: rgba(251, 113, 133, 0.18);
+  border-color: rgba(251, 113, 133, 0.65);
+}
+
+/* 결과 화면 */
+
+.resultScore {
+  margin: 12px 0;
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 1;
+  font-weight: 900;
+  letter-spacing: -0.06em;
+
+  background: linear-gradient(90deg, var(--primary-hover), var(--success));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.resultMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.startDesc {
+  margin-top: 0px;
+}
+
+.startMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: -40px;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+
+  min-height: 34px;
+  padding: 0 12px;
+
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--border);
+
+  color: var(--foreground-muted);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 18px;
+}
+
+.grid .card {
+  min-height: 180px;
+}
+
+/* 모바일 대응 */
+
+@media (max-width: 720px) {
+  main,
+  .page {
+    width: min(100% - 24px, var(--max-width));
+    padding: 28px 0;
+  }
+
+  .quizTopBar {
+    width: min(100% - 24px, var(--max-width));
+    margin-top: 12px;
+    padding: 14px;
+  }
+
+  .quizTopBarInfo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .choiceGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .card {
+    padding: 22px;
+  }
+}
+

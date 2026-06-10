@@ -1,0 +1,14 @@
+{
+  "id": "test",
+  "name": "Test",
+  "description": "Test",
+  "length": 3,
+  "shuffle": true,
+
+  "maxScore": 100,
+  "minScore": 10,
+  "penalty": -10,
+  "inputTime": 60.0,
+  "comboBonusCnt": 5,
+  "comboBonusScore": 25
+}

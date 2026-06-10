@@ -1,0 +1,26 @@
+{
+  "id": "test",
+  "problems": [
+    {
+      "type": "choice",
+      "legend": "1 + 1 = ?",
+      "choices": [
+        "2",
+        "3",
+        "4"
+      ],
+      "answer": 0
+    },
+    {
+      "type": "fill",
+      "legend": "What is the capital of France?",
+      "answer": "Paris"
+    },
+    {
+      "type": "fill",
+      "ignoreCase": true,
+      "legend": "What is my name?",
+      "answer": "Mingi Son"
+    }
+  ]
+}
