@@ -389,7 +389,7 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
                     <p className="questionText">{currentProblem.legend}</p>
 
                     {currentProblem.type === "choice" && (
-                        <div className="stack">
+                        <div className="choiceStack">
                             {currentProblem.choices.map((choice, index) => (
                                 <button
                                     key={`${currentIndex}-${index}`}
