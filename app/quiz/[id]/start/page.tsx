@@ -36,7 +36,7 @@ export default async function StartQuiz({ params }: Props) {
                         시작하기
                     </Link>
 
-                    <Link href={`/`} className="button buttonSecondary">
+                    <Link href={`/quiz`} className="button buttonSecondary">
                         돌아가기
                     </Link>
                 </div>
