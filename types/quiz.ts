@@ -59,4 +59,6 @@ export type QuizResult = {
     correctCount: number;
     wrongCount: number;
     finalCombo: number;
+    maxCombo: number;
+    wrongProblemIndexes: number[];
 };

@@ -7,6 +7,7 @@ import type { ChoiceProblem, PlayableProblem, Problem, ProblemSet, QuizInfo, Qui
 type Props = {
     quiz: QuizInfo;
     problemSet: ProblemSet;
+    choiceSourceProblems?: Problem[];
 };
 
 type Phase = "answering" | "feedback";
@@ -17,6 +18,14 @@ type Feedback = {
     correctAnswerText: string;
     selectedChoiceIndex?: number;
     commentary?: string;
+};
+
+type PlayableQuizProblem = PlayableProblem & {
+    originalIndex: number;
+};
+
+type IndexedProblem = Problem & {
+    originalIndex?: number;
 };
 
 function formatTime(seconds: number): string {
@@ -173,10 +182,18 @@ function createPlayableProblem(problem: Problem, allProblems: Problem[]): Playab
     };
 }
 
-function createPlayableProblems(problemSet: ProblemSet): PlayableProblem[] {
-    return problemSet.problems.map((problem) =>
-        createPlayableProblem(problem, problemSet.problems)
-    );
+function createPlayableProblems(
+    problemSet: ProblemSet,
+    choiceSourceProblems = problemSet.problems
+): PlayableQuizProblem[] {
+    return problemSet.problems.map((problem, index) => {
+        const indexedProblem = problem as IndexedProblem;
+
+        return {
+            ...createPlayableProblem(problem, choiceSourceProblems),
+            originalIndex: indexedProblem.originalIndex ?? index,
+        };
+    });
 }
 
 function getChoiceButtonClass(
@@ -198,11 +215,11 @@ function getChoiceButtonClass(
     return classes.join(" ");
 }
 
-export default function QuizPlayer({ quiz, problemSet }: Props) {
+export default function QuizPlayer({ quiz, problemSet, choiceSourceProblems }: Props) {
     const router = useRouter();
 
     const [problems] = useState(() => {
-        const playableProblems = createPlayableProblems(problemSet);
+        const playableProblems = createPlayableProblems(problemSet, choiceSourceProblems);
         const orderedProblems = quiz.shuffle
             ? shuffleProblems(playableProblems)
             : playableProblems;
@@ -218,6 +235,7 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
     const [combo, setCombo] = useState(0);
     const [maxCombo, setMaxCombo] = useState(0);
     const [input, setInput] = useState("");
+    const [wrongProblemIndexes, setWrongProblemIndexes] = useState<number[]>([]);
 
     const [phase, setPhase] = useState<Phase>("answering");
     const [feedback, setFeedback] = useState<Feedback | null>(null);
@@ -234,7 +252,9 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
         finalScore: number,
         finalCorrectCount: number,
         finalWrongCount: number,
-        finalCombo: number
+        finalCombo: number,
+        finalMaxCombo: number,
+        finalWrongProblemIndexes: number[]
     ) {
         const result: QuizResult = {
             quizId: quiz.id,
@@ -244,6 +264,8 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
             correctCount: finalCorrectCount,
             wrongCount: finalWrongCount,
             finalCombo,
+            maxCombo: finalMaxCombo,
+            wrongProblemIndexes: finalWrongProblemIndexes,
         };
 
         sessionStorage.setItem(`quiz-result:${quiz.id}`, JSON.stringify(result));
@@ -252,7 +274,14 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
 
     function goNext() {
         if (currentIndex + 1 >= problems.length) {
-            finishQuiz(score, correctCount, wrongCount, combo);
+            finishQuiz(
+                score,
+                correctCount,
+                wrongCount,
+                combo,
+                maxCombo,
+                wrongProblemIndexes
+            );
             return;
         }
 
@@ -275,6 +304,7 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
         let nextCombo: number;
         let nextCorrectCount = correctCount;
         let nextWrongCount = wrongCount;
+        let nextWrongProblemIndexes = wrongProblemIndexes;
 
         if (correct) {
             nextCombo = combo + 1;
@@ -291,13 +321,20 @@ export default function QuizPlayer({ quiz, problemSet }: Props) {
             nextCombo = 0;
             nextScore = score + quiz.penalty;
             nextWrongCount = wrongCount + 1;
+            nextWrongProblemIndexes = [
+                ...wrongProblemIndexes,
+                currentProblem.originalIndex,
+            ];
         }
+
+        const nextMaxCombo = Math.max(maxCombo, nextCombo);
 
         setScore(nextScore);
         setCombo(nextCombo);
-        setMaxCombo(Math.max(maxCombo, nextCombo));
+        setMaxCombo(nextMaxCombo);
         setCorrectCount(nextCorrectCount);
         setWrongCount(nextWrongCount);
+        setWrongProblemIndexes(nextWrongProblemIndexes);
 
         setFeedback({
             correct,

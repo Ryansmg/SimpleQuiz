@@ -63,7 +63,7 @@ export default function QuizResultView({ quiz }: Props) {
                             퀴즈 시작하기
                         </Link>
 
-                        <Link href="/" className="button buttonSecondary">
+                        <Link href="/quiz" className="button buttonSecondary">
                             돌아가기
                         </Link>
                     </div>
@@ -71,6 +71,12 @@ export default function QuizResultView({ quiz }: Props) {
             </main>
         );
     }
+
+    const wrongProblemIndexes = result.wrongProblemIndexes ?? [];
+    const retryHref =
+        wrongProblemIndexes.length > 0
+            ? `/quiz/${quiz.id}?wrong=${wrongProblemIndexes.join(",")}`
+            : null;
 
     return (
         <main>
@@ -87,14 +93,21 @@ export default function QuizResultView({ quiz }: Props) {
                 </div>
 
                 <div className="resultMeta" style={{marginTop: -7, marginBottom: 10}}>
-                  <span className="badge">
+                    <span className="badge">
                     전체 시간 {formatTime(result.totalTime)}
                   </span>
-                    <span className="badge">최종 콤보 {result.finalCombo}</span>
+                    {/*<span className="badge">최종 콤보 {result.finalCombo}</span>*/}
+                    <span className="badge">최대 콤보 {result.maxCombo ?? result.finalCombo}</span>
                 </div>
 
                 <div className="buttonRow">
-                    <Link href="/" className="button">
+                    {retryHref && (
+                        <Link href={retryHref} className="button">
+                            틀린 문제 다시 풀기
+                        </Link>
+                    )}
+
+                    <Link href="/quiz" className="button">
                         메인으로 돌아가기
                     </Link>
                 </div>

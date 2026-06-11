@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "minguu.dev",
-  description: "minguu, guu, ryanson, ryansmg의 웹사이트",
+  description: "minguu의 웹사이트",
 };
 
 export default function RootLayout({
