@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "SimpleQuiz",
-  description: "간단한 퀴즈 사이트",
+  title: "minguu.dev",
+  description: "minguu, guu, ryanson, ryansmg의 웹사이트",
 };
 
 export default function RootLayout({
