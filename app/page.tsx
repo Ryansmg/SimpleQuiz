@@ -8,7 +8,8 @@ export default function Home() {
                 <h1>안녕하세요!</h1>
                 <p style={{whiteSpace: "pre-line"}}>
                     경기과학고등학교 42기 손민기입니다. (aka minguu, guu, ryanson, ryansmg) <br/>
-                    프로그래밍을 합니다. PS도 하고 개발도 합니다.
+                    프로그래밍을 합니다. PS도 하고 개발도 합니다. <br/>
+                    나는코더다 홍담을 맡고 있습니다.
                 </p>
                 <br/>
                 <h2 style={{marginBottom: 12}}>링크</h2>
