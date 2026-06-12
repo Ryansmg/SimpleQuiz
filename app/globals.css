@@ -539,11 +539,6 @@ p {
   color: var(--danger);
 }
 
-.feedbackCommentary {
-  margin-top: 14px;
-  white-space: pre-line;
-}
-
 .answerRow {
   display: flex;
   gap: 12px;
@@ -671,6 +666,9 @@ p {
     padding: 22px;
   }
 
+  .grid .card {
+    min-height: 170px
+  }
 
   .answerRow {
     flex-direction: column;

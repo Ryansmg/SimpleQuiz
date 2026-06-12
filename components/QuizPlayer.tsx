@@ -536,7 +536,7 @@ export default function QuizPlayer({ quiz, problemSet, choiceSourceProblems }: P
                             )}
 
                             {feedback.commentary && (
-                                <p className="feedbackCommentary">
+                                <p className={"feedbackCommentary"} style={ currentProblem.type === "choice" ? { marginTop: 8 } : {}}>
                                     <strong>해설:</strong> {feedback.commentary}
                                 </p>
                             )}
