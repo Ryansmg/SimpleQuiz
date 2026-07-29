@@ -26,6 +26,12 @@ export default function Home() {
                         }>퀴즈 풀기</p>
                         영어 단어 시험 수행평가 공부하려고 만들었습니다.
                     </Link>
+                    <Link className="card mainCard" href="/17">
+                        <p style={
+                            {marginBottom: 5, fontSize: "1.4rem", fontWeight: 550}
+                        }>17 만들기</p>
+                        네 장의 카드와 창의적인 연산으로 17을 만들어 보세요.
+                    </Link>
                     <Link className="card mainCard"
                           href="https://ryansmg.notion.site/Blog-1bb1a171965180c39f50c0aa9bc71359?pvs=4"
                     >
