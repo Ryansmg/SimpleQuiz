@@ -251,6 +251,41 @@
   gap: 16px;
 }
 
+.difficultyPicker {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 8px;
+  color: var(--game-muted);
+  font-size: 0.68rem;
+  font-weight: 740;
+}
+
+.difficultyPicker select {
+  min-height: 34px;
+  padding: 0 9px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--game-ink);
+  color-scheme: dark;
+  font: inherit;
+  cursor: pointer;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.difficultyPicker select:hover:not(:disabled) {
+  border-color: rgba(98, 230, 154, 0.4);
+  background: rgba(98, 230, 154, 0.08);
+}
+
+.difficultyPicker select:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
 .modeSwitch {
   display: inline-flex;
   min-height: 44px;
@@ -910,7 +945,8 @@
 
 .gamePage button:focus-visible,
 .gamePage a:focus-visible,
-.gamePage input:focus-visible {
+.gamePage input:focus-visible,
+.gamePage select:focus-visible {
   outline: 2px solid var(--game-green);
   outline-offset: 3px;
 }
@@ -1019,7 +1055,16 @@
   }
 
   .boardTop {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 8px 16px;
     padding: 14px 16px;
+  }
+
+  .boardControls {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
   }
 
   .cardArea {
@@ -1114,9 +1159,21 @@
   }
 
   .boardControls {
-    align-items: flex-end;
-    flex-direction: column-reverse;
-    gap: 2px;
+    align-items: center;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  .difficultyPicker {
+    min-height: 44px;
+  }
+
+  .difficultyPicker > span {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
   }
 
   .modeSwitch {

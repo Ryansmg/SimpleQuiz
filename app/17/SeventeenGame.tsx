@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   generateChallenge,
+  type DifficultyPreference,
   type GeneratedChallenge,
   type NumberMode,
 } from "@/lib/seventeen";
@@ -376,6 +377,8 @@ export default function SeventeenGame() {
   const [challenge, setChallenge] = useState<GeneratedChallenge | null>(null);
   const [roundNumber, setRoundNumber] = useState(1);
   const [numberMode, setNumberMode] = useState<NumberMode>("single");
+  const [difficultyPreference, setDifficultyPreference] =
+    useState<DifficultyPreference>("mixed");
   const [isGenerating, setIsGenerating] = useState(true);
   const [expression, setExpression] = useState("");
   const [feedback, setFeedback] = useState<Feedback>({
@@ -419,12 +422,20 @@ export default function SeventeenGame() {
     setIsGenerating(false);
   }
 
-  function dealNewCards(mode: NumberMode, incrementRound = true) {
+  function dealNewCards(
+    mode: NumberMode,
+    incrementRound = true,
+    difficulty: DifficultyPreference = difficultyPreference,
+  ) {
     setIsGenerating(true);
 
     window.setTimeout(() => {
       const recentKeys = readRecentKeys(mode);
-      const nextChallenge = generateChallenge(mode, recentKeys);
+      const nextChallenge = generateChallenge(
+        mode,
+        recentKeys,
+        difficulty === "mixed" ? undefined : difficulty,
+      );
       writeRecentKeys(mode, [...recentKeys, nextChallenge.key]);
       resetRound(nextChallenge);
 
@@ -443,6 +454,15 @@ export default function SeventeenGame() {
 
     setNumberMode(mode);
     dealNewCards(mode);
+  }
+
+  function changeDifficulty(difficulty: DifficultyPreference) {
+    if (difficulty === difficultyPreference || isGenerating) {
+      return;
+    }
+
+    setDifficultyPreference(difficulty);
+    dealNewCards(numberMode, true, difficulty);
   }
 
   function insertAtCursor(value: string) {
@@ -665,6 +685,23 @@ export default function SeventeenGame() {
               </span>
             </div>
             <div className={styles.boardControls}>
+              <label className={styles.difficultyPicker}>
+                <span>난이도</span>
+                <select
+                  value={difficultyPreference}
+                  onChange={(event) =>
+                    changeDifficulty(
+                      event.target.value as DifficultyPreference,
+                    )
+                  }
+                  disabled={isGenerating}
+                >
+                  <option value="mixed">랜덤</option>
+                  <option value="입문">입문</option>
+                  <option value="보통">보통</option>
+                  <option value="도전">도전</option>
+                </select>
+              </label>
               <label className={styles.modeSwitch}>
                 <input
                   type="checkbox"
