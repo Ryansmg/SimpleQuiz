@@ -795,7 +795,13 @@ export default function SeventeenGame() {
                 }}
                 onKeyDown={(event) => {
                   if (event.key === "Enter" && !event.repeat) {
-                    submit();
+                    event.preventDefault();
+
+                    if (feedback.kind === "correct") {
+                      nextChallenge();
+                    } else {
+                      submit();
+                    }
                   }
                 }}
                 placeholder="예: 1 × 17"
@@ -860,7 +866,7 @@ export default function SeventeenGame() {
                 onClick={nextChallenge}
               >
                 다음 퍼즐
-                <span aria-hidden="true">→</span>
+                <span aria-hidden="true">↵</span>
               </button>
             ) : (
               <button
