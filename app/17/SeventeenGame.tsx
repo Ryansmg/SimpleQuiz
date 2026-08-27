@@ -195,9 +195,6 @@ class ExpressionParser {
     this.position += 1;
     const right = this.parsePower();
 
-    if (Math.abs(right.value) > 8) {
-      throw new Error("지수의 절댓값은 8까지만 사용할 수 있어요.");
-    }
 
     const value = left.value ** right.value;
     this.guardValue(value);

@@ -132,16 +132,37 @@ function divide(left: Fraction, right: Fraction): Fraction | null {
   );
 }
 
-function power(base: Fraction, exponent: number): Fraction | null {
-  if (exponent < 0 && base.numerator === 0) {
+function exactRoot(value: number, degree: number): number | null {
+  if (degree <= 0 || (value < 0 && degree % 2 === 0)) {
     return null;
   }
 
-  const positiveExponent = Math.abs(exponent);
-  const numerator = base.numerator ** positiveExponent;
-  const denominator = base.denominator ** positiveExponent;
+  const candidate = Math.round(Math.abs(value) ** (1 / degree));
+  const signedCandidate = value < 0 ? -candidate : candidate;
 
-  return exponent < 0
+  return signedCandidate ** degree === value ? signedCandidate : null;
+}
+
+function power(base: Fraction, exponent: Fraction): Fraction | null {
+  if (exponent.numerator < 0 && base.numerator === 0) {
+    return null;
+  }
+
+  const rootedNumerator = exactRoot(base.numerator, exponent.denominator);
+  const rootedDenominator = exactRoot(
+    base.denominator,
+    exponent.denominator,
+  );
+
+  if (rootedNumerator === null || rootedDenominator === null) {
+    return null;
+  }
+
+  const positiveExponent = Math.abs(exponent.numerator);
+  const numerator = rootedNumerator ** positiveExponent;
+  const denominator = rootedDenominator ** positiveExponent;
+
+  return exponent.numerator < 0
     ? fraction(denominator, numerator)
     : fraction(numerator, denominator);
 }
@@ -377,18 +398,12 @@ function combine(
   for (const [base, exponentState] of orderedPairs) {
     const exponent = exponentState.value;
 
-    if (
-      exponent.denominator === 1 &&
-      exponent.numerator >= -4 &&
-      exponent.numerator <= 5 &&
-      exponent.numerator !== 0 &&
-      exponent.numerator !== 1
-    ) {
+    if (exponent.denominator > 0) {
       candidates.push(
         binaryState(
           base,
           exponentState,
-          power(base.value, exponent.numerator),
+          power(base.value, exponent),
           "^",
           { usedPower: true },
         ),
