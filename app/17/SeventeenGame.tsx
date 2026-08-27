@@ -937,6 +937,16 @@ export default function SeventeenGame() {
             정답이 궁금해요
           </button>
 
+          <button
+            type="button"
+            className={styles.skipButton}
+            onClick={nextChallenge}
+            disabled={isGenerating}
+          >
+            이 문제 건너뛰기
+            <span aria-hidden="true">→</span>
+          </button>
+
           <p className={styles.sideNote}>
             정답을 보면 연속 성공 기록이 초기화됩니다.
           </p>

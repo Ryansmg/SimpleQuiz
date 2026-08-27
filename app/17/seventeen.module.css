@@ -884,6 +884,36 @@
   opacity: 0.5;
 }
 
+.skipButton {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: transparent;
+  color: rgba(174, 180, 202, 0.72);
+  font-size: 0.72rem;
+  font-weight: 690;
+  cursor: pointer;
+  transition:
+    color 150ms ease,
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
+
+.skipButton:hover:not(:disabled) {
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--game-ink);
+}
+
+.skipButton:disabled {
+  cursor: wait;
+  opacity: 0.5;
+}
+
 .sideNote {
   margin: -4px 4px 0;
   color: rgba(174, 180, 202, 0.56);
@@ -990,6 +1020,7 @@
   }
 
   .solutionButton,
+  .skipButton,
   .sideNote {
     grid-column: 1 / -1;
   }

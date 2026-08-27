@@ -229,12 +229,44 @@ function operationComplexity(
   if (symbol === "÷") return result?.denominator === 1 ? 1.3 : 1.8;
 
   if (symbol === "^") {
+    if (
+      right.value.numerator === 0 ||
+      right.value.numerator === right.value.denominator ||
+      left.value.numerator === left.value.denominator
+    ) {
+      return 1.05;
+    }
+
     const exponent = right.value.numerator;
     return 2.8 + (Math.abs(exponent) >= 3 ? 0.45 : 0) + (exponent < 0 ? 0.75 : 0);
   }
 
   const joinedLength = left.expression.length + right.expression.length;
   return 1.65 + Math.max(0, joinedLength - 1) * 0.45;
+}
+
+function operandComplexity(
+  symbol: string,
+  left: SolverState,
+  right: SolverState,
+): number {
+  if (symbol !== "^") {
+    return left.complexity + right.complexity;
+  }
+
+  if (right.value.numerator === 0) {
+    return Math.min(left.complexity, 1.1) + right.complexity;
+  }
+
+  if (left.value.numerator === left.value.denominator) {
+    return left.complexity + Math.min(right.complexity, 1.1);
+  }
+
+  if (right.value.numerator === right.value.denominator) {
+    return left.complexity + Math.min(right.complexity, 1.1);
+  }
+
+  return left.complexity + right.complexity;
 }
 
 function countBits(value: number): number {
@@ -320,8 +352,7 @@ function binaryState(
     operatorMask:
       left.operatorMask | right.operatorMask | (OPERATOR_BITS[symbol] ?? 0),
     complexity:
-      left.complexity +
-      right.complexity +
+      operandComplexity(symbol, left, right) +
       operationComplexity(symbol, left, right, value) +
       resultComplexity(value) +
       Math.max(0, depth - 2) * 0.15 -
@@ -503,11 +534,11 @@ function analyzeSolutions(solutions: SolverState[]): SolutionAnalysis | null {
     easiestComplexity - solutionBonus,
   );
   const difficulty: GeneratedChallenge["difficulty"] =
-    difficultyScore <= 3.7
-      ? "입문"
-      : difficultyScore <= 4.75
+    difficultyScore > 4.75
+      ? "도전"
+      : easiest.usedPower || difficultyScore > 3.7
         ? "보통"
-        : "도전";
+        : "입문";
 
   return {
     solutions,
