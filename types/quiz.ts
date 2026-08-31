@@ -1,6 +1,7 @@
 export type QuizInfo = {
     id: string;
     name: string;
+    group?: string;
     description: string;
     length: number;
     shuffle: boolean;

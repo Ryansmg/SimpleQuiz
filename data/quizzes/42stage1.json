@@ -1,11 +1,11 @@
 {
   "id": "42stage1",
   "name": "시사영어 2026 Stage 1",
+  "group": "시사영어 2026",
   "description": "단어의 뜻 고르기",
   "length": 40,
   "shuffle": true,
   "choiceLayout": "stack",
-
   "maxScore": 100,
   "minScore": 10,
   "penalty": -10,

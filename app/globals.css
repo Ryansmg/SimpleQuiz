@@ -780,3 +780,66 @@ p {
   }
 
 }
+
+.quizGroupList {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.quizGroupCard {
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.quizStageList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.quizStageLink {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 64px;
+  padding: 12px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: rgba(255, 255, 255, 0.055);
+  transition:
+          transform 150ms ease,
+          background-color 150ms ease,
+          border-color 150ms ease;
+}
+
+.quizStageLink:hover {
+  transform: translateY(-1px);
+  background: rgba(124, 140, 255, 0.14);
+  border-color: rgba(124, 140, 255, 0.42);
+}
+
+.quizStageLink > span:first-child {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quizStageLink strong {
+  font-size: 1.05rem;
+}
+
+.quizStageLink span span {
+  color: var(--foreground-muted);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 720px) {
+  .quizStageLink {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
