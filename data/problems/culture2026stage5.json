@@ -1,0 +1,563 @@
+{
+  "id": "culture2026stage5",
+  "problems": [
+    {
+      "type": "fill",
+      "legend": "We need plenty of itme to think about this i___.\n우리는 이 문제에 대해 생각할 시간이 충분히 필요하다.",
+      "answer": "issue",
+      "commentary": "issue: 논점, 쟁점; 발행(물); 발표[공표]하다; 발행하다"
+    },
+    {
+      "type": "fill",
+      "legend": "i___ a statement\n성명을 발표하다.",
+      "answer": "issue",
+      "commentary": "issue: 논점, 쟁점; 발행(물); 발표[공표]하다; 발행하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The red dress s___ you well.\n그 빨간 드레스는 너에게 잘 어울린다.",
+      "answer": "suits",
+      "commentary": "suit: 적합하다, 알맞다; 어울리다; 정장; 소송"
+    },
+    {
+      "type": "fill",
+      "legend": "He wore a s___ for his job interview yesterday.\n그는 어제 면접을 위해 정장을 입었다.",
+      "answer": "suit",
+      "commentary": "suit: 적합하다, 알맞다; 어울리다; 정장; 소송"
+    },
+    {
+      "type": "fill",
+      "legend": "She brought a s___ against her employer.\n그녀는 고용주를 상대로 소송을 제기했다.",
+      "answer": "suit",
+      "commentary": "suit: 적합하다, 알맞다; 어울리다; 정장; 소송"
+    },
+    {
+      "type": "fill",
+      "legend": "He wasn't able to a___ his graduation ceremony.\n그는 졸업식에 참석할 수 없었다.",
+      "answer": "attend",
+      "commentary": "attend: 참석[출석]하다; 돌보다; ~에 수반하다; 다루다, 처리하다"
+    },
+    {
+      "type": "fill",
+      "legend": "She is a___ to her sick son.\n그녀는 아픈 아들을 돌보고 있다.",
+      "answer": "attending",
+      "commentary": "attend: 참석[출석]하다; 돌보다; ~에 수반하다; 다루다, 처리하다"
+    },
+    {
+      "type": "fill",
+      "legend": "They have some matters to a___ to.\n그들은 처리해야 할 일이 몇 가지 있다.",
+      "answer": "attend",
+      "commentary": "attend: 참석[출석]하다; 돌보다; ~에 수반하다; 다루다, 처리하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Working out is a great way to r___ stress.\n운동은 스트레스를 완화하는 좋은 방법이다.",
+      "answer": "relieve",
+      "commentary": "relieve: (고통 등을) 경감시키다; (문제의 심각성을) 완화하다; 교대하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The policy is designed to r___ poverty.\n그 정책은 빈곤을 완화하기 위해 고안되었다.",
+      "answer": "relieve",
+      "commentary": "relieve: (고통 등을) 경감시키다; (문제의 심각성을) 완화하다; 교대하다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'm going to r___ my colleague after two hours.\n나는 두 시간 후에 동료와 교대할 예정이다.",
+      "answer": "relieve",
+      "commentary": "relieve: (고통 등을) 경감시키다; (문제의 심각성을) 완화하다; 교대하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Stock prices d___ steeply.\n주가가 급격히 하락했다.",
+      "answer": "declined",
+      "commentary": "decline: 줄어들다, 감소하다; 거절하다; 감소, 하락"
+    },
+    {
+      "type": "fill",
+      "legend": "He decided to d___ the job offer.\n그는 그 일자리 제안을 거절하기로 했다.",
+      "answer": "decline",
+      "commentary": "decline: 줄어들다, 감소하다; 거절하다; 감소, 하락"
+    },
+    {
+      "type": "fill",
+      "legend": "The data doesn't c___ to reality.\n그 자료는 현실과 일치하지 않는다.",
+      "answer": "correspond",
+      "commentary": "correspond: 일치[부합]하다; 해당[상응]하다; 편지를 주고받다"
+    },
+    {
+      "type": "fill",
+      "legend": "No Korean word c___ to that word.\n그 단어에 해당하는 한국어 단어는 없다.",
+      "answer": "corresponds",
+      "commentary": "correspond: 일치[부합]하다; 해당[상응]하다; 편지를 주고받다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'm still c___ with my old friends.\n나는 아직도 오랜 친구들과 편지를 주고받고 있다.",
+      "answer": "corresponding",
+      "commentary": "correspond: 일치[부합]하다; 해당[상응]하다; 편지를 주고받다"
+    },
+    {
+      "type": "fill",
+      "legend": "The professor r___ to earlier lectures for a review.\n교수는 복습을 위해 이전 강의들을 참고했다.",
+      "answer": "referred",
+      "commentary": "refer: 언급하다; 참고하다, 참조하다; 나타내다"
+    },
+    {
+      "type": "fill",
+      "legend": "You can r___ to a dictionary.\n너는 사전을 참고할 수 있다.",
+      "answer": "refer",
+      "commentary": "refer: 언급하다; 참고하다, 참조하다; 나타내다"
+    },
+    {
+      "type": "fill",
+      "legend": "The figures r___ to the sales of last month.\n그 수치들은 지난달 매출을 나타낸다.",
+      "answer": "refer",
+      "commentary": "refer: 언급하다; 참고하다, 참조하다; 나타내다"
+    },
+    {
+      "type": "fill",
+      "legend": "The sticker didn't a___ to the wall.\n그 스티커는 벽에 붙지 않았다.",
+      "answer": "adhere",
+      "commentary": "adhere: 들러붙다; (주의·신념·의견에) 충실하다, 고수하다"
+    },
+    {
+      "type": "fill",
+      "legend": "They a___ to a policy of transparency.\n그들은 투명성 정책을 고수한다.",
+      "answer": "adhere",
+      "commentary": "adhere: 들러붙다; (주의·신념·의견에) 충실하다, 고수하다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'll build my house on f___ ground.\n나는 단단한 땅 위에 집을 지을 것이다.",
+      "answer": "firm",
+      "commentary": "firm: 단단한, 딱딱한; 흔들리지 않는, 확고한; 회사"
+    },
+    {
+      "type": "fill",
+      "legend": "He showed a f___ determination of his own.\n그는 자신만의 확고한 결심을 보였다.",
+      "answer": "firm",
+      "commentary": "firm: 단단한, 딱딱한; 흔들리지 않는, 확고한; 회사"
+    },
+    {
+      "type": "fill",
+      "legend": "Many people want to work for this f___.\n많은 사람들이 이 회사에서 일하고 싶어 한다.",
+      "answer": "firm",
+      "commentary": "firm: 단단한, 딱딱한; 흔들리지 않는, 확고한; 회사"
+    },
+    {
+      "type": "fill",
+      "legend": "Different strokes for different f___.\n사람마다 취향이 다르다.",
+      "answer": "folks",
+      "commentary": "folk: 사람들; ((~s)) 가족, 친척; 민속의; 민간의"
+    },
+    {
+      "type": "fill",
+      "legend": "Give my best regards to your f___.\n가족들에게 안부 전해 줘.",
+      "answer": "folks",
+      "commentary": "folk: 사람들; ((~s)) 가족, 친척; 민속의; 민간의"
+    },
+    {
+      "type": "fill",
+      "legend": "The f___ song festival was held yesterday.\n그 민속 음악 축제가 어제 열렸다.",
+      "answer": "folk",
+      "commentary": "folk: 사람들; ((~s)) 가족, 친척; 민속의; 민간의"
+    },
+    {
+      "type": "fill",
+      "legend": "I can't r___ the title of the book.\n나는 그 책의 제목이 기억나지 않는다.",
+      "answer": "recall",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "The government r___ the ambassador.\n정부는 대사를 소환했다.",
+      "answer": "recalled",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "The products were r___ due to risk of fire.\n그 제품들은 화재 위험 때문에 회수되었다.",
+      "answer": "recalled",
+      "commentary": "recall: 기억해 내다; 소환하다, 도로 부르다; (물건을) 회수하다; 기억(력); 회수; 소환"
+    },
+    {
+      "type": "fill",
+      "legend": "Critics r___ that the film was full of cliches.\n비평가들은 그 영화가 상투적인 표현으로 가득하다고 논평했다.",
+      "answer": "remarked",
+      "commentary": "remark: 말하다, 논평하다; 알아채다; 말, 의견"
+    },
+    {
+      "type": "fill",
+      "legend": "No one r___ on his absence.\n아무도 그의 부재에 대해 언급하지 않았다.",
+      "answer": "remarked",
+      "commentary": "remark: 말하다, 논평하다; 알아채다; 말, 의견"
+    },
+    {
+      "type": "fill",
+      "legend": "We achieved g___ results with our business.\n우리는 사업에서 만족스러운 결과를 얻었다.",
+      "answer": "gratifying",
+      "commentary": "gratifying: 만족스러운, 유쾌한"
+    },
+    {
+      "type": "fill",
+      "legend": "He was k___ to promote Korean culture.\n그는 한국 문화를 홍보하는 데 열심이었다.",
+      "answer": "keen",
+      "commentary": "keen: 열심인; 몹시 하고 싶어 하는; 예민한"
+    },
+    {
+      "type": "fill",
+      "legend": "I’m e___ of people who made their dreams come true.\n나는 꿈을 이룬 사람들이 부럽다.",
+      "answer": "envious",
+      "commentary": "envious: 부러워하는, 샘내는"
+    },
+    {
+      "type": "fill",
+      "legend": "Because he was i___ to politics, he never voted.\n그는 정치에 무관심했기 때문에 한 번도 투표하지 않았다.",
+      "answer": "indifferent",
+      "commentary": "indifferent: 무관심한, 사심이 없는"
+    },
+    {
+      "type": "fill",
+      "legend": "Her smile could brighten a d___ winter’s day.\n그녀의 미소는 음울한 겨울날을 밝게 할 수 있었다.",
+      "answer": "dreary",
+      "commentary": "dreary: 쓸쓸한, 음울한, 황량한"
+    },
+    {
+      "type": "fill",
+      "legend": "After watching the f___ movie, I had nightmares for several days.\n그 무서운 영화를 본 뒤 나는 며칠 동안 악몽을 꾸었다.",
+      "answer": "frightening",
+      "commentary": "frightening: 겁을 주는"
+    },
+    {
+      "type": "fill",
+      "legend": "Steve's business achievements in China are a___.\nSteve의 중국에서의 사업 성과는 감탄할 만하다.",
+      "answer": "admirable",
+      "commentary": "admirable: 감탄할 만한"
+    },
+    {
+      "type": "fill",
+      "legend": "I’ll tell you the best way to save money when you l___ a car.\n차를 임대할 때 돈을 절약하는 가장 좋은 방법을 알려 줄게.",
+      "answer": "lease",
+      "commentary": "lease: 임대차 계약; 임대하다"
+    },
+    {
+      "type": "fill",
+      "legend": "It is not a good idea to l___ money to a friend.\n친구에게 돈을 빌려주는 것은 좋은 생각이 아니다.",
+      "answer": "loan",
+      "commentary": "loan: 대여; 융자금; 빌려주다"
+    },
+    {
+      "type": "fill",
+      "legend": "Korea got financial help from the International M___ Fund(IMF).\n한국은 국제통화기금(IMF)으로부터 재정 지원을 받았다.",
+      "answer": "Monetary",
+      "commentary": "monetary: 화폐의, 통화의"
+    },
+    {
+      "type": "fill",
+      "legend": "The kindergarten is a___ with the local university.\n그 유치원은 지역 대학과 제휴되어 있다.",
+      "answer": "affiliated",
+      "commentary": "affiliate: (더 큰 회사·기관과) 제휴하다, 연계하다; 지부, 계열사"
+    },
+    {
+      "type": "fill",
+      "legend": "Long ago, trading was carried out under the b___ system.\n오래전에는 거래가 물물교환 제도 아래에서 이루어졌다.",
+      "answer": "barter",
+      "commentary": "barter: 물물교환; 물물교환을 하다, 교역하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Homer’s Iliad is my favorite e___.\nHomer의 일리아드는 내가 가장 좋아하는 서사시이다.",
+      "answer": "epic",
+      "commentary": "epic: 서사시의, 서사체의; 서사시; 대하 소설"
+    },
+    {
+      "type": "fill",
+      "legend": "It is not easy to achieve a c___.\n합의를 이루는 것은 쉽지 않다.",
+      "answer": "consensus",
+      "commentary": "consensus: 의견 일치, 합의"
+    },
+    {
+      "type": "fill",
+      "legend": "She obtained a p___ for her new invention.\n그녀는 새 발명품에 대한 특허를 얻었다.",
+      "answer": "patent",
+      "commentary": "patent: 특허(권); 특허를 받은; 특허권을 얻다"
+    },
+    {
+      "type": "fill",
+      "legend": "He was p___ for murder.\n그는 살인 혐의로 기소되었다.",
+      "answer": "prosecuted",
+      "commentary": "prosecute: 기소하다, 고소하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He refused to c___ with the rule.\n그는 그 규칙을 따르기를 거부했다.",
+      "answer": "comply",
+      "commentary": "comply: (법·명령 등에) 따르다, 준수하다"
+    },
+    {
+      "type": "fill",
+      "legend": "His a___ is not that serious.\n그의 병은 그렇게 심각하지 않다.",
+      "answer": "ailment",
+      "commentary": "ailment: 병"
+    },
+    {
+      "type": "fill",
+      "legend": "An e___ spreads rapidly across many geographic locations.\n전염병은 많은 지역에 걸쳐 빠르게 퍼진다.",
+      "answer": "epidemic",
+      "commentary": "epidemic: 유행병, 전염병; 유행성의, 전염성의"
+    },
+    {
+      "type": "fill",
+      "legend": "Cholera is an infectious disease caused by poor s___ conditions.\n콜레라는 열악한 위생 상태로 인해 발생하는 감염병이다.",
+      "answer": "sanitary",
+      "commentary": "sanitary: 위생의; 위생적인, 청결한"
+    },
+    {
+      "type": "fill",
+      "legend": "A p___ descended on the town, bringing severe illness to many people.\n전염병이 그 마을에 닥쳐 많은 사람들에게 심각한 질병을 가져왔다.",
+      "answer": "plague",
+      "commentary": "plague: 전염병, 돌림병"
+    },
+    {
+      "type": "fill",
+      "legend": "He is very d___ when he invests his money.\n그는 돈을 투자할 때 매우 신중하다.",
+      "answer": "deliberate",
+      "commentary": "deliberate: 신중한; 고의의, 계획적인"
+    },
+    {
+      "type": "fill",
+      "legend": "She is so n___ that she believes everything people say.\n그녀는 너무 순진해서 사람들이 하는 말을 모두 믿는다.",
+      "answer": "naive",
+      "commentary": "naive: 순진한, 천진난만한"
+    },
+    {
+      "type": "fill",
+      "legend": "The m___ murderer was sentenced to life imprisonment.\n그 무자비한 살인자는 종신형을 선고받았다.",
+      "answer": "merciless",
+      "commentary": "merciless: 무자비한, 잔인한"
+    },
+    {
+      "type": "fill",
+      "legend": "My jouse uses s___ energy to produce hot water.\n우리 집은 뜨거운 물을 만들기 위해 태양 에너지를 사용한다.",
+      "answer": "solar",
+      "commentary": "solar: 태양의"
+    },
+    {
+      "type": "fill",
+      "legend": "People celebrate the first full moon of the l___ calendar.\n사람들은 음력의 첫 보름달을 기념한다.",
+      "answer": "lunar",
+      "commentary": "lunar: 달의; 음력의"
+    },
+    {
+      "type": "fill",
+      "legend": "She s___ at the thought of the accident.\n그녀는 그 사고를 생각하고 몸서리쳤다.",
+      "answer": "shuddered",
+      "commentary": "shudder: (공포·추위로) 떨다, 몸서리치다; 떨림"
+    },
+    {
+      "type": "fill",
+      "legend": "A friend in need is a friend i___.\n어려울 때의 친구가 진정한 친구다.",
+      "answer": "indeed",
+      "commentary": "indeed: [강조] 실로, 참으로; [동감을 나타내며] 정말"
+    },
+    {
+      "type": "fill",
+      "legend": "In the m___, we will prepare for dinner.\n그동안 우리는 저녁 식사를 준비할 것이다.",
+      "answer": "meantime",
+      "commentary": "meantime: ((the ~)) 그동안; 그동안에, 그사이에"
+    },
+    {
+      "type": "fill",
+      "legend": "I had a s___ cold accompanied by a bad cough.\n나는 심한 감기에 걸렸고 심한 기침도 동반되었다.",
+      "answer": "severe",
+      "commentary": "severe: 엄한, 엄격한; 심한, 맹렬한"
+    },
+    {
+      "type": "fill",
+      "legend": "The problem c___ money.\n그 문제는 결국 돈의 문제로 귀결된다.",
+      "answer": "comes down to",
+      "commentary": "come down to: 결국 ~이 되다; ~에 이르다"
+    },
+    {
+      "type": "fill",
+      "legend": "The coat c___ my ankles.\n그 코트는 내 발목까지 내려온다.",
+      "answer": "comes down to",
+      "commentary": "come down to: 결국 ~이 되다; ~에 이르다"
+    },
+    {
+      "type": "fill",
+      "legend": "C___ and think carefully.\n진정하고 신중하게 생각해라.",
+      "answer": "Calm down",
+      "commentary": "calm down: 가라앉다, 진정하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He fell asleep as the medicine started to k___.\n그는 약효가 나타나기 시작하자 잠이 들었다.",
+      "answer": "kick in",
+      "commentary": "kick in: 효과가 나타나기 시작하다"
+    },
+    {
+      "type": "fill",
+      "legend": "They g___ to our demands after a couple of debates.\n그들은 몇 차례 논쟁 끝에 우리의 요구에 굴복했다.",
+      "answer": "gave in",
+      "commentary": "give in: (~에게) 항복하다; (마지못해) 동의하다[받아들이다]"
+    },
+    {
+      "type": "fill",
+      "legend": "Can I a___ a credit card online?\n온라인으로 신용카드를 신청할 수 있나요?",
+      "answer": "apply for",
+      "commentary": "apply for: 신청하다; 지원하다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'll a___ a job in the sales department.\n나는 영업부 일자리에 지원할 것이다.",
+      "answer": "apply for",
+      "commentary": "apply for: 신청하다; 지원하다"
+    },
+    {
+      "type": "fill",
+      "legend": "I'm thinking of s___ driving lessons this month.\n나는 이번 달에 운전 강습을 신청할까 생각 중이다.",
+      "answer": "signing up for",
+      "commentary": "sign up for: ~을 신청하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Hiring a new CEO b___ a number of unexpected changes.\n새 CEO를 고용한 것은 여러 예상치 못한 변화를 초래했다.",
+      "answer": "brought about",
+      "commentary": "bring about: 불러일으키다, 초래하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The earthquake d___ their homes.\n지진은 많은 사람들에게서 집을 빼앗았다.",
+      "answer": "deprived a lot of people of",
+      "commentary": "deprive A of B: A로부터 B를 빼앗다"
+    },
+    {
+      "type": "fill",
+      "legend": "The final choice r___ a single person.\n최종 선택은 한 사람에게 달려 있다.",
+      "answer": "rests with",
+      "commentary": "rest with: (선택 또는 결정이) ~에 달렸다"
+    },
+    {
+      "type": "fill",
+      "legend": "She can't d___ coffee for even a day.\n그녀는 단 하루도 커피 없이 지낼 수 없다.",
+      "answer": "do without",
+      "commentary": "do without: ~없이 지내다[견디다]"
+    },
+    {
+      "type": "fill",
+      "legend": "The witness's words were not c___.\n그 증인의 말은 일관성이 없었다.",
+      "answer": "coherent",
+      "commentary": "coherent: 일관성 있는, 논리적인"
+    },
+    {
+      "type": "fill",
+      "legend": "People's behavior at the stadium is often s___.\n경기장에서 사람들의 행동은 종종 즉흥적이다.",
+      "answer": "spontaneous",
+      "commentary": "spontaneous: 자발적인; 즉흥적인"
+    },
+    {
+      "type": "fill",
+      "legend": "He f___ a new career in the art business.\n그는 미술 사업에서 새로운 경력을 구축했다.",
+      "answer": "forged",
+      "commentary": "forge: 구축하다; 위조하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The major d___ of the plan is its high expense.\n그 계획의 주요 단점은 비용이 많이 든다는 것이다.",
+      "answer": "drawback",
+      "commentary": "drawback: 장애, 방해, 결점, 불리"
+    },
+    {
+      "type": "fill",
+      "legend": "This lets you easily r___ data from a failed computer.\n이것은 고장 난 컴퓨터에서 데이터를 쉽게 되찾을 수 있게 해 준다.",
+      "answer": "retrieve",
+      "commentary": "retrieve: 되찾다, 만회하다"
+    },
+    {
+      "type": "fill",
+      "legend": "While reading the text, we h___ about what the author might discuss next.\n글을 읽는 동안 우리는 저자가 다음에 무엇을 논의할지 가설을 세운다.",
+      "answer": "hypothesize",
+      "commentary": "hypothesize: 가설을 세우다, 가정하다"
+    },
+    {
+      "type": "fill",
+      "legend": "He s___ his salary by working part-time jobs when he was young.\n그는 젊었을 때 아르바이트를 하며 월급을 보충했다.",
+      "answer": "supplemented",
+      "commentary": "supplement: 보완하다; 보완, 보충"
+    },
+    {
+      "type": "fill",
+      "legend": "Every person on Earth has a s___ in the health of the planet.\n지구상의 모든 사람은 지구의 건강에 이해관계를 가지고 있다.",
+      "answer": "stake",
+      "commentary": "stake: 말뚝, 막대기; 내기; 이해관계"
+    },
+    {
+      "type": "fill",
+      "legend": "Some movies seem to confrom the i___ that all problems can be easily solved.\n어떤 영화들은 모든 문제가 쉽게 해결될 수 있다는 착각을 따르는 것처럼 보인다.",
+      "answer": "illusion",
+      "commentary": "illusion: 환각, 환영; 착각"
+    },
+    {
+      "type": "fill",
+      "legend": "Don't d___ yourself into thinking that money will make you happy.\n돈이 너를 행복하게 해 줄 것이라고 생각하며 스스로를 속이지 마라.",
+      "answer": "delude",
+      "commentary": "delude: 속이다, 착각하게 하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Please be d___ with this information.\n이 정보에 대해서는 신중하게 행동해 주세요.",
+      "answer": "discreet",
+      "commentary": "discreet: 분별 있는; 신중한; 조심스러운"
+    },
+    {
+      "type": "fill",
+      "legend": "Drying my eyes with her handkerchief, she c___ me with gentle talk.\n그녀는 손수건으로 내 눈물을 닦아 주며 다정한 말로 나를 위로했다.",
+      "answer": "consoled",
+      "commentary": "console: 위로하다, 힘내게 하다"
+    },
+    {
+      "type": "fill",
+      "legend": "Doctors provide counseling to patients and help them c___ with their diseases.\n의사들은 환자들에게 상담을 제공하고 그들이 질병에 대처하도록 돕는다.",
+      "answer": "cope",
+      "commentary": "cope: 잘 처리하다"
+    },
+    {
+      "type": "fill",
+      "legend": "There was a d___ in sales this year.\n올해 매출에 적자가 있었다.",
+      "answer": "deficit",
+      "commentary": "deficit: 부족(액), 적자"
+    },
+    {
+      "type": "fill",
+      "legend": "He i___ us into voting for him.\n그는 우리가 자신에게 투표하도록 겁을 주었다.",
+      "answer": "intimidated",
+      "commentary": "intimidate: 두려워하게 하다, 겁주다, 협박하다"
+    },
+    {
+      "type": "fill",
+      "legend": "President Reagan was a___ with Alzheimer's disease.\n레이건 대통령은 알츠하이머병으로 고통받았다.",
+      "answer": "afflicted",
+      "commentary": "afflict: 괴롭히다, 들볶다"
+    },
+    {
+      "type": "fill",
+      "legend": "Some patients experienced a___ pain after surgery.\n일부 환자들은 수술 후 심한 통증을 경험했다.",
+      "answer": "acute",
+      "commentary": "acute: 심한, 격렬한; 날카로운, 예리한"
+    },
+    {
+      "type": "fill",
+      "legend": "People have s___ to conserve the wild plants growing in Korea.\n사람들은 한국에서 자라는 야생 식물을 보존하기 위해 노력해 왔다.",
+      "answer": "striven",
+      "commentary": "strive: 노력하다, 분발하다"
+    },
+    {
+      "type": "fill",
+      "legend": "The polic officer brought my car to a h___.\n경찰관은 내 차를 정지시켰다.",
+      "answer": "halt",
+      "commentary": "halt: 정지, 멈춤; 정지시키다"
+    }
+  ]
+}

@@ -1,0 +1,621 @@
+{
+  "id": "culture2026stage4",
+  "problems": [
+    {
+      "type": "fill",
+      "legend": "The results ___ the effectiveness of the punishment.",
+      "choices": "auto_5",
+      "choiceText": "demonstrate",
+      "answer": "demonstrated",
+      "commentary": "demonstrate: 입증하다; (사용법 등을) 설명하다; 시위하다\n그 결과는 그 처벌의 효과를 입증했다."
+    },
+    {
+      "type": "fill",
+      "legend": "I ___ how to use the vacuum.",
+      "choices": "auto_5",
+      "choiceText": "demonstrate",
+      "answer": "demonstrated",
+      "commentary": "demonstrate: 입증하다; (사용법 등을) 설명하다; 시위하다\n나는 진공청소기 사용법을 설명했다."
+    },
+    {
+      "type": "fill",
+      "legend": "They ___ against the war.",
+      "choices": "auto_5",
+      "choiceText": "demonstrate",
+      "answer": "demonstrated",
+      "commentary": "demonstrate: 입증하다; (사용법 등을) 설명하다; 시위하다\n그들은 전쟁에 반대하는 시위를 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "There are ___ differences between the two paintings.",
+      "choices": "auto_5",
+      "choiceText": "subtle",
+      "answer": "subtle",
+      "commentary": "subtle: 미묘한, 감지하기 힘든; 교묘한; 예민한\n두 그림 사이에는 미묘한 차이가 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "They have a ___ plan to save the day.",
+      "choices": "auto_5",
+      "choiceText": "subtle",
+      "answer": "subtle",
+      "commentary": "subtle: 미묘한, 감지하기 힘든; 교묘한; 예민한\n그들은 위기를 모면할 교묘한 계획을 가지고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "She has a ___ sensitivity.",
+      "choices": "auto_5",
+      "choiceText": "subtle",
+      "answer": "subtle",
+      "commentary": "subtle: 미묘한, 감지하기 힘든; 교묘한; 예민한\n그녀는 예민한 감수성을 가지고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Damaged lung ___ doesn't repair itself.",
+      "choices": "auto_5",
+      "choiceText": "tissue",
+      "answer": "tissue",
+      "commentary": "tissue: (생물) 조직; 화장지; 얇은 종이\n손상된 폐 조직은 스스로 회복되지 않는다."
+    },
+    {
+      "type": "fill",
+      "legend": "I need a ___ to blow my nose.",
+      "choices": "auto_5",
+      "choiceText": "tissue",
+      "answer": "tissue",
+      "commentary": "tissue: (생물) 조직; 화장지; 얇은 종이\n나는 코를 풀 휴지가 필요하다."
+    },
+    {
+      "type": "fill",
+      "legend": "The company ___ a lot of jobs.",
+      "choices": "auto_5",
+      "choiceText": "shed",
+      "answer": "shed",
+      "commentary": "shed: 없애다; 떨어뜨리다, 흘리다; (빛을) 비추다; 헛간\n그 회사는 많은 일자리를 없앴다."
+    },
+    {
+      "type": "fill",
+      "legend": "We ___ a lot of sweat to achieve our goal.",
+      "choices": "auto_5",
+      "choiceText": "shed",
+      "answer": "shed",
+      "commentary": "shed: 없애다; 떨어뜨리다, 흘리다; (빛을) 비추다; 헛간\n우리는 목표를 이루기 위해 많은 땀을 흘렸다."
+    },
+    {
+      "type": "fill",
+      "legend": "The girl ___ her younger sister.",
+      "choices": "auto_5",
+      "choiceText": "adore",
+      "answer": "adored",
+      "commentary": "adore: 동경[흠모]하다, 아주 좋아하다; 숭배하다\n그 소녀는 여동생을 무척 좋아했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Mary is ___ of telling interesting stories.",
+      "choices": "auto_5",
+      "choiceText": "fond",
+      "answer": "fond",
+      "commentary": "fond: 좋아하여; 다정한\nMary는 재미있는 이야기를 하는 것을 좋아한다."
+    },
+    {
+      "type": "fill",
+      "legend": "They ___ their intention to invest in our new products.",
+      "choices": "auto_5",
+      "choiceText": "manifest",
+      "answer": "manifested",
+      "commentary": "manifest: (감정 등을) 밖으로 나타내다; 명백한, 분명한\n그들은 우리 신제품에 투자하려는 의사를 드러냈다."
+    },
+    {
+      "type": "fill",
+      "legend": "The criticism ___ people to strong anger.",
+      "choices": "auto_5",
+      "choiceText": "provoke",
+      "answer": "provoked",
+      "commentary": "provoke: 유발하다; 화나게 하다\n그 비판은 사람들에게 강한 분노를 유발했다."
+    },
+    {
+      "type": "fill",
+      "legend": "We’ll face many ___ opponents in this contest.",
+      "choices": "auto_5",
+      "choiceText": "formidable",
+      "answer": "formidable",
+      "commentary": "formidable: 무서운; 만만치 않은\n우리는 이번 대회에서 만만치 않은 상대들을 많이 마주하게 될 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "Her clothes are absolutely ___.",
+      "choices": "auto_5",
+      "choiceText": "stunning",
+      "answer": "stunning",
+      "commentary": "stunning: 깜짝 놀라게 하는; 놀랄 만큼 아름다운[멋진]\n그녀의 옷은 정말 놀랄 만큼 멋지다."
+    },
+    {
+      "type": "fill",
+      "legend": "I can’t stand these ___ weather conditions.",
+      "choices": "auto_5",
+      "choiceText": "dreadful",
+      "answer": "dreadful",
+      "commentary": "dreadful: 지독한, 몹시 싫은\n나는 이런 지독한 날씨 조건을 견딜 수 없다."
+    },
+    {
+      "type": "fill",
+      "legend": "We watched ___ movies at home last night.",
+      "choices": "auto_5",
+      "choiceText": "horror",
+      "answer": "horror",
+      "commentary": "horror: 공포, 무서움\n우리는 어젯밤 집에서 공포 영화를 봤다."
+    },
+    {
+      "type": "fill",
+      "legend": "They had a very ___ debate.",
+      "choices": "auto_5",
+      "choiceText": "vigorous",
+      "answer": "vigorous",
+      "commentary": "vigorous: 활발한, 격렬한; 활기찬, 건강한\n그들은 매우 격렬한 토론을 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Some people are ___ about politics.",
+      "choices": "auto_5",
+      "choiceText": "cynical",
+      "answer": "cynical",
+      "commentary": "cynical: 냉소적인; 비관적인\n어떤 사람들은 정치에 대해 냉소적이다."
+    },
+    {
+      "type": "fill",
+      "legend": "He began to draw ___ cartoons for newspapers.",
+      "choices": "auto_5",
+      "choiceText": "satirical",
+      "answer": "satirical",
+      "commentary": "satirical: 풍자적인, 비꼬는\n그는 신문에 풍자 만화를 그리기 시작했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Some people have a ___ view of the increase in housing prices.",
+      "choices": "auto_5",
+      "choiceText": "pessimistic",
+      "answer": "pessimistic",
+      "commentary": "pessimistic: 비관적인, 염세적인\n어떤 사람들은 주택 가격 상승에 대해 비관적인 견해를 가지고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Advertising costs are likely to be ___ by budget.",
+      "choices": "auto_5",
+      "choiceText": "constrain",
+      "answer": "constrained",
+      "commentary": "constrain: ~하게 만들다[강요하다]; 제한하다\n광고 비용은 예산에 의해 제한될 가능성이 높다."
+    },
+    {
+      "type": "fill",
+      "legend": "The kindergarten is ___ with the local university.",
+      "choices": "auto_5",
+      "choiceText": "affiliate",
+      "answer": "affiliated",
+      "commentary": "affiliate: (더 큰 회사·기관과) 제휴하다, 연계하다; 지부, 계열사\n그 유치원은 지역 대학과 제휴되어 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "The motor company was ___ in 1903.",
+      "choices": "auto_5",
+      "choiceText": "incorporate",
+      "answer": "incorporated",
+      "commentary": "incorporate: 법인 조직으로 만들다; 포함하다\n그 자동차 회사는 1903년에 법인으로 설립되었다."
+    },
+    {
+      "type": "fill",
+      "legend": "You ___ what you sow.",
+      "choices": "auto_5",
+      "choiceText": "reap",
+      "answer": "reap",
+      "commentary": "reap: (농작물을) 베어들이다, 수확하다\n뿌린 대로 거둔다."
+    },
+    {
+      "type": "fill",
+      "legend": "The room was ___ with empty bottles.",
+      "choices": "auto_5",
+      "choiceText": "litter",
+      "answer": "littered",
+      "commentary": "litter: 잡동사니, 쓰레기; 어지르다\n그 방은 빈 병들로 어질러져 있었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Pesticides can potentially ___ the water.",
+      "choices": "auto_5",
+      "choiceText": "contaminate",
+      "answer": "contaminate",
+      "commentary": "contaminate: 더럽히다, 오염시키다\n살충제는 잠재적으로 물을 오염시킬 수 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Environmental and economic issues are inseparably ___.",
+      "choices": "auto_5",
+      "choiceText": "intertwine",
+      "answer": "intertwined",
+      "commentary": "intertwine: 뒤얽히다; 밀접하게 관련되다\n환경 문제와 경제 문제는 불가분하게 얽혀 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "I believe Internet filtering ___ on the freedom of the individual.",
+      "choices": "auto_5",
+      "choiceText": "infringe",
+      "answer": "infringes",
+      "commentary": "infringe: (법률·협정 따위를) 어기다, 위반하다, (권리를) 침해하다\n나는 인터넷 필터링이 개인의 자유를 침해한다고 믿는다."
+    },
+    {
+      "type": "fill",
+      "legend": "Congress ___ a special law on smoke-free restaurants last month.",
+      "choices": "auto_5",
+      "choiceText": "enact",
+      "answer": "enacted",
+      "commentary": "enact: (법령을) 제정하다, 규정하다; 상연하다\n의회는 지난달 금연 음식점에 관한 특별법을 제정했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Many states have ___ casino gaming.",
+      "choices": "auto_5",
+      "choiceText": "legalize",
+      "answer": "legalized",
+      "commentary": "legalize: 법률화하다, 합법화하다\n많은 주가 카지노 게임을 합법화했다."
+    },
+    {
+      "type": "fill",
+      "legend": "The law was ___ in 1998.",
+      "choices": "auto_5",
+      "choiceText": "legislate",
+      "answer": "legislated",
+      "commentary": "legislate: 법률을 제정하다, 입법하다\n그 법은 1998년에 입법되었다."
+    },
+    {
+      "type": "fill",
+      "legend": "I have a ___ of high places.",
+      "choices": "auto_5",
+      "choiceText": "phobia",
+      "answer": "phobia",
+      "commentary": "phobia: 공포증, (병적인) 공포\n나는 높은 곳에 대한 공포증이 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Hair loss can be caused by a vitamin ___.",
+      "choices": "auto_5",
+      "choiceText": "deficiency",
+      "answer": "deficiency",
+      "commentary": "deficiency: 부족, 결핍\n탈모는 비타민 결핍으로 인해 생길 수 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "When experiencing ___ on a plane,  you must wear your seat belt.",
+      "choices": "auto_5",
+      "choiceText": "turbulence",
+      "answer": "turbulence",
+      "commentary": "turbulence: 폭풍 상태; 난기류; 소란\n비행기에서 난기류를 겪을 때는 안전벨트를 매야 한다."
+    },
+    {
+      "type": "fill",
+      "legend": "He is always ___ to his customers.",
+      "choices": "auto_5",
+      "choiceText": "courteous",
+      "answer": "courteous",
+      "commentary": "courteous: 예의 바른, 공손한\n그는 항상 고객들에게 예의 바르다."
+    },
+    {
+      "type": "fill",
+      "legend": "She is a ___ person.",
+      "choices": "auto_5",
+      "choiceText": "tolerant",
+      "answer": "tolerant",
+      "commentary": "tolerant: 관대한, 아량이 있는\n그녀는 관대한 사람이다."
+    },
+    {
+      "type": "fill",
+      "legend": "Her ___ dress distinguished her among the people at the party.",
+      "choices": "auto_5",
+      "choiceText": "peculiar",
+      "answer": "peculiar",
+      "commentary": "peculiar: 이상한, 별난; 특이한, 독특한\n그녀의 특이한 드레스는 파티 사람들 사이에서 그녀를 돋보이게 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Rebecca is ___ with children, even if they misbehave.",
+      "choices": "auto_5",
+      "choiceText": "indulgent",
+      "answer": "indulgent",
+      "commentary": "indulgent: 관대한\nRebecca는 아이들이 버릇없이 굴어도 관대하다."
+    },
+    {
+      "type": "fill",
+      "legend": "Once you’re exposed to a virus, your ___ system reacts to fight it off.",
+      "choices": "auto_5",
+      "choiceText": "immune",
+      "answer": "immune",
+      "commentary": "immune: 면역성의, 면역의\n바이러스에 노출되면 면역 체계가 그것과 싸우기 위해 반응한다."
+    },
+    {
+      "type": "fill",
+      "legend": "The civil war ___ transportation and water supply facilities.",
+      "choices": "auto_5",
+      "choiceText": "devastate",
+      "answer": "devastated",
+      "commentary": "devastate: 황폐시키다, 철저하게 파괴하다\n내전은 교통 및 수도 공급 시설을 철저히 파괴했다."
+    },
+    {
+      "type": "fill",
+      "legend": "A friend today may become a ___ tomorrow.",
+      "choices": "auto_5",
+      "choiceText": "foe",
+      "answer": "foe",
+      "commentary": "foe: 적\n오늘의 친구가 내일의 적이 될 수도 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Beach rocks are ___ by waves.",
+      "choices": "auto_5",
+      "choiceText": "erode",
+      "answer": "eroded",
+      "commentary": "erode: 침식하다[되다]\n해변의 바위들은 파도에 의해 침식된다."
+    },
+    {
+      "type": "fill",
+      "legend": "Wetlands ___ water by trapping and absordbing harmful bacteria.",
+      "choices": "auto_5",
+      "choiceText": "filter",
+      "answer": "filter",
+      "commentary": "filter: 거르다, 여과하다[되다]; 여과기\n습지는 해로운 박테리아를 가두고 흡수하여 물을 여과한다."
+    },
+    {
+      "type": "fill",
+      "legend": "As you rub your hands, ___ creates heat.",
+      "choices": "auto_5",
+      "choiceText": "friction",
+      "answer": "friction",
+      "commentary": "friction: [물리] 마찰; 불화, 충돌\n손을 문지르면 마찰이 열을 만들어 낸다."
+    },
+    {
+      "type": "fill",
+      "legend": "The ___ explained what was wrong with our car.",
+      "choices": "auto_5",
+      "choiceText": "technician",
+      "answer": "technician",
+      "commentary": "technician: 기술자, 전문가\n그 기술자는 우리 차의 문제가 무엇인지 설명했다."
+    },
+    {
+      "type": "fill",
+      "legend": "If I were a car ___, I could fix my own car.",
+      "choices": "auto_5",
+      "choiceText": "mechanic",
+      "answer": "mechanic",
+      "commentary": "mechanic: 수리공, 기계공\n내가 자동차 정비공이라면 내 차를 직접 고칠 수 있을 텐데."
+    },
+    {
+      "type": "fill",
+      "legend": "The baby is ___ around the living room.",
+      "choices": "auto_5",
+      "choiceText": "crawl",
+      "answer": "crawling",
+      "commentary": "crawl: 기어가다; 서행하다; 서행\n아기가 거실을 기어 다니고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "A snail is ___ on the glass of a window.",
+      "choices": "auto_5",
+      "choiceText": "creep",
+      "answer": "creeping",
+      "commentary": "creep: 기다; 살금살금 걷다\n달팽이가 창문 유리 위를 기어가고 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "I have some evidence to ___ my opinion.",
+      "choices": "auto_5",
+      "choiceText": "back up",
+      "answer": "back up",
+      "commentary": "back up: ~을 지원하다\n나는 내 의견을 뒷받침할 증거가 좀 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "She always ___ his opinion.",
+      "choices": "auto_5",
+      "choiceText": "stand up for",
+      "answer": "stands up for",
+      "commentary": "stand up for: ~을 옹호하다, 지지하다\n그녀는 항상 그의 의견을 옹호한다."
+    },
+    {
+      "type": "fill",
+      "legend": "She is a wise CEO, and all the workers ___ her.",
+      "choices": "auto_5",
+      "choiceText": "look up to",
+      "answer": "look up to",
+      "commentary": "look up to: ~을 존경하다\n그녀는 현명한 CEO라서 모든 직원들이 그녀를 존경한다."
+    },
+    {
+      "type": "fill",
+      "legend": "As children grow older, they ___ more responsibility.",
+      "choices": "auto_5",
+      "choiceText": "take on",
+      "answer": "take on",
+      "commentary": "take on: ~을 떠맡다; ~을 고용하다\n아이들은 나이가 들수록 더 많은 책임을 떠맡는다."
+    },
+    {
+      "type": "fill",
+      "legend": "It's good to have a friend to ___.",
+      "choices": "auto_5",
+      "choiceText": "count on",
+      "answer": "count on",
+      "commentary": "count on: 기대다, 의존하다\n의지할 수 있는 친구가 있다는 것은 좋다."
+    },
+    {
+      "type": "fill",
+      "legend": "She ___ the spelling errors in the article.",
+      "choices": "auto_5",
+      "choiceText": "point out",
+      "answer": "pointed out",
+      "commentary": "point out: ~을 가리키다, 지적하다\n그녀는 기사에서 철자 오류를 지적했다."
+    },
+    {
+      "type": "fill",
+      "legend": "We cannot ___ his opinion just because we disagree.",
+      "choices": "auto_5",
+      "choiceText": "rule out",
+      "answer": "rule out",
+      "commentary": "rule out: ~을 제외하다, 배제하다\n우리는 의견이 다르다는 이유만으로 그의 의견을 배제할 수 없다."
+    },
+    {
+      "type": "fill",
+      "legend": "He ___ the document to figure out what it was about.",
+      "choices": "auto_5",
+      "choiceText": "look over",
+      "answer": "looked over",
+      "commentary": "look over: 대강 흝어보다\n그는 그것이 무엇에 관한 것인지 알아내기 위해 문서를 훑어보았다."
+    },
+    {
+      "type": "fill",
+      "legend": "I'll ___ the matter for a few days.",
+      "choices": "auto_5",
+      "choiceText": "chew over",
+      "answer": "chew over",
+      "commentary": "chew over: ~을 심사숙고하다\n나는 그 문제를 며칠 동안 곰곰이 생각해 볼 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "She won't let her son ___ bad behavior.",
+      "choices": "auto_5",
+      "choiceText": "get away with",
+      "answer": "get away with",
+      "commentary": "get away with: (잘못된 행동을) 벌 받지 않고 해내다; 대충 넘어가다\n그녀는 아들이 나쁜 행동을 하고도 그냥 넘어가게 두지 않을 것이다."
+    },
+    {
+      "type": "fill",
+      "legend": "Many people are ___ into buying products by advertising.",
+      "choices": "auto_5",
+      "choiceText": "lure",
+      "answer": "lured",
+      "commentary": "lure: 유혹하다, 유인하다; 유혹물, 매력\n많은 사람들이 광고에 유혹되어 제품을 산다."
+    },
+    {
+      "type": "fill",
+      "legend": "Stress makes trees ___ to severe winter weather.",
+      "choices": "auto_5",
+      "choiceText": "vulnerable",
+      "answer": "vulnerable",
+      "commentary": "vulnerable: 상처받기 쉬운; 취약한, 저항력이 없는\n스트레스는 나무를 혹독한 겨울 날씨에 취약하게 만든다."
+    },
+    {
+      "type": "fill",
+      "legend": "The ___ of his attitude really confused me.",
+      "choices": "auto_5",
+      "choiceText": "ambiguity",
+      "answer": "ambiguity",
+      "commentary": "ambiguity: 모호함, 불명료\n그의 태도의 모호함은 나를 정말 혼란스럽게 했다."
+    },
+    {
+      "type": "fill",
+      "legend": "The author of the article wished to remain ___.",
+      "choices": "auto_5",
+      "choiceText": "anonymous",
+      "answer": "anonymous",
+      "commentary": "anonymous: 익명의; 작자 불명의\n그 기사의 저자는 익명으로 남기를 원했다."
+    },
+    {
+      "type": "fill",
+      "legend": "Managers must learn how to properly ___ work to their staff.",
+      "choices": "auto_5",
+      "choiceText": "allocate",
+      "answer": "allocate",
+      "commentary": "allocate: 할당하다, 배분하다\n관리자들은 직원들에게 일을 적절히 배분하는 방법을 배워야 한다."
+    },
+    {
+      "type": "fill",
+      "legend": "We decided to ___ the profits equally.",
+      "choices": "auto_5",
+      "choiceText": "allot",
+      "answer": "allot",
+      "commentary": "allot: 할당하다, 분배하다\n우리는 이익을 똑같이 분배하기로 결정했다."
+    },
+    {
+      "type": "fill",
+      "legend": "The shoulder is ___ to injury, especially when handling heavy weights.",
+      "choices": "auto_5",
+      "choiceText": "prone",
+      "answer": "prone",
+      "commentary": "prone: ~하기 쉬운; (납작) 엎드린\n어깨는 특히 무거운 것을 다룰 때 부상을 입기 쉽다."
+    },
+    {
+      "type": "fill",
+      "legend": "Many computer viruses ___ in a fast manner.",
+      "choices": "auto_5",
+      "choiceText": "replicate",
+      "answer": "replicate",
+      "commentary": "replicate: 복제하다, 모사하다; 자기 복제를 하다\n많은 컴퓨터 바이러스는 빠른 방식으로 자기 복제를 한다."
+    },
+    {
+      "type": "fill",
+      "legend": "Children learn how to read by breaking words up into ___ sounds.",
+      "choices": "auto_5",
+      "choiceText": "discrete",
+      "answer": "discrete",
+      "commentary": "discrete: 분리된, 별개의\n아이들은 단어를 별개의 소리로 나누면서 읽는 법을 배운다."
+    },
+    {
+      "type": "fill",
+      "legend": "The artist ___ children playing at a nursery.",
+      "choices": "auto_5",
+      "choiceText": "depict",
+      "answer": "depicted",
+      "commentary": "depict: 그리다, 묘사하다\n그 화가는 보육원에서 노는 아이들을 묘사했다."
+    },
+    {
+      "type": "fill",
+      "legend": "The increasing weight of the land tax ___ the peasantry.",
+      "choices": "auto_5",
+      "choiceText": "impoverish",
+      "answer": "impoverished",
+      "commentary": "impoverish: 가난하게 하다, 피폐하게 하다; 저하시키다\n토지세의 증가하는 부담은 농민들을 가난하게 만들었다."
+    },
+    {
+      "type": "fill",
+      "legend": "Paying the ___ and driving over the bridge saves a lot of time.",
+      "choices": "auto_5",
+      "choiceText": "toll",
+      "answer": "toll",
+      "commentary": "toll: 사용세; 사상자 수; 종소리; 종을 쳐서 알리다\n통행료를 내고 다리를 건너면 많은 시간을 절약할 수 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "You should avoid making ___ decisions.",
+      "choices": "auto_5",
+      "choiceText": "arbitrary",
+      "answer": "arbitrary",
+      "commentary": "arbitrary: 임의의, 제멋대로의; 독단적인\n너는 제멋대로 결정을 내리는 것을 피해야 한다."
+    },
+    {
+      "type": "fill",
+      "legend": "In ___, I don't think I did my best.",
+      "choices": "auto_5",
+      "choiceText": "retrospect",
+      "answer": "retrospect",
+      "commentary": "retrospect: 회상, 추억\n돌이켜 보면, 나는 최선을 다하지 않았던 것 같다."
+    },
+    {
+      "type": "fill",
+      "legend": "My boss tries to ___ a positive working environment.",
+      "choices": "auto_5",
+      "choiceText": "foster",
+      "answer": "foster",
+      "commentary": "foster: 육성하다, 촉진하다; 양육하다\n내 상사는 긍정적인 업무 환경을 조성하려고 노력한다."
+    },
+    {
+      "type": "fill",
+      "legend": "This team has a ___ chance at winning the championship.",
+      "choices": "auto_5",
+      "choiceText": "legitimate",
+      "answer": "legitimate",
+      "commentary": "legitimate: 합법적인, 정당한; 진짜의\n이 팀은 우승할 정당한 가능성이 있다."
+    },
+    {
+      "type": "fill",
+      "legend": "Some plants ___ seeds by using the wind.",
+      "choices": "auto_5",
+      "choiceText": "disperse",
+      "answer": "disperse",
+      "commentary": "disperse: 흩어지게 하다, 분산시키다; 뿌리다\n어떤 식물들은 바람을 이용해 씨앗을 퍼뜨린다."
+    }
+  ]
+}
