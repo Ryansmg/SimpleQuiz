@@ -169,7 +169,7 @@ class ExpressionParser {
       const right = this.parsePower();
 
       if (operator === "divide" && Math.abs(right.value) < 1e-12) {
-        throw new Error("0으로 나눌 수는 없어요.");
+        throw new Error("0으로 나누는 연산은 정의되지 않아요.");
       }
 
       left = {
@@ -195,8 +195,21 @@ class ExpressionParser {
     this.position += 1;
     const right = this.parsePower();
 
+    const baseIsZero = Math.abs(left.value) < 1e-12;
+    const exponentIsZero = Math.abs(right.value) < 1e-12;
+
+    if (baseIsZero && exponentIsZero) {
+      throw new Error("0^0은 정의되지 않은 연산이에요.");
+    }
+
+    if (baseIsZero && right.value < 0) {
+      throw new Error("0의 음수 지수 거듭제곱은 정의되지 않은 연산이에요.");
+    }
 
     const value = left.value ** right.value;
+    if (Number.isNaN(value)) {
+      throw new Error("현재 계산 방식으로 실수 결과를 구할 수 없는 거듭제곱이에요.");
+    }
     this.guardValue(value);
 
     return {

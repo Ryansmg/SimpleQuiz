@@ -66,7 +66,7 @@ function gcd(left: bigint, right: bigint): bigint {
 
 function fraction(numerator: bigint, denominator = ONE): Rational {
   if (denominator === ZERO) {
-    throw new Error("0으로 나눌 수는 없어요.");
+    throw new Error("0으로 나누는 연산은 정의되지 않아요.");
   }
 
   const sign = denominator < ZERO ? -ONE : ONE;
@@ -105,7 +105,7 @@ function multiply(left: Rational, right: Rational): Rational {
 
 function divide(left: Rational, right: Rational): Rational {
   if (right.numerator === ZERO) {
-    throw new Error("0으로 나눌 수는 없어요.");
+    throw new Error("0으로 나누는 연산은 정의되지 않아요.");
   }
 
   return multiply(left, fraction(right.denominator, right.numerator));
@@ -193,10 +193,13 @@ function powInteger(base: bigint, exponent: bigint): bigint {
 }
 
 function power(base: Rational, exponent: Rational): Rational {
+  if (base.numerator === ZERO && exponent.numerator === ZERO) {
+    throw new Error("0^0은 정의되지 않은 연산이에요.");
+  }
   if (exponent.numerator === ZERO) return fraction(ONE);
   if (base.numerator === ZERO) {
     if (exponent.numerator < ZERO) {
-      throw new Error("0을 음수 번 거듭제곱할 수는 없어요.");
+      throw new Error("0의 음수 지수 거듭제곱은 정의되지 않은 연산이에요.");
     }
     return fraction(ZERO);
   }
@@ -204,7 +207,7 @@ function power(base: Rational, exponent: Rational): Rational {
   if (base.numerator === base.denominator) return fraction(ONE);
   if (base.numerator === -base.denominator) {
     if (exponent.denominator % TWO === ZERO) {
-      throw new Error("결과가 실수가 아닌 거듭제곱은 사용할 수 없어요.");
+      throw new Error("이 거듭제곱은 실수 범위에서 정의되지 않아요.");
     }
     return fraction(exponent.numerator % TWO === ZERO ? ONE : -ONE);
   }

@@ -144,7 +144,7 @@ function exactRoot(value: number, degree: number): number | null {
 }
 
 function power(base: Fraction, exponent: Fraction): Fraction | null {
-  if (exponent.numerator < 0 && base.numerator === 0) {
+  if (base.numerator === 0 && exponent.numerator <= 0) {
     return null;
   }
 
