@@ -597,6 +597,9 @@ export default function SeventeenGame() {
         </Link>
 
         <div className={styles.headerActions}>
+          <Link href="/17/custom" className={styles.customLink}>
+            커스텀 문제
+          </Link>
           <button
             type="button"
             className={styles.textButton}

@@ -55,6 +55,7 @@
 }
 
 .textButton,
+.customLink,
 .homeLink {
   display: inline-flex;
   min-height: 44px;
@@ -71,7 +72,8 @@
     border-color 160ms ease;
 }
 
-.textButton {
+.textButton,
+.customLink {
   padding: 0 12px;
   background: transparent;
 }
@@ -83,6 +85,7 @@
 }
 
 .textButton:hover,
+.customLink:hover,
 .homeLink:hover {
   color: var(--game-ink);
   background: rgba(255, 255, 255, 0.08);
