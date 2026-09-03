@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCustomPuzzle } from "@/lib/custom-puzzles";
+import { cookies } from "next/headers";
+import {
+  createCustomPuzzleVoterKey,
+  getCustomPuzzle,
+  getCustomPuzzleVote,
+} from "@/lib/custom-puzzles";
 import type { PuzzleDifficulty } from "@/lib/seventeen-expression";
 import CustomHeader from "../CustomHeader";
 import styles from "../custom.module.css";
@@ -18,6 +23,10 @@ function difficultyClass(difficulty: PuzzleDifficulty): string {
   if (difficulty === "도전") return styles.difficultyHard;
   if (difficulty === "보통") return styles.difficultyMedium;
   return "";
+}
+
+function formatVoteScore(score: number): string {
+  return score > 0 ? `+${score}` : String(score);
 }
 
 function formatDate(value: Date | string): string {
@@ -60,6 +69,19 @@ export default async function CustomPuzzleDetailPage({
 
   if (!puzzle) notFound();
 
+  let initialVote: -1 | 0 | 1 = 0;
+  const voterId = (await cookies()).get("seventeen-voter")?.value;
+  if (voterId && /^[0-9a-f-]{36}$/i.test(voterId)) {
+    try {
+      initialVote = await getCustomPuzzleVote(
+        puzzle.id,
+        createCustomPuzzleVoterKey(voterId),
+      );
+    } catch (error) {
+      console.error("Failed to load custom 17 puzzle vote", error);
+    }
+  }
+
   return (
     <main className={styles.customPage} lang="ko">
       <CustomHeader />
@@ -76,12 +98,30 @@ export default async function CustomPuzzleDetailPage({
             <span className={`${styles.difficulty} ${difficultyClass(puzzle.difficulty)}`}>
               {puzzle.difficulty}
             </span>
+            <strong
+              className={`${styles.detailVoteScore} ${
+                puzzle.voteScore > 0
+                  ? styles.scorePositive
+                  : puzzle.voteScore < 0
+                    ? styles.scoreNegative
+                    : ""
+              }`}
+              aria-label={`투표 점수 ${formatVoteScore(puzzle.voteScore)}`}
+            >
+              {formatVoteScore(puzzle.voteScore)}
+            </strong>
             <span>{formatDate(puzzle.createdAt)}</span>
           </div>
         </div>
       </header>
 
-      <CustomPuzzleGame cards={puzzle.cards} created={query.created === "1"} />
+      <CustomPuzzleGame
+        puzzleId={puzzle.id}
+        cards={puzzle.cards}
+        created={query.created === "1"}
+        initialScore={puzzle.voteScore}
+        initialVote={initialVote}
+      />
 
       <footer className={styles.footer}>
         <span>MINGUU.DEV / SEVENTEEN CUSTOM</span>

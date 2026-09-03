@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { type FormEvent, useRef, useState } from "react";
 import { checkSeventeenExpression } from "@/lib/seventeen-expression";
 import styles from "../custom.module.css";
@@ -20,16 +21,34 @@ type Feedback = {
   message: string;
 };
 
+type VoteValue = -1 | 0 | 1;
+
+function formatVoteScore(score: number): string {
+  return score > 0 ? `+${score}` : String(score);
+}
+
 export default function CustomPuzzleGame({
+  puzzleId,
   cards,
   created,
+  initialScore,
+  initialVote,
 }: {
+  puzzleId: string;
   cards: string[];
   created: boolean;
+  initialScore: number;
+  initialVote: VoteValue;
 }) {
+  const router = useRouter();
   const inputRef = useRef<HTMLInputElement>(null);
   const [expression, setExpression] = useState("");
   const [solved, setSolved] = useState(false);
+  const [score, setScore] = useState(initialScore);
+  const [currentVote, setCurrentVote] = useState<VoteValue>(initialVote);
+  const [voting, setVoting] = useState(false);
+  const [voteMessage, setVoteMessage] = useState("");
+  const [voteFailed, setVoteFailed] = useState(false);
   const [feedback, setFeedback] = useState<Feedback>({
     kind: created ? "success" : "idle",
     message: created
@@ -64,6 +83,59 @@ export default function CustomPuzzleGame({
 
     setSolved(true);
     setFeedback({ kind: "success", message: "정답입니다. 정확히 17을 만들었어요!" });
+  }
+
+  async function handleVote(selectedVote: -1 | 1) {
+    if (!solved || voting) return;
+
+    const nextVote: VoteValue = currentVote === selectedVote ? 0 : selectedVote;
+    setVoting(true);
+    setVoteMessage("");
+    setVoteFailed(false);
+
+    try {
+      const response = await fetch(`/api/17/custom/${puzzleId}/vote`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ vote: nextVote, solution: expression }),
+      });
+      const payload = (await response.json()) as {
+        error?: unknown;
+        score?: unknown;
+        vote?: unknown;
+      };
+
+      if (!response.ok) {
+        throw new Error(
+          typeof payload.error === "string"
+            ? payload.error
+            : "투표를 저장하지 못했어요.",
+        );
+      }
+      if (typeof payload.score !== "number") {
+        throw new Error("투표 결과를 읽을 수 없어요.");
+      }
+
+      setScore(payload.score);
+      setCurrentVote(nextVote);
+      setVoteMessage(
+        nextVote === 0
+          ? "투표를 취소했어요."
+          : nextVote === 1
+            ? "이 문제를 추천했어요."
+            : "의견을 남겼어요.",
+      );
+      router.refresh();
+    } catch (error) {
+      setVoteFailed(true);
+      setVoteMessage(
+        error instanceof Error
+          ? error.message
+          : "지금은 투표할 수 없어요. 잠시 후 다시 시도해 주세요.",
+      );
+    } finally {
+      setVoting(false);
+    }
   }
 
   function reset() {
@@ -157,7 +229,55 @@ export default function CustomPuzzleGame({
           ) : (
             <div className={styles.solvedBox}>
               <h2>문제 해결!</h2>
-              <p>같은 카드로 다른 식을 찾거나, 다음 커스텀 문제에 도전해 보세요.</p>
+              <p>같은 카드로 다른 식을 찾거나, 이 문제에 한 표를 남겨 보세요.</p>
+              <div className={styles.votePanel}>
+                <div className={styles.votePrompt}>
+                  <span>이 문제 어땠나요?</span>
+                  <strong
+                    className={`${styles.voteTotal} ${
+                      score > 0
+                        ? styles.scorePositive
+                        : score < 0
+                          ? styles.scoreNegative
+                          : ""
+                    }`}
+                    aria-label={`현재 투표 점수 ${formatVoteScore(score)}`}
+                  >
+                    {formatVoteScore(score)}
+                  </strong>
+                </div>
+                <div className={styles.voteActions} aria-label="문제 평가">
+                  <button
+                    type="button"
+                    className={styles.voteButton}
+                    onClick={() => handleVote(1)}
+                    disabled={voting}
+                    aria-pressed={currentVote === 1}
+                  >
+                    <span aria-hidden="true">↑</span>
+                    추천
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.voteButton}
+                    onClick={() => handleVote(-1)}
+                    disabled={voting}
+                    aria-pressed={currentVote === -1}
+                  >
+                    <span aria-hidden="true">↓</span>
+                    아쉬워요
+                  </button>
+                </div>
+              </div>
+              {voteMessage ? (
+                <span
+                  className={`${styles.voteMessage} ${voteFailed ? styles.voteMessageError : ""}`}
+                  role={voteFailed ? "alert" : "status"}
+                  aria-live="polite"
+                >
+                  {voteMessage}
+                </span>
+              ) : null}
               <div className={styles.solvedActions}>
                 <button type="button" className={styles.secondaryLink} onClick={reset}>
                   다른 풀이 찾기

@@ -206,6 +206,66 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   letter-spacing: 0.08em;
 }
 
+.listToolbar {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 11px 22px;
+  border-bottom: 1px solid var(--custom-line);
+  background: rgba(10, 12, 25, 0.18);
+}
+
+.toolbarGroup,
+.toolbarChoices {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.toolbarGroup {
+  gap: 10px;
+}
+
+.toolbarChoices {
+  gap: 4px;
+}
+
+.toolbarLabel {
+  flex: 0 0 auto;
+  color: rgba(174, 180, 202, 0.72);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.61rem;
+  font-weight: 760;
+  letter-spacing: 0.06em;
+}
+
+.toolbarChoice {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-radius: 9px;
+  color: var(--custom-muted);
+  font-size: 0.7rem;
+  font-weight: 730;
+  transition:
+    color 140ms ease,
+    background-color 140ms ease;
+}
+
+.toolbarChoice:hover {
+  background: rgba(255, 255, 255, 0.055);
+  color: var(--custom-ink);
+}
+
+.toolbarChoiceActive {
+  background: rgba(140, 152, 255, 0.14);
+  color: #e3e6ff;
+}
+
 .puzzleList {
   margin: 0;
   padding: 0;
@@ -214,11 +274,11 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
 
 .puzzleRow {
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr) minmax(160px, auto) 24px;
+  grid-template-columns: 44px minmax(0, 1fr) 52px minmax(190px, auto) 24px;
   align-items: center;
-  gap: 18px;
-  min-height: 104px;
-  padding: 17px 22px;
+  gap: 14px;
+  min-height: 82px;
+  padding: 12px 22px;
   border-top: 1px solid rgba(255, 255, 255, 0.07);
   transition:
     background-color 150ms ease,
@@ -267,26 +327,52 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   white-space: nowrap;
 }
 
+.rowVoteScore {
+  color: var(--custom-muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.78rem;
+  font-weight: 820;
+  text-align: center;
+}
+
+.scorePositive {
+  color: var(--custom-green);
+}
+
+.scoreNegative {
+  color: var(--custom-coral);
+}
+
 .rowMeta {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 11px;
+}
+
+.authorMeta {
   display: flex;
   min-width: 0;
   flex-direction: column;
   align-items: flex-end;
-  gap: 7px;
+  gap: 3px;
 }
 
-.rowMeta strong {
+.authorMeta strong {
   max-width: 190px;
   overflow: hidden;
   color: var(--custom-ink);
-  font-size: 0.79rem;
+  font-size: 0.76rem;
+  line-height: 1.15;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.rowMeta span:last-child {
+.authorMeta > span {
   color: var(--custom-muted);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
+  line-height: 1.15;
 }
 
 .rowArrow {
@@ -748,6 +834,12 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   font-size: 0.76rem;
 }
 
+.detailVoteScore {
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.76rem;
+  font-weight: 840;
+}
+
 .numberCard {
   position: relative;
   display: grid;
@@ -821,6 +913,112 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   font-size: 0.78rem;
 }
 
+.votePanel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(98, 230, 154, 0.18);
+  border-bottom: 1px solid rgba(98, 230, 154, 0.18);
+}
+
+.votePrompt,
+.voteActions {
+  display: flex;
+  align-items: center;
+}
+
+.votePrompt {
+  gap: 10px;
+}
+
+.votePrompt > span {
+  color: #c9f7dc;
+  font-size: 0.76rem;
+  font-weight: 720;
+}
+
+.voteTotal {
+  min-width: 30px;
+  color: var(--custom-muted);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.88rem;
+  font-weight: 880;
+  text-align: center;
+}
+
+.voteTotal.scorePositive {
+  color: var(--custom-green);
+}
+
+.voteTotal.scoreNegative {
+  color: var(--custom-coral);
+}
+
+.voteActions {
+  gap: 7px;
+}
+
+.voteButton {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+  color: #e2e6f5;
+  font-size: 0.72rem;
+  font-weight: 740;
+  cursor: pointer;
+  transition:
+    transform 140ms ease,
+    border-color 140ms ease,
+    background-color 140ms ease;
+}
+
+.voteButton span {
+  color: var(--custom-purple);
+  font-family: var(--font-geist-mono), monospace;
+  font-size: 0.9rem;
+  font-weight: 900;
+}
+
+.voteButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(140, 152, 255, 0.48);
+  background: rgba(140, 152, 255, 0.11);
+}
+
+.voteButton[aria-pressed="true"] {
+  border-color: rgba(98, 230, 154, 0.42);
+  background: rgba(98, 230, 154, 0.13);
+  color: #d8fbe7;
+}
+
+.voteButton:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
+.voteMessage {
+  display: block;
+  margin-top: 9px;
+  color: #bdf1d2;
+  font-size: 0.68rem;
+}
+
+.voteMessageError {
+  color: #ffc4cd;
+}
+
+.solvedBox .solvedActions {
+  margin-top: 14px;
+}
+
 .footer {
   display: flex;
   justify-content: space-between;
@@ -865,15 +1063,25 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   .heroActions { width: 100%; }
   .heroActions a { flex: 1; }
   .listTop, .panelTop { padding: 0 16px; }
+  .listToolbar { align-items: stretch; flex-direction: column; gap: 8px; padding: 10px 16px; }
+  .toolbarGroup { justify-content: space-between; gap: 8px; }
+  .toolbarChoices { justify-content: flex-end; }
+  .toolbarChoice { min-height: 40px; padding-inline: 9px; }
   .puzzleRow {
-    grid-template-columns: 30px minmax(0, 1fr) 18px;
-    gap: 10px;
-    padding: 14px 16px;
+    grid-template-columns: 24px minmax(0, 1fr) 38px 112px 10px;
+    gap: 5px;
+    min-height: 72px;
+    padding: 10px 12px;
   }
-  .rowMeta { grid-column: 2; align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
-  .rowArrow { grid-column: 3; grid-row: 1 / span 2; }
-  .miniCards { gap: 5px; }
-  .miniCard { padding: 8px 5px; font-size: 0.7rem; }
+  .rowVoteScore { font-size: 0.68rem; }
+  .rowMeta { gap: 5px; justify-content: flex-end; overflow: hidden; }
+  .authorMeta { align-items: flex-end; }
+  .authorMeta strong { max-width: 68px; font-size: 0.69rem; }
+  .authorMeta > span { font-size: 0.56rem; white-space: nowrap; }
+  .difficulty { padding: 3px 6px; font-size: 0.58rem; }
+  .rowArrow { grid-column: auto; grid-row: auto; font-size: 0.85rem; }
+  .miniCards { gap: 4px; }
+  .miniCard { padding: 7px 3px; font-size: 0.66rem; }
   .formBody, .solveBody { padding: 20px 16px 18px; }
   .cardInputs, .numberCards { gap: 7px; }
   .cardInputShell input { height: 92px; padding-inline: 7px; font-size: 1rem; }
@@ -883,8 +1091,21 @@ FORM: An incumbent-system extension using a list for browsing and a task-first w
   .detailHeader { flex-direction: column; }
   .numberCard { min-height: 105px; }
   .numberCard strong { font-size: 1rem; }
+  .votePanel { align-items: stretch; flex-direction: column; gap: 10px; }
+  .voteActions { width: 100%; }
+  .voteButton { flex: 1; min-height: 44px; }
   .footer span:first-child { display: none; }
   .footer { justify-content: flex-end; }
+}
+
+@media (max-width: 420px) {
+  .puzzleRow {
+    grid-template-columns: minmax(0, 1fr) 34px 106px 10px;
+  }
+
+  .rowNumber {
+    display: none;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

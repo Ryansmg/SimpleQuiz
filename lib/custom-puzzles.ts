@@ -17,6 +17,12 @@ export type CustomPuzzle = {
   difficulty: PuzzleDifficulty;
   cards: string[];
   createdAt: Date | string;
+  voteScore: number;
+};
+
+export type CustomPuzzleListOptions = {
+  difficulty?: PuzzleDifficulty;
+  sort?: "new" | "top";
 };
 
 type CustomPuzzleRow = RowDataPacket & {
@@ -25,6 +31,7 @@ type CustomPuzzleRow = RowDataPacket & {
   difficulty: PuzzleDifficulty;
   cards: string | string[];
   created_at: Date | string;
+  vote_score: string | number | null;
 };
 
 type PuzzleKeySeedRow = RowDataPacket & {
@@ -39,6 +46,7 @@ type MySqlError = {
 type GlobalWithPuzzlePool = typeof globalThis & {
   seventeenPuzzlePool?: Pool;
   seventeenPuzzleSchema?: Promise<void>;
+  seventeenPuzzleSchemaVersion?: number;
 };
 
 export class DuplicateCustomPuzzleError extends Error {
@@ -48,6 +56,7 @@ export class DuplicateCustomPuzzleError extends Error {
   }
 }
 
+const SCHEMA_VERSION = 2;
 const globalWithPuzzlePool = globalThis as GlobalWithPuzzlePool;
 
 function getPool(): Pool {
@@ -88,8 +97,16 @@ function createCardKey(cards: string[]): string {
     .digest("hex");
 }
 
+export function createCustomPuzzleVoterKey(voterId: string): string {
+  return createHash("sha256").update(voterId).digest("hex");
+}
+
 async function ensureSchema(): Promise<void> {
-  if (!globalWithPuzzlePool.seventeenPuzzleSchema) {
+  if (
+    !globalWithPuzzlePool.seventeenPuzzleSchema ||
+    globalWithPuzzlePool.seventeenPuzzleSchemaVersion !== SCHEMA_VERSION
+  ) {
+    globalWithPuzzlePool.seventeenPuzzleSchemaVersion = SCHEMA_VERSION;
     globalWithPuzzlePool.seventeenPuzzleSchema = (async () => {
       const pool = getPool();
 
@@ -116,6 +133,21 @@ async function ensureSchema(): Promise<void> {
         ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
       `);
 
+      await pool.query(`
+        CREATE TABLE IF NOT EXISTS seventeen_custom_puzzle_votes (
+          puzzle_id BIGINT UNSIGNED NOT NULL,
+          voter_key CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
+          vote_value TINYINT NOT NULL,
+          created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+          updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+          PRIMARY KEY (puzzle_id, voter_key),
+          INDEX seventeen_custom_vote_score (puzzle_id, vote_value),
+          CONSTRAINT seventeen_custom_vote_puzzle
+            FOREIGN KEY (puzzle_id) REFERENCES seventeen_custom_puzzles(id)
+            ON DELETE CASCADE
+        ) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+      `);
+
       const [existingPuzzles] = await pool.query<PuzzleKeySeedRow[]>(`
         SELECT id, cards
         FROM seventeen_custom_puzzles
@@ -134,6 +166,7 @@ async function ensureSchema(): Promise<void> {
       }
     })().catch((error) => {
       globalWithPuzzlePool.seventeenPuzzleSchema = undefined;
+      globalWithPuzzlePool.seventeenPuzzleSchemaVersion = undefined;
       throw error;
     });
   }
@@ -148,19 +181,65 @@ function mapPuzzle(row: CustomPuzzleRow): CustomPuzzle {
     difficulty: row.difficulty,
     cards: parseCards(row.cards),
     createdAt: row.created_at,
+    voteScore: Number(row.vote_score ?? 0),
   };
 }
 
-export async function listCustomPuzzles(): Promise<CustomPuzzle[]> {
+export async function listCustomPuzzles(
+  options: CustomPuzzleListOptions = {},
+): Promise<CustomPuzzle[]> {
   await ensureSchema();
-  const [rows] = await getPool().query<CustomPuzzleRow[]>(`
-    SELECT id, nickname, difficulty, cards, created_at
-    FROM seventeen_custom_puzzles
-    ORDER BY id DESC
-    LIMIT 60
-  `);
+  const values: string[] = [];
+  const where = options.difficulty ? "WHERE p.difficulty = ?" : "";
+  if (options.difficulty) values.push(options.difficulty);
+  const order =
+    options.sort === "top"
+      ? "vote_score DESC, p.id DESC"
+      : "p.id DESC";
+  const [rows] = await getPool().execute<CustomPuzzleRow[]>(
+    `
+      SELECT
+        p.id,
+        p.nickname,
+        p.difficulty,
+        p.cards,
+        p.created_at,
+        COALESCE(v.vote_score, 0) AS vote_score
+      FROM seventeen_custom_puzzles p
+      LEFT JOIN (
+        SELECT puzzle_id, SUM(vote_value) AS vote_score
+        FROM seventeen_custom_puzzle_votes
+        GROUP BY puzzle_id
+      ) v ON v.puzzle_id = p.id
+      ${where}
+      ORDER BY ${order}
+      LIMIT 60
+    `,
+    values,
+  );
 
   return rows.map(mapPuzzle);
+}
+
+export async function getRandomCustomPuzzleId(
+  difficulty?: PuzzleDifficulty,
+): Promise<string | null> {
+  await ensureSchema();
+  const values: string[] = [];
+  const where = difficulty ? "WHERE difficulty = ?" : "";
+  if (difficulty) values.push(difficulty);
+  const [rows] = await getPool().execute<RowDataPacket[]>(
+    `
+      SELECT id
+      FROM seventeen_custom_puzzles
+      ${where}
+      ORDER BY RAND()
+      LIMIT 1
+    `,
+    values,
+  );
+
+  return rows[0] ? String(rows[0].id) : null;
 }
 
 export async function getCustomPuzzle(id: string): Promise<CustomPuzzle | null> {
@@ -169,15 +248,104 @@ export async function getCustomPuzzle(id: string): Promise<CustomPuzzle | null> 
   await ensureSchema();
   const [rows] = await getPool().execute<CustomPuzzleRow[]>(
     `
-      SELECT id, nickname, difficulty, cards, created_at
-      FROM seventeen_custom_puzzles
-      WHERE id = ?
+      SELECT
+        p.id,
+        p.nickname,
+        p.difficulty,
+        p.cards,
+        p.created_at,
+        COALESCE(v.vote_score, 0) AS vote_score
+      FROM seventeen_custom_puzzles p
+      LEFT JOIN (
+        SELECT puzzle_id, SUM(vote_value) AS vote_score
+        FROM seventeen_custom_puzzle_votes
+        GROUP BY puzzle_id
+      ) v ON v.puzzle_id = p.id
+      WHERE p.id = ?
       LIMIT 1
     `,
     [id],
   );
 
   return rows[0] ? mapPuzzle(rows[0]) : null;
+}
+
+export async function getCustomPuzzleVote(
+  puzzleId: string,
+  voterKey: string,
+): Promise<-1 | 0 | 1> {
+  if (!/^\d+$/.test(puzzleId)) return 0;
+
+  await ensureSchema();
+  const [rows] = await getPool().execute<RowDataPacket[]>(
+    `
+      SELECT vote_value
+      FROM seventeen_custom_puzzle_votes
+      WHERE puzzle_id = ? AND voter_key = ?
+      LIMIT 1
+    `,
+    [puzzleId, voterKey],
+  );
+  const vote = Number(rows[0]?.vote_value ?? 0);
+  return vote === 1 || vote === -1 ? vote : 0;
+}
+
+export async function setCustomPuzzleVote(input: {
+  puzzleId: string;
+  voterKey: string;
+  vote: -1 | 0 | 1;
+}): Promise<number | null> {
+  if (!/^\d+$/.test(input.puzzleId)) return null;
+
+  await ensureSchema();
+  const connection = await getPool().getConnection();
+
+  try {
+    await connection.beginTransaction();
+    const [puzzles] = await connection.execute<RowDataPacket[]>(
+      `SELECT id FROM seventeen_custom_puzzles WHERE id = ? FOR UPDATE`,
+      [input.puzzleId],
+    );
+    if (!puzzles[0]) {
+      await connection.rollback();
+      return null;
+    }
+
+    if (input.vote === 0) {
+      await connection.execute(
+        `
+          DELETE FROM seventeen_custom_puzzle_votes
+          WHERE puzzle_id = ? AND voter_key = ?
+        `,
+        [input.puzzleId, input.voterKey],
+      );
+    } else {
+      await connection.execute(
+        `
+          INSERT INTO seventeen_custom_puzzle_votes (puzzle_id, voter_key, vote_value)
+          VALUES (?, ?, ?)
+          ON DUPLICATE KEY UPDATE vote_value = VALUES(vote_value)
+        `,
+        [input.puzzleId, input.voterKey, input.vote],
+      );
+    }
+
+    const [scores] = await connection.execute<RowDataPacket[]>(
+      `
+        SELECT COALESCE(SUM(vote_value), 0) AS vote_score
+        FROM seventeen_custom_puzzle_votes
+        WHERE puzzle_id = ?
+      `,
+      [input.puzzleId],
+    );
+    await connection.commit();
+    return Number(scores[0]?.vote_score ?? 0);
+  } catch (error) {
+    await connection.rollback();
+    throw error;
+  } finally {
+    connection.release();
+  }
 }
 
 export async function createCustomPuzzle(input: {
