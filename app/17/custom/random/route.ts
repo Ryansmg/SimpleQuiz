@@ -16,16 +16,24 @@ export async function GET(request: Request) {
   try {
     const puzzleId = await getRandomCustomPuzzleId(difficulty);
     if (puzzleId) {
-      return Response.redirect(
-        new URL(`/17/custom/${puzzleId}`, requestUrl),
-        307,
-      );
+      return new Response(null, {
+        status: 307,
+        headers: { Location: `/17/custom/${puzzleId}` },
+      });
     }
   } catch (error) {
     console.error("Failed to select random custom 17 puzzle", error);
   }
 
-  const fallback = new URL("/17/custom", requestUrl);
-  if (difficulty) fallback.searchParams.set("difficulty", difficulty);
-  return Response.redirect(fallback, 307);
+  const fallbackParams = new URLSearchParams();
+  if (difficulty) fallbackParams.set("difficulty", difficulty);
+  const fallbackQuery = fallbackParams.toString();
+  return new Response(null, {
+    status: 307,
+    headers: {
+      Location: fallbackQuery
+        ? `/17/custom?${fallbackQuery}`
+        : "/17/custom",
+    },
+  });
 }
