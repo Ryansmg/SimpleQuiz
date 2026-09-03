@@ -465,6 +465,15 @@ export function normalizePuzzleCards(input: unknown): string[] {
   });
 }
 
+export function createPuzzleCardSignature(cardInput: unknown): string {
+  return normalizePuzzleCards(cardInput)
+    .sort(
+      (left, right) =>
+        left.length - right.length || left.localeCompare(right, "en"),
+    )
+    .join(",");
+}
+
 export function checkSeventeenExpression(
   cardInput: unknown,
   source: string,

@@ -1,4 +1,7 @@
-import { createCustomPuzzle } from "@/lib/custom-puzzles";
+import {
+  createCustomPuzzle,
+  DuplicateCustomPuzzleError,
+} from "@/lib/custom-puzzles";
 import {
   checkSeventeenExpression,
   normalizePuzzleCards,
@@ -74,6 +77,10 @@ export async function POST(request: Request) {
     });
     return Response.json({ id }, { status: 201 });
   } catch (error) {
+    if (error instanceof DuplicateCustomPuzzleError) {
+      return Response.json({ error: error.message }, { status: 409 });
+    }
+
     console.error("Failed to create custom 17 puzzle", error);
     return Response.json(
       { error: "지금은 문제를 저장할 수 없어요. 잠시 후 다시 시도해 주세요." },
