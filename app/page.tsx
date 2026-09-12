@@ -14,7 +14,7 @@ export default function Home() {
                 <br/>
                 <h2 style={{marginBottom: 12}}>링크</h2>
                 <div className="grid">
-                    <Link className="card mainCard" href="https://dojoi.xyz">
+                    <Link className="card mainCard" href="https://doj.kr">
                         <p style={
                             {marginBottom: 5, fontSize: "1.4rem", fontWeight: 550}
                         }>DOJ</p>
@@ -33,7 +33,7 @@ export default function Home() {
                         네 장의 카드와 창의적인 연산으로 17을 만들어 보세요.
                     </Link>
                     <Link className="card mainCard"
-                          href="https://ryansmg.notion.site/Blog-1bb1a171965180c39f50c0aa9bc71359?pvs=4"
+                          href="https://blog.minguu.dev"
                     >
                         <p style={
                             {marginBottom: 5, fontSize: "1.4rem", fontWeight: 550}
