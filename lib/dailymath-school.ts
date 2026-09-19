@@ -13,6 +13,10 @@ export function verifiedAccountFromProfile(html: string): string {
     ),
   ];
   if (!loggedIn || studentRows.length !== 1) {
+    console.warn("DailyMath school verification rejected", {
+      loggedIn,
+      profileRows: studentRows.length,
+    });
     throw new DailyMathRequestError(
       "송죽학사 로그인을 다시 확인해 주세요.",
       401,
@@ -53,8 +57,10 @@ export async function verifySchoolSession(
       503,
     );
   }
-  if (response.status >= 300 && response.status < 500)
+  if (response.status >= 300 && response.status < 500) {
+    console.warn("DailyMath school verification status", { status: response.status });
     throw new DailyMathRequestError("송죽학사 세션이 만료되었습니다.", 401);
+  }
   if (!response.ok)
     throw new DailyMathRequestError("학교 서버를 확인하지 못했습니다.", 503);
   const reader = response.body?.getReader();
