@@ -57,3 +57,6 @@
 - 응답은 `ready`, `updated_at_ms`, `scanned_posts`, `total_posts`, `has_more`, `refreshing`, `entries`를 포함합니다. 항목은 `rank`, `student_id`, `name`, `streak`, `total_solved`, `last_submitted_at_ms`, `is_me`입니다.
 
 학교 전용 HTTP 전송은 IPv4 DNS 조회와 새 HTTP/1.1 연결을 사용합니다. Railway의 학교 도메인 AAAA 조회가 TIMEOUT으로 지연되는 현상을 운영 환경에서 확인했으며, IPv4 직접 조회로 이를 제거했습니다. 인증서·호스트 검증은 유지하고 리다이렉트나 자동 재시도는 하지 않습니다.
+
+
+Railway 새 인스턴스에서 A 조회도 TIMEOUT/ENOTFOUND, 공개 DNS-over-HTTPS에서 SERVFAIL이 발생하는 것을 추가 확인했습니다. 따라서 서버에만 `DAILYMATH_SCHOOL_IPV4=115.23.235.137`을 설정했습니다(2026-09-19 로컬 DNS 응답과 Railway의 정상 TLS 요청으로 확인). IP를 URL에 쓰거나 인증서 검증을 끄지 않고, 해당 학교 호스트의 주소 조회만 대체합니다. 학교 서버 주소가 변경되면 이 환경 값을 다시 확인해 갱신해야 합니다. 앱에는 이 주소를 넣지 않습니다.

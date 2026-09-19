@@ -214,6 +214,37 @@ test("school transport uses fresh IPv4 TLS requests without weakening host valid
     assert.equal(observed.url.hostname, "student.gs.hs.kr");
     assert.equal(response.status, 302);
     assert.equal(response.headers.get("location"), "/student/login.do");
+    const previousAddress = process.env.DAILYMATH_SCHOOL_IPV4;
+    try {
+      process.env.DAILYMATH_SCHOOL_IPV4 = "192.0.2.1";
+      await schoolFetch(
+        "https://student.gs.hs.kr/student/mymenu/privateInfo.do",
+      );
+      assert.equal(observed.url.hostname, "student.gs.hs.kr");
+      assert.equal(observed.options.autoSelectFamily, false);
+      let resolved;
+      observed.options.lookup(
+        "student.gs.hs.kr",
+        {},
+        (error, address, family) => {
+          resolved = { error, address, family };
+        },
+      );
+      assert.deepEqual(resolved, {
+        error: null,
+        address: "192.0.2.1",
+        family: 4,
+      });
+      assert.notEqual(observed.options.rejectUnauthorized, false);
+      process.env.DAILYMATH_SCHOOL_IPV4 = "https://attacker.invalid";
+      await assert.rejects(
+        schoolFetch("https://student.gs.hs.kr/student/mymenu/privateInfo.do"),
+      );
+    } finally {
+      if (previousAddress === undefined)
+        delete process.env.DAILYMATH_SCHOOL_IPV4;
+      else process.env.DAILYMATH_SCHOOL_IPV4 = previousAddress;
+    }
     await assert.rejects(schoolFetch("https://attacker.invalid/"));
   } finally {
     Module._load = original;
