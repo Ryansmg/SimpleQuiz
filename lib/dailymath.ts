@@ -58,6 +58,14 @@ export async function ensureDailyMathSchema() {
   `,
     )
     .then(async () => {
+      // Additive migration: old records retain NULL rather than a guessed submission time.
+      try {
+        await dailyMathPool().query(
+          "ALTER TABLE dailymath_account_progress ADD COLUMN first_submitted_at_ms BIGINT UNSIGNED NULL",
+        );
+      } catch (error) {
+        if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME") throw error;
+      }
       await dailyMathPool().query(`
         CREATE TABLE IF NOT EXISTS dailymath_sessions (
           token_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
@@ -80,7 +88,7 @@ export async function getDailyMathProgress(
   await ensureDailyMathSchema();
   const [rows] = await dailyMathPool().execute<RowDataPacket[]>(
     `
-    SELECT post_id, state, reply_id, DATE_FORMAT(solved_on, '%Y-%m-%d') AS solved_on, updated_at_ms
+    SELECT post_id, state, reply_id, DATE_FORMAT(solved_on, '%Y-%m-%d') AS solved_on, updated_at_ms, first_submitted_at_ms
     FROM dailymath_account_progress WHERE school_account = ? ORDER BY post_id
   `,
     [account],
@@ -91,6 +99,10 @@ export async function getDailyMathProgress(
     reply_id: row.reply_id === null ? null : Number(row.reply_id),
     solved_on: row.solved_on,
     updated_at_ms: Number(row.updated_at_ms),
+    first_submitted_at_ms:
+      row.first_submitted_at_ms == null
+        ? null
+        : Number(row.first_submitted_at_ms),
   }));
 }
 export async function putDailyMathProgress(
@@ -107,12 +119,13 @@ export async function putDailyMathProgress(
       await connection.execute(
         `
         INSERT INTO dailymath_account_progress
-          (school_account, post_id, state, reply_id, solved_on, updated_at_ms)
-        VALUES (?, ?, ?, ?, ?, ?)
+          (school_account, post_id, state, reply_id, solved_on, updated_at_ms, first_submitted_at_ms)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
         ON DUPLICATE KEY UPDATE
           state = IF(updated_at_ms < ?, ?, state),
           reply_id = IF(updated_at_ms < ?, COALESCE(?, reply_id), reply_id),
           solved_on = COALESCE(LEAST(solved_on, ?), solved_on, ?),
+          first_submitted_at_ms = COALESCE(LEAST(first_submitted_at_ms, ?), first_submitted_at_ms, ?),
           updated_at_ms = GREATEST(updated_at_ms, ?)
       `,
         [
@@ -122,12 +135,15 @@ export async function putDailyMathProgress(
           record.reply_id,
           record.solved_on,
           record.updated_at_ms,
+          record.first_submitted_at_ms,
           record.updated_at_ms,
           record.state,
           record.updated_at_ms,
           record.reply_id,
           record.solved_on,
           record.solved_on,
+          record.first_submitted_at_ms,
+          record.first_submitted_at_ms,
           record.updated_at_ms,
         ],
       );

@@ -4,6 +4,7 @@ export type ProgressRecord = {
   reply_id: number | null;
   solved_on: string | null;
   updated_at_ms: number;
+  first_submitted_at_ms: number | null;
 };
 export class DailyMathRequestError extends Error {
   status: number;
@@ -33,6 +34,15 @@ export function parseProgress(
     if (!item || typeof item !== "object" || Array.isArray(item))
       throw new DailyMathRequestError("기록 형식이 올바르지 않습니다.");
     const { post_id, state, reply_id, solved_on, updated_at_ms } = item;
+    const first_submitted_at_ms = item.first_submitted_at_ms ?? null;
+    if (
+      first_submitted_at_ms !== null &&
+      (!Number.isSafeInteger(first_submitted_at_ms) ||
+        first_submitted_at_ms <= 0 ||
+        first_submitted_at_ms > now + 600000 ||
+        solved_on === null)
+    )
+      throw new DailyMathRequestError("최초 제출 시각이 올바르지 않습니다.");
     if (!Number.isSafeInteger(post_id) || post_id <= 0 || seen.has(post_id))
       throw new DailyMathRequestError(
         "문제 번호가 중복되거나 올바르지 않습니다.",
@@ -66,6 +76,7 @@ export function parseProgress(
       reply_id,
       solved_on,
       updated_at_ms,
+      first_submitted_at_ms,
     };
   });
 }

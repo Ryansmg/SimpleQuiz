@@ -5,8 +5,8 @@
 ## 연결
 
 1. 변경된 quiz 서버를 기존 Railway 서비스에 배포합니다. 기존 `MYSQL_URL`을 그대로 사용합니다.
-2. 첫 인증 요청 시 `dailymath_account_progress`, `dailymath_sessions` 테이블을 생성합니다. DB 사용자는 CREATE TABLE 권한이 필요하며 기존 퀴즈 테이블은 변경하지 않습니다.
-3. Android 프로젝트 `.env`에 `DAILYMATH_API_URL=https://quiz-서비스-도메인`을 넣고 다시 빌드합니다. MySQL 비밀번호는 앱에 넣지 않습니다.
+2. 첫 인증 요청 시 `dailymath_account_progress`, `dailymath_sessions` 테이블을 생성합니다. DB 사용자는 CREATE TABLE 및 ALTER TABLE 권한이 필요하며 기존 퀴즈 테이블은 변경하지 않습니다.
+3. Android 프로젝트 `.env`에 `DAILYMATH_API_URL=https://minguu.dev`을 넣고 다시 빌드합니다. MySQL 비밀번호는 앱에 넣지 않습니다.
 4. 송죽학사 로그인 후 앱 설정에서 ‘지금 동기화’를 누릅니다. 새 기기나 재설치 후에도 같은 학교 계정으로 로그인하고 동기화하면 학습 기록·스트릭이 복원됩니다. PDF·필기 파일은 동기화 대상이 아닙니다.
 
 ## 인증 흐름
@@ -30,13 +30,13 @@
 
 두 메서드 모두 `Authorization: Bearer <서버 발급 토큰>`이 필요합니다. 계정은 DB의 토큰 매핑으로 결정합니다. `X-DailyMath-Account`를 보내도 대상 계정을 바꿀 수 없습니다.
 
-기록은 `post_id`, `state` (`draft` 또는 `submitted`), `reply_id` (nullable), `solved_on` (YYYY-MM-DD, nullable), `updated_at_ms`입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 최초 학습일은 보존합니다. `pending`은 학교에서 확인해야 하므로 동기화로 덮어쓰지 않습니다. PDF와 필기는 각 기기에 남습니다.
+기록은 `post_id`, `state` (`draft` 또는 `submitted`), `reply_id` (nullable), `solved_on` (YYYY-MM-DD, nullable), `updated_at_ms`, `first_submitted_at_ms`(최초 검증된 제출의 Unix 밀리초, nullable)입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 최초 학습일과 최초 제출 시각은 보존합니다. `first_submitted_at_ms`는 기존 기록을 추정해 채우지 않으며 구버전 클라이언트는 생략할 수 있습니다. 최초 접근 때 nullable 열을 추가하고, 이후에는 기기별 수정 시각과 관계없이 가장 이른 제출 시각을 보존합니다. 앱은 이 시각이 문제 게시 이상·해설 게시 미만인지 판정하여 문제 순서로 스트릭을 계산합니다. `pending`은 학교에서 확인해야 하므로 동기화로 덮어쓰지 않습니다. PDF와 필기는 각 기기에 남습니다.
 
 초기 기기별 구현의 `dailymath_progress` 테이블은 자동으로 옮기지 않습니다. 그 버전을 이미 배포했다면 해당 기기의 로컬 기록을 새 버전에서 동기화하세요. 기존 테이블은 삭제하지 않습니다.
 
 ## 검증 및 제한
 
-- `npm run test:dailymath`: 입력·본문 제한·세션 확인·토큰 계정 매핑·만료·폐기 테스트 13개. DB 부분은 테스트 대역이며 실제 MySQL에 접속하지 않습니다.
+- `npm run test:dailymath`: 입력·본문 제한·세션 확인·토큰 계정 매핑·만료·폐기 테스트 14개. DB 부분은 테스트 대역이며 실제 MySQL에 접속하지 않습니다.
 - `npx tsc --noEmit`, 새 API/라이브러리 ESLint 통과.
 - 사용자 허용 세션으로 Node 서버의 학교 검증 함수가 실제 내정보 페이지를 읽어 학번을 확인하는 테스트 통과. 세션·학번·프로필을 파일이나 로그에 남기지 않음.
 - 실제 Railway 배포 및 토큰 발급/기록 저장의 MySQL 왕복은 배포 후 확인해야 합니다.

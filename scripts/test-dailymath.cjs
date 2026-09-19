@@ -25,6 +25,7 @@ const record = {
   reply_id: 123,
   solved_on: "2026-09-18",
   updated_at_ms: 1000,
+  first_submitted_at_ms: null,
 };
 
 test("student ID alone and malformed bearer tokens are rejected", () => {
@@ -259,4 +260,14 @@ test("unissued, expired and revoked bearer tokens cannot access records", async 
   await assert.rejects(authenticatedAccount(authRequest(expired.token)), {
     status: 401,
   });
+});
+
+
+test("first submission timestamp is optional for old clients and validated for new clients", () => {
+  const { first_submitted_at_ms, ...legacy } = record;
+  assert.equal(parseProgress([legacy])[0].first_submitted_at_ms, null);
+  assert.equal(parseProgress([{ ...record, first_submitted_at_ms: 900 }])[0].first_submitted_at_ms, 900);
+  for (const stamp of [-1, "900", 1.5, Date.now() + 700000]) {
+    assert.throws(() => parseProgress([{ ...record, first_submitted_at_ms: stamp }]));
+  }
 });
