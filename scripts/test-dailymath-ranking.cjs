@@ -18,6 +18,7 @@ for (const name of ["dailymath-contract", "dailymath-ranking-model"]) {
 }
 const {
   schoolTime,
+  problemDateFromTitle,
   parseRankingPosts,
   parseRankingReplies,
   calculateRanking,
@@ -63,7 +64,7 @@ test("board parsing skips answers and notices and deduplicates pinned rows", () 
   );
   assert.equal(posts.length, 1);
   assert.equal(posts[0].key, "day:2026:17");
-  assert.equal(posts[0].publishedOn, "2026-04-06");
+  assert.equal(posts[0].publishedOn, "2026-04-08");
   assert.throws(() => parseRankingPosts('<form id="loginForm"></form>'), {
     status: 401,
   });
@@ -249,4 +250,35 @@ test("school transport uses fresh IPv4 TLS requests without weakening host valid
   } finally {
     Module._load = original;
   }
+});
+
+test("assigned problem dates override advance creation dates with a Korean midnight cutoff", () => {
+  for (const title of [
+    "2026_Daily Math_107일차_문제(26.09.18.)",
+    "260918 107일차 문제",
+    "107일차 문제 2026년9월18일",
+  ]) {
+    assert.equal(problemDateFromTitle(title), t("2026.09.18. 00:00"));
+  }
+  assert.equal(problemDateFromTitle("문제 26.02.30."), null);
+  assert.equal(problemDateFromTitle("2026 Daily Math 107일차 문제"), null);
+  const html =
+    login +
+    '<table><tr><td><a href="info.do?noticeNo=18038">18038</a></td><td>Teacher</td><td>2026</td><td>2026_Daily Math_107일차_문제(26.09.18.)</td><td><span class="gsDateFormat" title="2026.09.15. 21:08">date</span></td></tr></table>';
+  const posts = parseRankingPosts(html);
+  assert.equal(posts[0].publishedOn, "2026-09-18");
+  const rows = calculateRanking(
+    posts,
+    [
+      reply(18038, "26101", "2026.09.18. 00:00"),
+      reply(18038, "26102", "2026.09.18. 23:59:59"),
+      reply(18038, "26103", "2026.09.19. 00:00"),
+      reply(18038, "26104", "2026.09.15. 22:00"),
+    ],
+    t("2026.09.19. 12:00"),
+  );
+  assert.deepEqual(
+    rows.map((r) => r.streak),
+    [1, 1, 0, 0],
+  );
 });

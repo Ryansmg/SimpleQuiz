@@ -97,11 +97,12 @@ async function reconcilePosts(
     await connection.query(
       "UPDATE dailymath_ranking_posts SET active = FALSE WHERE active = TRUE",
     );
+    // Metadata corrections reuse already collected raw comment times. They do not
+    // require another full crawl; publishSnapshot recalculates the affected streaks.
     await connection.query(
       `INSERT INTO dailymath_ranking_posts
       (post_id, exercise_key, published_at_ms, published_on, active) VALUES ?
       ON DUPLICATE KEY UPDATE
-        scanned_at_ms = IF(exercise_key <> VALUES(exercise_key) OR published_at_ms <> VALUES(published_at_ms), NULL, scanned_at_ms),
         exercise_key = VALUES(exercise_key), published_at_ms = VALUES(published_at_ms), published_on = VALUES(published_on), active = TRUE`,
       [
         posts.map((post) => [

@@ -59,6 +59,18 @@ export function schoolTime(text: string): number | null {
   return time;
 }
 
+/** Match Android's title-date parser, including older compact YYMMDD prefixes. */
+export function problemDateFromTitle(title: string): number | null {
+  const match =
+    /(?<!\d)(20\d{2}|\d{2})[.년/\-]\s*(\d{1,2})[.월/\-]\s*(\d{1,2})(?!\d)/.exec(
+      title,
+    ) ?? /^(\d{2})(\d{2})(\d{2})(?=\D)/.exec(title);
+  if (!match) return null;
+  const year =
+    Number(match[1]) < 100 ? 2000 + Number(match[1]) : Number(match[1]);
+  return schoolTime(`${year}.${match[2]}.${match[3]}.`);
+}
+
 export function requireSchoolPage(html: string) {
   if (!/href=["']\/student\/logout\.do["']/i.test(html)) {
     throw new DailyMathRequestError("송죽학사에 다시 로그인해 주세요.", 401);
@@ -82,9 +94,13 @@ export function parseRankingPosts(html: string): RankingPost[] {
       !/문제|problem/i.test(title)
     )
       return;
-    const publishedAt = schoolTime(
-      $(row).find(".gsDateFormat[title]").first().attr("title") ?? "",
-    );
+    const assignedDate = problemDateFromTitle(title);
+    // The board's timestamp is creation time; teachers often prepare future problems.
+    const publishedAt =
+      assignedDate ??
+      schoolTime(
+        $(row).find(".gsDateFormat[title]").first().attr("title") ?? "",
+      );
     if (publishedAt === null)
       throw new DailyMathRequestError("문제 게시 날짜를 읽지 못했습니다.", 503);
     const year =
@@ -96,7 +112,12 @@ export function parseRankingPosts(html: string): RankingPost[] {
     const day = dayMatch ? Number(dayMatch[1] ?? dayMatch[2]) : null;
     posts.set(id, {
       id,
-      key: day === null ? `post:${id}` : `day:${year}:${day}`,
+      key:
+        day !== null
+          ? `day:${year}:${day}`
+          : assignedDate !== null
+            ? `date:${koreanDate(assignedDate)}`
+            : `post:${id}`,
       publishedAt,
       publishedOn: koreanDate(publishedAt),
     });
@@ -149,7 +170,7 @@ export function parseRankingReplies(
   return [...students.values()];
 }
 
-/** The same publication-day rule as Android; missing posting days do not break a streak. */
+/** The same assigned-problem-day rule as Android; missing posting days do not break a streak. */
 export function calculateRanking(
   posts: RankingPost[],
   submissions: RankingSubmission[],
