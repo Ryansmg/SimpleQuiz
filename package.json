@@ -7,9 +7,10 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:dailymath": "node --test scripts/test-dailymath.cjs"
+    "test:dailymath": "node --test scripts/test-dailymath.cjs scripts/test-dailymath-ranking.cjs"
   },
   "dependencies": {
+    "cheerio": "^1.2.0",
     "mysql2": "^3.24.3",
     "next": "16.2.9",
     "react": "19.2.4",

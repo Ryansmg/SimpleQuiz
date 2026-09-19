@@ -30,7 +30,7 @@
 
 두 메서드 모두 `Authorization: Bearer <서버 발급 토큰>`이 필요합니다. 계정은 DB의 토큰 매핑으로 결정합니다. `X-DailyMath-Account`를 보내도 대상 계정을 바꿀 수 없습니다.
 
-기록은 `post_id`, `state` (`draft` 또는 `submitted`), `reply_id` (nullable), `solved_on` (YYYY-MM-DD, nullable), `updated_at_ms`, `first_submitted_at_ms`(최초 검증된 제출의 Unix 밀리초, nullable)입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 최초 학습일과 최초 제출 시각은 보존합니다. `first_submitted_at_ms`는 기존 기록을 추정해 채우지 않으며 구버전 클라이언트는 생략할 수 있습니다. 최초 접근 때 nullable 열을 추가하고, 이후에는 기기별 수정 시각과 관계없이 가장 이른 제출 시각을 보존합니다. 앱은 이 시각이 문제 게시 이상·해설 게시 미만인지 판정하여 문제 순서로 스트릭을 계산합니다. `pending`은 학교에서 확인해야 하므로 동기화로 덮어쓰지 않습니다. PDF와 필기는 각 기기에 남습니다.
+기록은 `post_id`, `state` (`draft` 또는 `submitted`), `reply_id` (nullable), `solved_on` (YYYY-MM-DD, nullable), `updated_at_ms`, `first_submitted_at_ms`(최초 검증된 제출의 Unix 밀리초, nullable)입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 최초 학습일과 최초 제출 시각은 보존합니다. `first_submitted_at_ms`는 기존 기록을 추정해 채우지 않으며 구버전 클라이언트는 생략할 수 있습니다. 최초 접근 때 nullable 열을 추가하고, 이후에는 기기별 수정 시각과 관계없이 가장 이른 제출 시각을 보존합니다. 앱은 이 시각이 한국 시간 기준 문제 게시 이상·다음 날 자정 미만인지 판정하여 문제 순서로 스트릭을 계산합니다. `pending`은 학교에서 확인해야 하므로 동기화로 덮어쓰지 않습니다. PDF와 필기는 각 기기에 남습니다.
 
 초기 기기별 구현의 `dailymath_progress` 테이블은 자동으로 옮기지 않습니다. 그 버전을 이미 배포했다면 해당 기기의 로컬 기록을 새 버전에서 동기화하세요. 기존 테이블은 삭제하지 않습니다.
 
@@ -42,3 +42,16 @@
 - 실제 Railway 배포 및 토큰 발급/기록 저장의 MySQL 왕복은 배포 후 확인해야 합니다.
 - 학교 내정보 HTML 구조가 바뀌면 인증은 실패하도록 처리합니다. `lib/dailymath-school.ts`의 선택 규칙과 테스트를 함께 갱신하세요.
 - 요청 크기는 인증 2 KiB, 기록 128 KiB로 제한합니다. 프로세스 내 분당 요청 제한은 여러 인스턴스에서 공유되지 않으므로 확장 시 공유 제한기가 필요합니다.
+
+
+## 스트릭 랭킹
+
+- `GET /api/dailymath/ranking`: 인증된 앱 토큰으로 저장된 랭킹을 빠르게 조회합니다.
+- `POST /api/dailymath/ranking`: 앱 토큰과 `{ "session_id": "학교 JSESSIONID", "continue_scan": false }`로 학교 댓글을 갱신합니다. 서버가 학교 세션의 학번과 앱 토큰 계정을 대조합니다. 외부 HTML이나 클라이언트가 계산한 스트릭은 받지 않습니다.
+- 학생 이름·학번·스트릭·마지막 제출 시각을 저장·표시하도록 프로젝트 소유자가 명시적으로 승인했습니다. 읽기는 인증된 학교 계정으로 제한합니다. 학교 댓글에 표시되는 작성자·시각 메타데이터를 사용하므로 앱 미사용 참가자도 포함됩니다. 제출 이력이 전혀 없는 학생 명단은 수집하지 않습니다.
+- 첫 요청 때 `dailymath_ranking_posts`, `dailymath_ranking_submissions`, `dailymath_ranking_students`, `dailymath_ranking_state`를 생성합니다. 기존 MySQL 연결을 사용하며 PDF·댓글 본문·학교 세션은 저장하지 않습니다.
+- `limit=N` 게시판의 문제를 중복 제거하여 수집합니다. 초기 집계는 요청당 최대 8문제, 18초 작업 예산으로 나누고 문제마다 트랜잭션으로 체크포인트를 남깁니다. 응답의 `has_more`가 true면 `continue_scan: true`로 이어집니다. 페이지를 닫아도 다음 접속에서 미수집 문제부터 재개합니다. 초기 집계가 끝나기 전에는 불완전한 순위를 공개하지 않습니다.
+- 일반 갱신은 최근 3문제와 미수집 문제를 우선합니다. 24시간 이상 지난 과거 문제도 요청마다 1개씩 순환 확인합니다. MySQL named lock으로 여러 서버 인스턴스의 중복 수집을 막습니다. 잠금이 사용 중이면 저장된 결과와 `refreshing: true`를 돌려줍니다.
+- 학교가 삭제한 댓글은 해당 문제를 다시 조회할 때 반영합니다. 동일 학생이 풀이를 교체한 경우 이미 확인된 최초 제출 시각을 유지합니다. 마지막 제출 시각은 가장 최근 댓글 시각을 따로 저장합니다.
+- 당일 제출은 문제 게시 시각부터 다음 날 자정 직전(Asia/Seoul)입니다. 당일 미제출은 자정까지 유예하고, 문제가 없는 주말·공휴일은 끊지 않습니다. 같은 문제의 중복 게시글은 한 번만 셉니다. 동점은 같은 순위(1, 1, 3)로 표시합니다.
+- 응답은 `ready`, `updated_at_ms`, `scanned_posts`, `total_posts`, `has_more`, `refreshing`, `entries`를 포함합니다. 항목은 `rank`, `student_id`, `name`, `streak`, `total_solved`, `last_submitted_at_ms`, `is_me`입니다.
