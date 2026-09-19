@@ -1,13 +1,13 @@
 import {
+  automaticLoginProof,
+  verifySchoolAutomaticLogin,
+} from "@/lib/dailymath-school-auto";
+import {
   issueDailyMathToken,
   revokeDailyMathToken,
 } from "@/lib/dailymath-auth";
 import { checkDailyMathRate } from "@/lib/dailymath";
-import {
-  DailyMathRequestError,
-  readJsonBody,
-  claimedStudentAccount,
-} from "@/lib/dailymath-contract";
+import { DailyMathRequestError, readJsonBody } from "@/lib/dailymath-contract";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -34,7 +34,10 @@ function failure(error: unknown): Response {
 
 export async function POST(request: Request) {
   try {
-    const account = claimedStudentAccount(await readJsonBody(request, 2048));
+    const proof = automaticLoginProof(await readJsonBody(request, 2048));
+    // Bound outbound login attempts without retaining any school credential.
+    checkDailyMathRate("school-auth");
+    const account = await verifySchoolAutomaticLogin(proof);
     checkDailyMathRate(`account:${account}`);
     const auth = await issueDailyMathToken(account);
     return Response.json(auth, { headers: { "Cache-Control": "no-store" } });

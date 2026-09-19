@@ -13,8 +13,8 @@ export async function authenticatedAccount(request: Request): Promise<string> {
   const digest = tokenHash(bearerToken(request));
   await ensureDailyMathSchema();
   const [rows] = await dailyMathPool().execute<RowDataPacket[]>(
-    "SELECT school_account FROM dailymath_sessions WHERE token_hash = ? AND expires_at_ms > ?",
-    [digest, Date.now()],
+    "SELECT school_account FROM dailymath_sessions WHERE token_hash = ? AND expires_at_ms > ? AND verification_version = ?",
+    [digest, Date.now(), 1],
   );
   if (rows.length !== 1)
     throw new DailyMathRequestError("DailyMath 인증이 만료되었습니다.", 401);
@@ -30,8 +30,8 @@ export async function issueDailyMathToken(account: string) {
     [Date.now()],
   );
   await dailyMathPool().execute(
-    "INSERT INTO dailymath_sessions (token_hash, school_account, expires_at_ms) VALUES (?, ?, ?)",
-    [tokenHash(token), account, expiresAt],
+    "INSERT INTO dailymath_sessions (token_hash, school_account, expires_at_ms, verification_version) VALUES (?, ?, ?, ?)",
+    [tokenHash(token), account, expiresAt, 1],
   );
   return { token, account, expires_at_ms: expiresAt };
 }

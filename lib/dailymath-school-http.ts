@@ -9,11 +9,31 @@ import { isIP } from "node:net";
  */
 export const schoolFetch: typeof fetch = (input, init = {}) => {
   const url = new URL(input instanceof Request ? input.url : String(input));
+  const method = init.method ?? "GET";
+  const loginPost =
+    method === "POST" &&
+    ["/student/getSessionKey.do", "/student/autoLogin.do"].includes(
+      url.pathname,
+    ) &&
+    !url.search;
   if (
+    url.username ||
+    url.password ||
     url.origin !== "https://student.gs.hs.kr" ||
-    (init.method ?? "GET") !== "GET"
+    (method !== "GET" && !loginPost)
   ) {
     return Promise.reject(new Error("Unsupported school request"));
+  }
+  const body =
+    loginPost && init.body instanceof URLSearchParams
+      ? init.body.toString()
+      : undefined;
+  if (
+    (loginPost && body === undefined) ||
+    (body?.length ?? 0) > 2048 ||
+    (method === "GET" && init.body != null)
+  ) {
+    return Promise.reject(new Error("Unsupported school request body"));
   }
   const address = process.env.DAILYMATH_SCHOOL_IPV4?.trim();
   if (address && isIP(address) !== 4) {
@@ -21,11 +41,15 @@ export const schoolFetch: typeof fetch = (input, init = {}) => {
   }
   const headers = new Headers(init.headers);
   headers.set("Connection", "close");
+  if (body !== undefined) {
+    headers.set("Content-Type", "application/x-www-form-urlencoded");
+    headers.set("Content-Length", String(Buffer.byteLength(body)));
+  }
   if (!headers.has("User-Agent")) headers.set("User-Agent", "DailyMath/1.0");
   if (!headers.has("Accept")) headers.set("Accept", "text/html");
   return new Promise<Response>((resolve, reject) => {
     const options: RequestOptions & { autoSelectFamily: boolean } = {
-      method: "GET",
+      method,
       family: 4,
       autoSelectFamily: false,
       agent: false,
@@ -55,6 +79,9 @@ export const schoolFetch: typeof fetch = (input, init = {}) => {
           responseHeaders.set("location", response.headers.location);
         if (response.headers["content-type"])
           responseHeaders.set("content-type", response.headers["content-type"]);
+        for (const cookie of response.headers["set-cookie"] ?? []) {
+          responseHeaders.append("set-cookie", cookie);
+        }
         try {
           const status = response.statusCode ?? 502;
           resolve(
@@ -74,6 +101,6 @@ export const schoolFetch: typeof fetch = (input, init = {}) => {
       });
     });
     request.on("error", reject);
-    request.end();
+    request.end(body);
   });
 };

@@ -171,11 +171,13 @@ test("school transport uses fresh IPv4 TLS requests without weakening host valid
   const mockedRequest = (url, options, callback) => {
     observed = { url, options };
     const request = new EventEmitter();
-    request.end = () => {
+    request.end = (body) => {
+      observed.body = body;
       const response = new EventEmitter();
       response.headers = {
         location: "/student/login.do",
         "content-type": "text/html",
+        "set-cookie": ["JSESSIONID=" + "S".repeat(32) + "; Path=/; Secure"],
       };
       response.statusCode = 302;
       callback(response);
@@ -248,6 +250,32 @@ test("school transport uses fresh IPv4 TLS requests without weakening host valid
       else process.env.DAILYMATH_SCHOOL_IPV4 = previousAddress;
     }
     await assert.rejects(schoolFetch("https://attacker.invalid/"));
+    const loginResponse = await schoolFetch(
+      "https://student.gs.hs.kr/student/autoLogin.do",
+      {
+        method: "POST",
+        body: new URLSearchParams({ sKey: "test", pin: "" }),
+      },
+    );
+    assert.equal(observed.options.method, "POST");
+    assert.equal(observed.body, "sKey=test&pin=");
+    assert.equal(
+      Number(observed.options.headers["content-length"]),
+      Buffer.byteLength(observed.body),
+    );
+    assert.equal(loginResponse.headers.getSetCookie().length, 1);
+    await assert.rejects(
+      schoolFetch("https://student.gs.hs.kr/student/notice/delete.do", {
+        method: "POST",
+        body: new URLSearchParams(),
+      }),
+    );
+    await assert.rejects(
+      schoolFetch("https://student.gs.hs.kr/student/autoLogin.do", {
+        method: "POST",
+        body: "raw",
+      }),
+    );
   } finally {
     Module._load = original;
   }

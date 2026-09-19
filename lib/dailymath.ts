@@ -64,17 +64,29 @@ export async function ensureDailyMathSchema() {
           "ALTER TABLE dailymath_account_progress ADD COLUMN first_submitted_at_ms BIGINT UNSIGNED NULL",
         );
       } catch (error) {
-        if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME") throw error;
+        if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME")
+          throw error;
       }
       await dailyMathPool().query(`
         CREATE TABLE IF NOT EXISTS dailymath_sessions (
           token_hash CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
           school_account CHAR(64) CHARACTER SET ascii COLLATE ascii_bin NOT NULL,
           expires_at_ms BIGINT UNSIGNED NOT NULL,
+          verification_version TINYINT UNSIGNED NOT NULL DEFAULT 0,
           PRIMARY KEY (token_hash),
           INDEX dailymath_session_expiry (expires_at_ms)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
       `);
+      // Existing tokens were issued from unverified client claims. Fail them closed.
+      // This additive migration preserves account progress and ranking records.
+      try {
+        await dailyMathPool().query(
+          "ALTER TABLE dailymath_sessions ADD COLUMN verification_version TINYINT UNSIGNED NOT NULL DEFAULT 0",
+        );
+      } catch (error) {
+        if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME")
+          throw error;
+      }
     })
     .catch((error: unknown) => {
       state.dailyMathAccountSchema = undefined;

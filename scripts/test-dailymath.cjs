@@ -16,12 +16,7 @@ fs.writeFileSync(
     },
   }).outputText,
 );
-const {
-  bearerToken,
-  parseProgress,
-  readProgressBody,
-  claimedStudentAccount,
-} = require(output);
+const { bearerToken, parseProgress, readProgressBody } = require(output);
 const account = "b".repeat(64);
 const headers = { "x-dailymath-account": account };
 const record = {
@@ -227,10 +222,16 @@ globalThis.dailyMathPool = {
       savedTokens.set(values[0], {
         school_account: values[1],
         expires: values[2],
+        version: values[3],
       });
     } else if (sql.startsWith("SELECT school_account")) {
       const row = savedTokens.get(values[0]);
-      return [row && row.expires > values[1] ? [row] : []];
+      assert.match(sql, /verification_version = \?/);
+      return [
+        row && row.expires > values[1] && row.version === values[2]
+          ? [row]
+          : [],
+      ];
     } else if (sql.includes("WHERE token_hash = ?")) {
       savedTokens.delete(values[0]);
     } else if (sql.includes("WHERE expires_at_ms <= ?")) {
@@ -304,21 +305,216 @@ test("first submission timestamp is optional for old clients and validated for n
   }
 });
 
-test("client-asserted student identity retains the existing account key without accepting malformed IDs", () => {
-  const crypto = require("node:crypto");
-  assert.equal(
-    claimedStudentAccount({ student_id: "26101" }),
-    crypto.createHash("sha256").update("26101").digest("hex"),
-  );
+test("previous unverified tokens are rejected without removing study records", async () => {
+  const auth = await issueDailyMathToken(account);
+  const digest = require("node:crypto")
+    .createHash("sha256")
+    .update(auth.token)
+    .digest("hex");
+  savedTokens.get(digest).version = 0;
+  await assert.rejects(authenticatedAccount(authRequest(auth.token)), {
+    status: 401,
+  });
+});
+
+const autoOutput = path.resolve(
+  ".next/dailymath-tests/dailymath-school-auto.js",
+);
+fs.writeFileSync(
+  autoOutput,
+  ts.transpileModule(fs.readFileSync("lib/dailymath-school-auto.ts", "utf8"), {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022,
+    },
+  }).outputText,
+);
+const { automaticLoginProof, verifySchoolAutomaticLogin } = require(autoOutput);
+const proof = "a".repeat(64);
+const schoolSession = "S".repeat(32);
+const sha256 = (value) =>
+  require("node:crypto").createHash("sha256").update(value).digest("hex");
+
+test("student ID, old school cookie and malformed proofs cannot request a token", () => {
   for (const body of [
     null,
     [],
     {},
-    { student_id: 26101 },
-    { student_id: "2610" },
-    { student_id: "261010" },
-    { student_id: "<html>" },
+    { student_id: "25001" },
+    { session_id: schoolSession },
+    { auto_login_proof: "secret" },
+    { auto_login_proof: "a".repeat(65) },
+    { auto_login_proof: 123 },
   ]) {
-    assert.throws(() => claimedStudentAccount(body));
+    assert.throws(() => automaticLoginProof(body), { status: 400 });
+  }
+  assert.equal(automaticLoginProof({ auto_login_proof: proof }), proof);
+});
+
+test("automatic login binds challenge, school session and self-profile before issuing identity", async () => {
+  let step = 0;
+  const rotated = "R".repeat(32);
+  const result = await verifySchoolAutomaticLogin(
+    proof,
+    async (url, options) => {
+      step++;
+      assert.equal(options.redirect, "manual");
+      assert.equal(options.cache, "no-store");
+      if (step === 1) {
+        assert.equal(url, "https://student.gs.hs.kr/student/getSessionKey.do");
+        assert.equal(options.method, "POST");
+        assert.equal(options.headers.Cookie, undefined);
+        assert.equal(options.body.toString(), "");
+        return new Response("server-challenge", {
+          headers: {
+            "Set-Cookie": `JSESSIONID=${schoolSession}; Path=/; Secure`,
+          },
+        });
+      }
+      if (step === 2) {
+        assert.equal(url, "https://student.gs.hs.kr/student/autoLogin.do");
+        assert.equal(options.headers.Cookie, `JSESSIONID=${schoolSession}`);
+        assert.deepEqual(Object.fromEntries(options.body), {
+          sKey: proof,
+          cKey: sha256("server-challenge"),
+          vKey: sha256(
+            options.headers["User-Agent"]
+              .replace(/[^a-zA-Z]/g, "")
+              .toUpperCase(),
+          ),
+          device: "Android",
+          mode: "AUTO",
+          pin: "",
+        });
+        return new Response("FINE", {
+          headers: { "Set-Cookie": `JSESSIONID=${rotated}; Path=/` },
+        });
+      }
+      assert.equal(step, 3);
+      assert.equal(
+        url,
+        "https://student.gs.hs.kr/student/mymenu/privateInfo.do",
+      );
+      assert.equal(options.headers.Cookie, `JSESSIONID=${rotated}`);
+      return new Response(profile);
+    },
+  );
+  assert.equal(result, sha256("25001"));
+  assert.equal(step, 3);
+});
+
+test("missing session, rejected proof, redirects and anonymous profiles fail closed", async () => {
+  for (const scenario of [
+    "no-cookie",
+    "blank-challenge",
+    "html",
+    "redirect",
+    "denied",
+    "anonymous",
+    "network",
+  ]) {
+    let step = 0;
+    await assert.rejects(
+      verifySchoolAutomaticLogin(proof, async () => {
+        step++;
+        if (scenario === "network") throw new Error("transport failure");
+        if (step === 1) {
+          if (scenario === "redirect")
+            return new Response(null, {
+              status: 302,
+              headers: { Location: "https://evil.test" },
+            });
+          return new Response(
+            scenario === "blank-challenge"
+              ? ""
+              : scenario === "html"
+                ? "<html>login</html>"
+                : "challenge",
+            {
+              headers:
+                scenario === "no-cookie"
+                  ? {}
+                  : { "Set-Cookie": `JSESSIONID=${schoolSession}; Path=/` },
+            },
+          );
+        }
+        if (step === 2)
+          return new Response(scenario === "denied" ? "FAIL" : "FINE");
+        return new Response("<html>login</html>");
+      }),
+    );
+    assert.ok(
+      step <= (scenario === "anonymous" ? 3 : scenario === "denied" ? 2 : 1),
+    );
+  }
+});
+
+test("auth route never issues tokens for client IDs or failed school verification", async () => {
+  const Module = require("node:module");
+  const original = Module._load;
+  const output = path.resolve(".next/dailymath-tests/auth-route.js");
+  fs.writeFileSync(
+    output,
+    ts.transpileModule(
+      fs.readFileSync("app/api/dailymath/auth/route.ts", "utf8"),
+      {
+        compilerOptions: {
+          module: ts.ModuleKind.CommonJS,
+          target: ts.ScriptTarget.ES2022,
+        },
+      },
+    ).outputText,
+  );
+  const contract = require("../.next/dailymath-tests/dailymath-contract.js");
+  let valid = false;
+  let issued = 0;
+  const modules = {
+    "@/lib/dailymath-contract": contract,
+    "@/lib/dailymath": { checkDailyMathRate: () => {} },
+    "@/lib/dailymath-auth": {
+      issueDailyMathToken: async (identity) => {
+        issued++;
+        assert.equal(identity, sha256("25001"));
+        return { token: "test-token" };
+      },
+    },
+    "@/lib/dailymath-school-auto": {
+      automaticLoginProof,
+      verifySchoolAutomaticLogin: async (value) => {
+        assert.equal(value, proof);
+        if (!valid) throw new contract.DailyMathRequestError("Rejected", 401);
+        return sha256("25001");
+      },
+    },
+  };
+  try {
+    Module._load = function (name, ...args) {
+      return modules[name] ?? original.call(this, name, ...args);
+    };
+    const route = require(output);
+    const request = (body) =>
+      new Request("https://example.test/api/dailymath/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+    assert.equal(
+      (await route.POST(request({ student_id: "99999" }))).status,
+      400,
+    );
+    assert.equal(
+      (await route.POST(request({ auto_login_proof: proof }))).status,
+      401,
+    );
+    assert.equal(issued, 0);
+    valid = true;
+    const response = await route.POST(
+      request({ auto_login_proof: proof, student_id: "99999" }),
+    );
+    assert.equal(response.status, 200);
+    assert.equal(response.headers.get("Cache-Control"), "no-store");
+    assert.equal(issued, 1);
+  } finally {
+    Module._load = original;
   }
 });
