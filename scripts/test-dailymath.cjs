@@ -518,3 +518,56 @@ test("auth route never issues tokens for client IDs or failed school verificatio
     Module._load = original;
   }
 });
+
+test("school RETRY renews the challenge once and does not expire the app login", async () => {
+  let challenges = 0;
+  let logins = 0;
+  const identity = await verifySchoolAutomaticLogin(
+    proof,
+    async (url, options) => {
+      if (url.endsWith("getSessionKey.do")) {
+        challenges++;
+        return new Response(`challenge-${challenges}`, {
+          headers: { "Set-Cookie": `JSESSIONID=${schoolSession}; Path=/` },
+        });
+      }
+      if (url.endsWith("autoLogin.do")) {
+        logins++;
+        assert.equal(options.headers["X-Requested-With"], "XMLHttpRequest");
+        assert.equal(
+          options.body.get("cKey"),
+          sha256(`challenge-${challenges}`),
+        );
+        return new Response(logins === 1 ? "RETRY" : "FINE");
+      }
+      return new Response(profile);
+    },
+  );
+  assert.equal(identity, sha256("25001"));
+  assert.equal(challenges, 2);
+  assert.equal(logins, 2);
+});
+
+test("transient school responses are 503; only explicit credential expiry is 401", async () => {
+  for (const [result, status] of [
+    ["RETRY", 503],
+    ["UNKNOWN", 503],
+    ["NO_SESSION", 401],
+    ["FINE", 503],
+  ]) {
+    let calls = 0;
+    await assert.rejects(
+      verifySchoolAutomaticLogin(proof, async (url) => {
+        calls++;
+        if (url.endsWith("getSessionKey.do"))
+          return new Response("challenge", {
+            headers: { "Set-Cookie": `JSESSIONID=${schoolSession}; Path=/` },
+          });
+        if (url.endsWith("autoLogin.do")) return new Response(result);
+        return new Response("<html>temporarily unavailable</html>");
+      }),
+      { status },
+    );
+    assert.ok(calls <= 4);
+  }
+});
