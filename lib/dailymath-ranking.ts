@@ -66,7 +66,7 @@ export async function rankingSnapshot(
     "SELECT COUNT(*) AS total, COUNT(scanned_at_ms) AS scanned FROM dailymath_ranking_posts WHERE active = TRUE",
   );
   const [students] = await pool.query<RowDataPacket[]>(
-    "SELECT * FROM dailymath_ranking_students ORDER BY current_streak DESC, student_id",
+    "SELECT * FROM dailymath_ranking_students ORDER BY current_streak DESC, last_submitted_at_ms DESC, student_id",
   );
   const entries: RankingEntry[] = students.map((row) => ({
     rank: Number(row.ranking_position),

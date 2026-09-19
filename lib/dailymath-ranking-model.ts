@@ -235,7 +235,10 @@ export function calculateRanking(
     });
   }
   entries.sort(
-    (a, b) => b.streak - a.streak || a.student_id.localeCompare(b.student_id),
+    (a, b) =>
+      b.streak - a.streak ||
+      b.last_submitted_at_ms - a.last_submitted_at_ms ||
+      a.student_id.localeCompare(b.student_id),
   );
   entries.forEach((entry, index) => {
     entry.rank =

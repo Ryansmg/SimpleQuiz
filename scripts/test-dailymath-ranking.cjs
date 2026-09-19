@@ -404,3 +404,25 @@ test("ranking uploads reject empty, oversized and duplicate pages", () => {
     assert.throws(() => parseRankingUpload(body));
   }
 });
+
+
+test("ties show latest submissions first while preserving competition ranks", () => {
+  const posts = [
+    post(1, 1, "2026.04.06. 08:00"),
+    post(2, 2, "2026.04.07. 08:00"),
+  ];
+  const rows = calculateRanking(posts, [
+    reply(1, "26101", "2026.04.06. 09:00"),
+    reply(1, "26102", "2026.04.06. 10:00"),
+    reply(2, "26103", "2026.04.07. 09:00"),
+    { ...reply(2, "26104", "2026.04.07. 09:00"), lastSubmittedAt: t("2026.04.07. 12:00") },
+    reply(2, "26105", "2026.04.07. 12:00"),
+  ], t("2026.04.08. 12:00"));
+  assert.deepEqual(rows.map(r => [r.student_id, r.rank, r.streak]), [
+    ["26104", 1, 1],
+    ["26105", 1, 1],
+    ["26103", 1, 1],
+    ["26102", 4, 0],
+    ["26101", 4, 0],
+  ]);
+});
