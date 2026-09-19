@@ -60,10 +60,8 @@ export function parseProgress(
         new Date(solved_on).toISOString().slice(0, 10) !== solved_on)
     )
       throw new DailyMathRequestError("학습 날짜가 올바르지 않습니다.");
-    if (state === "submitted" && (reply_id === null || solved_on === null))
-      throw new DailyMathRequestError(
-        "제출 기록에 댓글 번호와 학습 날짜가 필요합니다.",
-      );
+    if (state === "submitted" && reply_id === null)
+      throw new DailyMathRequestError("제출 기록에 댓글 번호가 필요합니다.");
     if (
       !Number.isSafeInteger(updated_at_ms) ||
       updated_at_ms <= 0 ||

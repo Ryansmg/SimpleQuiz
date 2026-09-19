@@ -68,12 +68,21 @@ test("pending state, invalid dates, missing submission metadata and future times
     { state: "pending" },
     { solved_on: "2026-02-30" },
     { reply_id: null },
-    { solved_on: null },
+    { solved_on: null, first_submitted_at_ms: 900 },
     { updated_at_ms: Date.now() + 700000 },
     { post_id: "1 OR 1=1" },
   ]) {
     assert.throws(() => parseProgress([{ ...record, ...patch }]));
   }
+});
+
+test("confirmed submissions with unknown timing stay submitted without inventing a date", () => {
+  const unknown = { ...record, solved_on: null, first_submitted_at_ms: null };
+  assert.deepEqual(parseProgress([unknown]), [unknown]);
+  assert.deepEqual(parseProgress([{ ...unknown, state: "draft" }]), [
+    { ...unknown, state: "draft" },
+  ]);
+  assert.throws(() => parseProgress([{ ...unknown, reply_id: null }]));
 });
 
 test("duplicate records and oversized batches are rejected", () => {
