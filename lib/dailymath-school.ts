@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { schoolFetch } from "./dailymath-school-http";
 import { DailyMathRequestError } from "./dailymath-contract";
 
 const PROFILE_URL = "https://student.gs.hs.kr/student/mymenu/privateInfo.do";
@@ -31,7 +32,7 @@ export function schoolSessionId(body: unknown): string {
 
 export async function verifySchoolSession(
   sessionId: string,
-  fetcher: typeof fetch = fetch,
+  fetcher: typeof fetch = schoolFetch,
 ): Promise<string> {
   // Only this fixed school endpoint receives JSESSIONID. Never follow a redirect.
   let response: Response;

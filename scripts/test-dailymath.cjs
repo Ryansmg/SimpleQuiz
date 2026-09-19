@@ -111,6 +111,19 @@ test("invalid JSON and oversized streaming bodies are rejected", async () => {
   ]);
 });
 
+const transportOutput = path.resolve(
+  ".next/dailymath-tests/dailymath-school-http.js",
+);
+fs.writeFileSync(
+  transportOutput,
+  ts.transpileModule(fs.readFileSync("lib/dailymath-school-http.ts", "utf8"), {
+    compilerOptions: {
+      module: ts.ModuleKind.CommonJS,
+      target: ts.ScriptTarget.ES2022,
+    },
+  }).outputText,
+);
+
 const schoolOutput = path.resolve(".next/dailymath-tests/dailymath-school.js");
 fs.writeFileSync(
   schoolOutput,
@@ -271,12 +284,17 @@ test("unissued, expired and revoked bearer tokens cannot access records", async 
   });
 });
 
-
 test("first submission timestamp is optional for old clients and validated for new clients", () => {
   const { first_submitted_at_ms, ...legacy } = record;
   assert.equal(parseProgress([legacy])[0].first_submitted_at_ms, null);
-  assert.equal(parseProgress([{ ...record, first_submitted_at_ms: 900 }])[0].first_submitted_at_ms, 900);
+  assert.equal(
+    parseProgress([{ ...record, first_submitted_at_ms: 900 }])[0]
+      .first_submitted_at_ms,
+    900,
+  );
   for (const stamp of [-1, "900", 1.5, Date.now() + 700000]) {
-    assert.throws(() => parseProgress([{ ...record, first_submitted_at_ms: stamp }]));
+    assert.throws(() =>
+      parseProgress([{ ...record, first_submitted_at_ms: stamp }]),
+    );
   }
 });

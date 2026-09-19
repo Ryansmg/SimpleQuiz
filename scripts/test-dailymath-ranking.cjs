@@ -160,3 +160,62 @@ test("duplicate posts count once; deleted posts and future submissions do not pa
   assert.equal(rows[0].streak, 1);
   assert.equal(rows[0].total_solved, 1);
 });
+
+test("school transport uses fresh IPv4 TLS requests without weakening host validation or following redirects", async () => {
+  const Module = require("node:module");
+  const { EventEmitter } = require("node:events");
+  const original = Module._load;
+  let observed;
+  const mockedRequest = (url, options, callback) => {
+    observed = { url, options };
+    const request = new EventEmitter();
+    request.end = () => {
+      const response = new EventEmitter();
+      response.headers = {
+        location: "/student/login.do",
+        "content-type": "text/html",
+      };
+      response.statusCode = 302;
+      callback(response);
+      response.emit("data", Buffer.from("redirect"));
+      response.emit("end");
+    };
+    return request;
+  };
+  const transportOutput = path.resolve(
+    ".next/dailymath-ranking-tests/dailymath-school-http.js",
+  );
+  fs.writeFileSync(
+    transportOutput,
+    ts.transpileModule(
+      fs.readFileSync("lib/dailymath-school-http.ts", "utf8"),
+      {
+        compilerOptions: {
+          module: ts.ModuleKind.CommonJS,
+          target: ts.ScriptTarget.ES2022,
+        },
+      },
+    ).outputText,
+  );
+  try {
+    Module._load = function (name, ...args) {
+      return name === "node:https"
+        ? { request: mockedRequest }
+        : original.call(this, name, ...args);
+    };
+    const { schoolFetch } = require(transportOutput);
+    const response = await schoolFetch(
+      "https://student.gs.hs.kr/student/mymenu/privateInfo.do",
+    );
+    assert.equal(observed.options.family, 4);
+    assert.equal(observed.options.agent, false);
+    assert.equal(observed.options.headers.connection, "close");
+    assert.notEqual(observed.options.rejectUnauthorized, false);
+    assert.equal(observed.url.hostname, "student.gs.hs.kr");
+    assert.equal(response.status, 302);
+    assert.equal(response.headers.get("location"), "/student/login.do");
+    await assert.rejects(schoolFetch("https://attacker.invalid/"));
+  } finally {
+    Module._load = original;
+  }
+});

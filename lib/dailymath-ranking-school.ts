@@ -1,3 +1,4 @@
+import { schoolFetch } from "./dailymath-school-http";
 import { DailyMathRequestError } from "./dailymath-contract";
 import { requireSchoolPage } from "./dailymath-ranking-model";
 
@@ -14,7 +15,7 @@ export async function fetchRankingPage(
       ? "dailymathList.do?limit=N"
       : `info.do?noticeNo=${postId}`);
   try {
-    const response = await fetch(url, {
+    const response = await schoolFetch(url, {
       headers: {
         Cookie: `JSESSIONID=${sessionId}`,
         Connection: "close",

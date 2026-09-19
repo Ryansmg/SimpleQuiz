@@ -55,3 +55,5 @@
 - 학교가 삭제한 댓글은 해당 문제를 다시 조회할 때 반영합니다. 동일 학생이 풀이를 교체한 경우 이미 확인된 최초 제출 시각을 유지합니다. 마지막 제출 시각은 가장 최근 댓글 시각을 따로 저장합니다.
 - 당일 제출은 문제 게시 시각부터 다음 날 자정 직전(Asia/Seoul)입니다. 당일 미제출은 자정까지 유예하고, 문제가 없는 주말·공휴일은 끊지 않습니다. 같은 문제의 중복 게시글은 한 번만 셉니다. 동점은 같은 순위(1, 1, 3)로 표시합니다.
 - 응답은 `ready`, `updated_at_ms`, `scanned_posts`, `total_posts`, `has_more`, `refreshing`, `entries`를 포함합니다. 항목은 `rank`, `student_id`, `name`, `streak`, `total_solved`, `last_submitted_at_ms`, `is_me`입니다.
+
+학교 전용 HTTP 전송은 IPv4 DNS 조회와 새 HTTP/1.1 연결을 사용합니다. Railway의 학교 도메인 AAAA 조회가 TIMEOUT으로 지연되는 현상을 운영 환경에서 확인했으며, IPv4 직접 조회로 이를 제거했습니다. 인증서·호스트 검증은 유지하고 리다이렉트나 자동 재시도는 하지 않습니다.
