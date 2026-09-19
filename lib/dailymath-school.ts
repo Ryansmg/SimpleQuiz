@@ -16,6 +16,8 @@ export function verifiedAccountFromProfile(html: string): string {
     console.warn("DailyMath school verification rejected", {
       loggedIn,
       profileRows: studentRows.length,
+      bytes: Buffer.byteLength(html),
+      pageKind: ["loginCommit", "requestAccessCode", "login.do", "Access Denied", "차단", "비정상", "점검", "오류", "Error", "captcha", "Cloudflare", "접근", "로그인"].filter((word) => html.includes(word)),
     });
     throw new DailyMathRequestError(
       "송죽학사 로그인을 다시 확인해 주세요.",
