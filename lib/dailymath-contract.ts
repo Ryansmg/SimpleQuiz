@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 export type ProgressRecord = {
   post_id: number;
   state: "draft" | "submitted";
@@ -110,4 +111,16 @@ export async function readJsonBody(request: Request, maxBytes = 128 * 1024) {
 
 export async function readProgressBody(request: Request) {
   return parseProgress(await readJsonBody(request));
+}
+
+/** Client-asserted identity, explicitly chosen by the owner for low-stakes study records. */
+export function claimedStudentAccount(body: unknown): string {
+  const id =
+    body && typeof body === "object" && !Array.isArray(body)
+      ? (body as Record<string, unknown>).student_id
+      : undefined;
+  if (typeof id !== "string" || !/^[0-9]{5}$/.test(id)) {
+    throw new DailyMathRequestError("학번 형식이 올바르지 않습니다.");
+  }
+  return createHash("sha256").update(id).digest("hex");
 }

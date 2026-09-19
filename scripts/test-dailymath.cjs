@@ -16,7 +16,12 @@ fs.writeFileSync(
     },
   }).outputText,
 );
-const { bearerToken, parseProgress, readProgressBody } = require(output);
+const {
+  bearerToken,
+  parseProgress,
+  readProgressBody,
+  claimedStudentAccount,
+} = require(output);
 const account = "b".repeat(64);
 const headers = { "x-dailymath-account": account };
 const record = {
@@ -296,5 +301,24 @@ test("first submission timestamp is optional for old clients and validated for n
     assert.throws(() =>
       parseProgress([{ ...record, first_submitted_at_ms: stamp }]),
     );
+  }
+});
+
+test("client-asserted student identity retains the existing account key without accepting malformed IDs", () => {
+  const crypto = require("node:crypto");
+  assert.equal(
+    claimedStudentAccount({ student_id: "26101" }),
+    crypto.createHash("sha256").update("26101").digest("hex"),
+  );
+  for (const body of [
+    null,
+    [],
+    {},
+    { student_id: 26101 },
+    { student_id: "2610" },
+    { student_id: "261010" },
+    { student_id: "<html>" },
+  ]) {
+    assert.throws(() => claimedStudentAccount(body));
   }
 });

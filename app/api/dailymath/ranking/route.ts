@@ -1,7 +1,7 @@
 import { authenticatedAccount } from "@/lib/dailymath-auth";
 import { checkDailyMathRate } from "@/lib/dailymath";
 import { DailyMathRequestError, readJsonBody } from "@/lib/dailymath-contract";
-import { schoolSessionId, verifySchoolSession } from "@/lib/dailymath-school";
+import { parseRankingUpload } from "@/lib/dailymath-ranking-model";
 import { rankingSnapshot, refreshRanking } from "@/lib/dailymath-ranking";
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -45,19 +45,8 @@ export async function POST(request: Request) {
     const account = await authenticatedAccount(request);
     appAuthenticated = true;
     checkDailyMathRate(`ranking:${account}`);
-    const body = await readJsonBody(request, 2048);
-    const sessionId = schoolSessionId(body);
-    if ((await verifySchoolSession(sessionId)) !== account)
-      throw new DailyMathRequestError(
-        "로그인한 학교 계정이 일치하지 않습니다.",
-        403,
-      );
-    const continuation =
-      (body as Record<string, unknown>).continue_scan === true;
-    return Response.json(
-      await refreshRanking(account, sessionId, continuation),
-      { headers },
-    );
+    const input = parseRankingUpload(await readJsonBody(request, 1024 * 1024));
+    return Response.json(await refreshRanking(account, input), { headers });
   } catch (error) {
     return failure(error, appAuthenticated);
   }

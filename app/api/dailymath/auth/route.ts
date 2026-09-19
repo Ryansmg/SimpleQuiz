@@ -1,11 +1,13 @@
-import { createHash } from "node:crypto";
 import {
   issueDailyMathToken,
   revokeDailyMathToken,
 } from "@/lib/dailymath-auth";
 import { checkDailyMathRate } from "@/lib/dailymath";
-import { DailyMathRequestError, readJsonBody } from "@/lib/dailymath-contract";
-import { schoolSessionId, verifySchoolSession } from "@/lib/dailymath-school";
+import {
+  DailyMathRequestError,
+  readJsonBody,
+  claimedStudentAccount,
+} from "@/lib/dailymath-contract";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -32,11 +34,8 @@ function failure(error: unknown): Response {
 
 export async function POST(request: Request) {
   try {
-    const sessionId = schoolSessionId(await readJsonBody(request, 2048));
-    checkDailyMathRate(
-      `school:${createHash("sha256").update(sessionId).digest("hex")}`,
-    );
-    const account = await verifySchoolSession(sessionId);
+    const account = claimedStudentAccount(await readJsonBody(request, 2048));
+    checkDailyMathRate(`account:${account}`);
     const auth = await issueDailyMathToken(account);
     return Response.json(auth, { headers: { "Cache-Control": "no-store" } });
   } catch (error) {

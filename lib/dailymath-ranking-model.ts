@@ -247,3 +247,53 @@ export function calculateRanking(
 }
 export const studentAccount = (studentId: string) =>
   createHash("sha256").update(studentId).digest("hex");
+
+export type RankingUpload = {
+  boardHtml?: string;
+  replies: { postId: number; html: string }[];
+  continuation: boolean;
+};
+
+/** Ranking metadata is reported by an authenticated app client. */
+export function parseRankingUpload(body: unknown): RankingUpload {
+  if (!body || typeof body !== "object" || Array.isArray(body))
+    throw new DailyMathRequestError("랭킹 자료 형식이 올바르지 않습니다.");
+  const value = body as Record<string, unknown>;
+  const board = value.board_html;
+  if (
+    board !== undefined &&
+    (typeof board !== "string" ||
+      !board.length ||
+      Buffer.byteLength(board) > 512 * 1024)
+  )
+    throw new DailyMathRequestError("문제 목록 크기가 올바르지 않습니다.");
+  const pages = value.replies ?? [];
+  if (!Array.isArray(pages) || pages.length > 8)
+    throw new DailyMathRequestError(
+      "한 번에 최대 8문제의 댓글을 보낼 수 있습니다.",
+    );
+  const seen = new Set<number>();
+  const replies = pages.map((page) => {
+    if (!page || typeof page !== "object" || Array.isArray(page))
+      throw new DailyMathRequestError("댓글 자료 형식이 올바르지 않습니다.");
+    const { post_id: postId, html } = page;
+    if (
+      !Number.isSafeInteger(postId) ||
+      postId <= 0 ||
+      seen.has(postId) ||
+      typeof html !== "string" ||
+      !html.length ||
+      Buffer.byteLength(html) > 256 * 1024
+    )
+      throw new DailyMathRequestError("댓글 자료 형식이 올바르지 않습니다.");
+    seen.add(postId);
+    return { postId, html };
+  });
+  if (board === undefined && !replies.length)
+    throw new DailyMathRequestError("갱신할 랭킹 자료가 없습니다.");
+  return {
+    boardHtml: board as string | undefined,
+    replies,
+    continuation: value.continue_scan === true,
+  };
+}

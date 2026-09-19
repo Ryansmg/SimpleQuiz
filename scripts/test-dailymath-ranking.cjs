@@ -19,6 +19,7 @@ for (const name of ["dailymath-contract", "dailymath-ranking-model"]) {
 const {
   schoolTime,
   problemDateFromTitle,
+  parseRankingUpload,
   parseRankingPosts,
   parseRankingReplies,
   calculateRanking,
@@ -281,4 +282,97 @@ test("assigned problem dates override advance creation dates with a Korean midni
     rows.map((r) => r.streak),
     [1, 1, 0, 0],
   );
+});
+
+test("ranking metadata uploads require app authorization without making school requests", async () => {
+  const Module = require("node:module");
+  const original = Module._load;
+  const contract = require("../.next/dailymath-ranking-tests/dailymath-contract.js");
+  let appValid = true;
+  const output = path.resolve(".next/dailymath-ranking-tests/ranking-route.js");
+  fs.writeFileSync(
+    output,
+    ts.transpileModule(
+      fs.readFileSync("app/api/dailymath/ranking/route.ts", "utf8"),
+      {
+        compilerOptions: {
+          module: ts.ModuleKind.CommonJS,
+          target: ts.ScriptTarget.ES2022,
+        },
+      },
+    ).outputText,
+  );
+  const modules = {
+    "@/lib/dailymath-auth": {
+      authenticatedAccount: async () => {
+        if (!appValid)
+          throw new contract.DailyMathRequestError("Token expired", 401);
+        return "verified-account";
+      },
+    },
+    "@/lib/dailymath": { checkDailyMathRate: () => {} },
+    "@/lib/dailymath-contract": contract,
+    "@/lib/dailymath-school": {
+      schoolSessionId: () => "test-school-session",
+      verifySchoolSession: async () => {
+        throw new contract.DailyMathRequestError(
+          "School session rejected",
+          401,
+        );
+      },
+    },
+    "@/lib/dailymath-ranking-model": { parseRankingUpload },
+    "@/lib/dailymath-ranking": {
+      rankingSnapshot: async () => ({ ready: true, entries: [] }),
+      refreshRanking: async (account, input) => {
+        assert.equal(account, "verified-account");
+        assert.equal(input.boardHtml, "metadata");
+        return { ready: true, entries: [] };
+      },
+    },
+  };
+  try {
+    Module._load = function (name, ...args) {
+      return modules[name] ?? original.call(this, name, ...args);
+    };
+    const route = require(output);
+    const request = () =>
+      new Request("https://example.test/api/dailymath/ranking", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ board_html: "metadata" }),
+      });
+    assert.equal((await route.POST(request())).status, 200);
+    assert.equal(
+      (
+        await route.GET(
+          new Request("https://example.test/api/dailymath/ranking"),
+        )
+      ).status,
+      200,
+    );
+    appValid = false;
+    assert.equal((await route.POST(request())).status, 401);
+  } finally {
+    Module._load = original;
+  }
+});
+
+test("ranking uploads reject empty, oversized and duplicate pages", () => {
+  assert.deepEqual(parseRankingUpload({ board_html: "metadata" }), {
+    boardHtml: "metadata",
+    replies: [],
+    continuation: false,
+  });
+  const page = { post_id: 1, html: "metadata" };
+  for (const body of [
+    null,
+    {},
+    { replies: [page, page] },
+    { replies: Array(9).fill(page) },
+    { replies: [{ ...page, post_id: -1 }] },
+    { board_html: "x".repeat(512 * 1024 + 1) },
+  ]) {
+    assert.throws(() => parseRankingUpload(body));
+  }
 });

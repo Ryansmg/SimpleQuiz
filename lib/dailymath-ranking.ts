@@ -9,8 +9,9 @@ import {
   type RankingEntry,
   type RankingPost,
   type RankingSubmission,
+  type RankingUpload,
 } from "./dailymath-ranking-model";
-import { fetchRankingPage } from "./dailymath-ranking-school";
+import { DailyMathRequestError } from "./dailymath-contract";
 
 const state = globalThis as typeof globalThis & {
   dailyMathRankingSchema?: Promise<void>;
@@ -51,7 +52,11 @@ export async function ensureRankingSchema() {
   await state.dailyMathRankingSchema;
 }
 
-export async function rankingSnapshot(account: string, refreshing = false) {
+export async function rankingSnapshot(
+  account: string,
+  refreshing = false,
+  scanPostIds?: number[],
+) {
   await ensureRankingSchema();
   const pool = dailyMathPool();
   const [stateRows] = await pool.query<RowDataPacket[]>(
@@ -72,6 +77,9 @@ export async function rankingSnapshot(account: string, refreshing = false) {
     last_submitted_at_ms: Number(row.last_submitted_at_ms),
     is_me: studentAccount(String(row.student_id)) === account,
   }));
+  const [pending] = await pool.query<RowDataPacket[]>(
+    "SELECT post_id FROM dailymath_ranking_posts WHERE active = TRUE AND scanned_at_ms IS NULL ORDER BY published_at_ms DESC, post_id DESC LIMIT 8",
+  );
   const total = Number(counts[0].total);
   const scanned = Number(counts[0].scanned);
   return {
@@ -84,6 +92,7 @@ export async function rankingSnapshot(account: string, refreshing = false) {
     total_posts: total,
     has_more: scanned < total || total === 0,
     refreshing,
+    scan_post_ids: scanPostIds ?? pending.map((row) => Number(row.post_id)),
     entries,
   };
 }
@@ -213,64 +222,80 @@ async function publishSnapshot(
   }
 }
 
-/** Bounded, resumable work. No session, credentials, comment bodies or PDFs are persisted. */
-export async function refreshRanking(
-  account: string,
-  sessionId: string,
-  continuation: boolean,
-) {
+/** School access happens on the device; only bounded metadata batches reach MySQL. */
+export async function refreshRanking(account: string, input: RankingUpload) {
   await ensureRankingSchema();
   const connection = await dailyMathPool().getConnection();
   let locked = false;
+  let queue: number[] = [];
   try {
     const [lockRows] = await connection.query<RowDataPacket[]>(
-      "SELECT GET_LOCK(?, 0) AS acquired",
+      "SELECT GET_LOCK(?, 5) AS acquired",
       [LOCK],
     );
     locked = Number(lockRows[0].acquired) === 1;
-    if (locked) {
-      const started = Date.now();
-      const posts = parseRankingPosts(await fetchRankingPage(sessionId));
+    if (!locked)
+      throw new DailyMathRequestError(
+        "다른 랭킹 갱신이 진행 중입니다. 잠시 후 새로고침해 주세요.",
+        503,
+      );
+    let posts: RankingPost[];
+    if (input.boardHtml !== undefined) {
+      posts = parseRankingPosts(input.boardHtml);
       await reconcilePosts(connection, posts);
-      const [saved] = await connection.query<RowDataPacket[]>(
-        "SELECT post_id, scanned_at_ms FROM dailymath_ranking_posts WHERE active = TRUE",
+    } else {
+      const [savedPosts] = await connection.query<RowDataPacket[]>(
+        "SELECT * FROM dailymath_ranking_posts WHERE active = TRUE ORDER BY published_at_ms DESC, post_id DESC",
       );
-      const stamps = new Map(
-        saved.map((row) => [
-          Number(row.post_id),
-          row.scanned_at_ms == null ? null : Number(row.scanned_at_ms),
-        ]),
-      );
-      const recent = continuation ? [] : posts.slice(0, 3);
-      const unscanned = posts.filter((post) => stamps.get(post.id) == null);
-      // Also rotate through older pages so deleted/edited historical comments get reconciled.
-      const historical = posts
-        .filter(
-          (post) =>
-            (stamps.get(post.id) ?? Infinity) < started - 24 * 60 * 60 * 1000,
-        )
-        .sort((a, b) => (stamps.get(a.id) ?? 0) - (stamps.get(b.id) ?? 0))
-        .slice(0, 1);
-      const queue = [
-        ...new Map(
-          [...recent, ...unscanned, ...historical].map((post) => [
-            post.id,
-            post,
-          ]),
-        ).values(),
-      ].slice(0, BATCH_SIZE);
-      for (const post of queue) {
-        if (Date.now() - started > 18_000) break;
-        const replies = parseRankingReplies(
-          await fetchRankingPage(sessionId, post.id),
-          post.id,
-        );
-        await reconcileReplies(connection, post.id, replies, Date.now());
-        stamps.set(post.id, Date.now());
-      }
-      if (posts.every((post) => stamps.get(post.id) != null))
-        await publishSnapshot(connection, posts);
+      posts = savedPosts.map((row) => ({
+        id: Number(row.post_id),
+        key: String(row.exercise_key),
+        publishedAt: Number(row.published_at_ms),
+        publishedOn: new Date(Number(row.published_at_ms) + 9 * 60 * 60 * 1000)
+          .toISOString()
+          .slice(0, 10),
+      }));
     }
+    if (!posts.length)
+      throw new DailyMathRequestError("먼저 문제 목록을 갱신해 주세요.", 409);
+    const ids = new Set(posts.map((post) => post.id));
+    const pages = input.replies.map((page) => {
+      if (!ids.has(page.postId))
+        throw new DailyMathRequestError("문제 목록에 없는 게시글입니다.");
+      return {
+        postId: page.postId,
+        replies: parseRankingReplies(page.html, page.postId),
+      };
+    });
+    for (const page of pages)
+      await reconcileReplies(connection, page.postId, page.replies, Date.now());
+    const [saved] = await connection.query<RowDataPacket[]>(
+      "SELECT post_id, scanned_at_ms FROM dailymath_ranking_posts WHERE active = TRUE",
+    );
+    const stamps = new Map(
+      saved.map((row) => [
+        Number(row.post_id),
+        row.scanned_at_ms == null ? null : Number(row.scanned_at_ms),
+      ]),
+    );
+    const unscanned = posts.filter((post) => stamps.get(post.id) == null);
+    const recent = input.continuation ? [] : posts.slice(0, 3);
+    const historical = input.continuation
+      ? []
+      : posts
+          .filter(
+            (post) =>
+              (stamps.get(post.id) ?? Infinity) <
+              Date.now() - 24 * 60 * 60 * 1000,
+          )
+          .sort((a, b) => (stamps.get(a.id) ?? 0) - (stamps.get(b.id) ?? 0))
+          .slice(0, 1);
+    queue = [
+      ...new Set(
+        [...recent, ...unscanned, ...historical].map((post) => post.id),
+      ),
+    ].slice(0, BATCH_SIZE);
+    if (!unscanned.length) await publishSnapshot(connection, posts);
   } finally {
     if (locked)
       await connection
@@ -278,5 +303,5 @@ export async function refreshRanking(
         .catch(() => undefined);
     connection.release();
   }
-  return rankingSnapshot(account, !locked);
+  return rankingSnapshot(account, false, queue);
 }
