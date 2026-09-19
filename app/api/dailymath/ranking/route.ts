@@ -7,12 +7,17 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
 const headers = { "Cache-Control": "no-store" };
-function failure(error: unknown) {
-  const status = error instanceof DailyMathRequestError ? error.status : 503;
+function failure(error: unknown, appAuthenticated = false) {
+  const originalStatus =
+    error instanceof DailyMathRequestError ? error.status : 503;
+  // A school-session rejection must not invalidate an already verified app token.
+  const schoolSessionRejected = appAuthenticated && originalStatus === 401;
+  const status = schoolSessionRejected ? 409 : originalStatus;
   return Response.json(
     {
-      error:
-        error instanceof DailyMathRequestError
+      error: schoolSessionRejected
+        ? "학교 로그인 상태를 확인하지 못했습니다. 잠시 후 새로고침해 주세요."
+        : error instanceof DailyMathRequestError
           ? error.message
           : "랭킹을 갱신하지 못했습니다. 다시 시도해 주세요.",
     },
@@ -35,8 +40,10 @@ export async function GET(request: Request) {
   }
 }
 export async function POST(request: Request) {
+  let appAuthenticated = false;
   try {
     const account = await authenticatedAccount(request);
+    appAuthenticated = true;
     checkDailyMathRate(`ranking:${account}`);
     const body = await readJsonBody(request, 2048);
     const sessionId = schoolSessionId(body);
@@ -52,6 +59,6 @@ export async function POST(request: Request) {
       { headers },
     );
   } catch (error) {
-    return failure(error);
+    return failure(error, appAuthenticated);
   }
 }
