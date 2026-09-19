@@ -14,6 +14,8 @@ export async function fetchRankingPage(
     (postId === undefined
       ? "dailymathList.do?limit=N"
       : `info.do?noticeNo=${postId}`);
+  const started = Date.now();
+  let responseStatus: number | undefined;
   try {
     const response = await schoolFetch(url, {
       headers: {
@@ -25,6 +27,7 @@ export async function fetchRankingPage(
       cache: "no-store",
       signal: AbortSignal.timeout(10_000),
     });
+    responseStatus = response.status;
     if (response.status >= 300 && response.status < 500)
       throw new DailyMathRequestError("송죽학사에 다시 로그인해 주세요.", 401);
     if (!response.ok || !response.body) throw new Error("School unavailable");
@@ -50,6 +53,18 @@ export async function fetchRankingPage(
     return html;
   } catch (error) {
     if (error instanceof DailyMathRequestError) throw error;
+    // Operational metadata only: never log the session, response body or error message.
+    const code =
+      error && typeof error === "object" && "code" in error
+        ? String(error.code)
+        : undefined;
+    console.warn("DailyMath school ranking request failed", {
+      page: postId ?? "list",
+      status: responseStatus,
+      elapsedMs: Date.now() - started,
+      errorType: error instanceof Error ? error.name : "Unknown",
+      code: code && /^[A-Z_0-9]{1,40}$/.test(code) ? code : undefined,
+    });
     throw new DailyMathRequestError(
       "학교 댓글을 불러오지 못했습니다. 다시 시도해 주세요.",
       503,
