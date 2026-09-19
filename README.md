@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## DailyMath 기록 API
+
+기존 MySQL을 사용하는 DailyMath API를 추가했습니다. 연결 방법과 인증 범위는 [docs/dailymath.md](docs/dailymath.md)를 확인하세요.

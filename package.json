@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:dailymath": "node --test scripts/test-dailymath.cjs"
   },
   "dependencies": {
     "mysql2": "^3.24.3",
