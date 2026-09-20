@@ -3,6 +3,7 @@ import mysql, { type Pool, type RowDataPacket } from "mysql2/promise";
 import {
   DailyMathRequestError,
   type ProgressRecord,
+  type StudentProfile,
 } from "./dailymath-contract";
 const state = globalThis as typeof globalThis & {
   dailyMathPool?: Pool;
@@ -77,6 +78,11 @@ export async function ensureDailyMathSchema() {
           INDEX dailymath_session_expiry (expires_at_ms)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
       `);
+      await dailyMathPool()
+        .query(`CREATE TABLE IF NOT EXISTS dailymath_student_profiles (
+        school_account CHAR(64) CHARACTER SET ascii COLLATE ascii_bin PRIMARY KEY,
+        student_id CHAR(5) NOT NULL UNIQUE, display_name VARCHAR(80) NOT NULL
+      ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4`);
       // Existing tokens were issued from unverified client claims. Fail them closed.
       // This additive migration preserves account progress and ranking records.
       try {
@@ -120,11 +126,18 @@ export async function getDailyMathProgress(
 export async function putDailyMathProgress(
   account: string,
   records: ProgressRecord[],
+  profile: StudentProfile | null = null,
 ) {
   await ensureDailyMathSchema();
   const connection = await dailyMathPool().getConnection();
   try {
     await connection.beginTransaction();
+    if (profile)
+      await connection.execute(
+        `INSERT INTO dailymath_student_profiles (school_account, student_id, display_name) VALUES (?, ?, ?)
+       ON DUPLICATE KEY UPDATE display_name = VALUES(display_name)`,
+        [account, profile.student_id, profile.name],
+      );
     // All devices using the same student-ID hash share the same progress rows.
     // updated_at_ms is assigned last so all comparisons see the previous timestamp.
     for (const record of [...records].sort((a, b) => a.post_id - b.post_id)) {

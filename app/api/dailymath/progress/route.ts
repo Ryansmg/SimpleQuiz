@@ -1,6 +1,8 @@
 import { authenticatedAccount } from "@/lib/dailymath-auth";
 import {
-  readProgressBody,
+  readJsonBody,
+  parseProgress,
+  parseStudentProfile,
   DailyMathRequestError,
 } from "@/lib/dailymath-contract";
 import {
@@ -50,8 +52,16 @@ export async function PUT(request: Request) {
   try {
     const account = await authenticatedAccount(request);
     checkDailyMathRate(account);
-    const records = await readProgressBody(request);
-    await putDailyMathProgress(account, records);
+    const body = await readJsonBody(request);
+    // Continue accepting the original array payload from existing APKs.
+    const payload =
+      body && typeof body === "object" ? (body as Record<string, unknown>) : {};
+    const records = parseProgress(Array.isArray(body) ? body : payload.records);
+    const profile = parseStudentProfile(
+      Array.isArray(body) ? undefined : payload.profile,
+      account,
+    );
+    await putDailyMathProgress(account, records, profile);
     return new Response(null, {
       status: 204,
       headers: {

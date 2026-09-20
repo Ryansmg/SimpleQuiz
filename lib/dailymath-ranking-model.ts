@@ -21,8 +21,16 @@ export type RankingEntry = {
   name: string;
   streak: number;
   total_solved: number;
+  on_time_solved: number;
+  last_solved_at_ms: number;
   last_submitted_at_ms: number;
   is_me: boolean;
+};
+export type RankingCompletion = {
+  postId: number;
+  studentId: string;
+  name: string;
+  completedAt: number;
 };
 const DAY = 86_400_000;
 const KOREA = 9 * 60 * 60 * 1000;
@@ -175,6 +183,7 @@ export function calculateRanking(
   posts: RankingPost[],
   submissions: RankingSubmission[],
   now = Date.now(),
+  completions: RankingCompletion[] = [],
 ): RankingEntry[] {
   const grouped = new Map<
     string,
@@ -190,7 +199,17 @@ export function calculateRanking(
     grouped.set(post.key, { opened, deadline: midnight + DAY, ids });
   }
   const exercises = [...grouped.values()].sort((a, b) => b.opened - a.opened);
-  const activeIds = new Set(posts.map((post) => post.id));
+  const activeIds = new Set(exercises.flatMap((exercise) => [...exercise.ids]));
+  const completedByStudent = new Map<string, RankingCompletion[]>();
+  for (const completion of completions) {
+    if (!activeIds.has(completion.postId) || completion.completedAt > now)
+      continue;
+    const exercise = exercises.find((item) => item.ids.has(completion.postId));
+    if (!exercise || completion.completedAt < exercise.deadline) continue;
+    const records = completedByStudent.get(completion.studentId) ?? [];
+    records.push(completion);
+    completedByStudent.set(completion.studentId, records);
+  }
   const byStudent = new Map<string, RankingSubmission[]>();
   for (const record of submissions) {
     if (!activeIds.has(record.postId) || record.submittedAt > now) continue;
@@ -198,14 +217,24 @@ export function calculateRanking(
     records.push(record);
     byStudent.set(record.studentId, records);
   }
+  for (const studentId of completedByStudent.keys()) {
+    if (!byStudent.has(studentId)) byStudent.set(studentId, []);
+  }
   const entries: RankingEntry[] = [];
   for (const [studentId, records] of byStudent) {
-    const latest = records.reduce((a, b) =>
-      (a.lastSubmittedAt ?? a.submittedAt) >
-      (b.lastSubmittedAt ?? b.submittedAt)
-        ? a
-        : b,
+    const completed = completedByStudent.get(studentId) ?? [];
+    const latestCompletion = completed.reduce<RankingCompletion | undefined>(
+      (a, b) => (!a || b.completedAt > a.completedAt ? b : a),
+      undefined,
     );
+    const latest = records.length
+      ? records.reduce((a, b) =>
+          (a.lastSubmittedAt ?? a.submittedAt) >
+          (b.lastSubmittedAt ?? b.submittedAt)
+            ? a
+            : b,
+        )
+      : undefined;
     let streak = 0;
     let started = false;
     for (const exercise of exercises) {
@@ -221,16 +250,37 @@ export function calculateRanking(
       } else if (!started && now < exercise.deadline) continue;
       else break;
     }
-    const totalSolved = exercises.filter((exercise) =>
-      records.some((record) => exercise.ids.has(record.postId)),
+    const onTimeSolved = exercises.filter((exercise) =>
+      records.some(
+        (record) =>
+          exercise.ids.has(record.postId) &&
+          record.submittedAt >= exercise.opened &&
+          record.submittedAt < exercise.deadline,
+      ),
     ).length;
+    const totalSolved = exercises.filter(
+      (exercise) =>
+        records.some(
+          (record) =>
+            exercise.ids.has(record.postId) &&
+            record.submittedAt >= exercise.opened,
+        ) || completed.some((record) => exercise.ids.has(record.postId)),
+    ).length;
+    const lastSubmittedAt = latest
+      ? (latest.lastSubmittedAt ?? latest.submittedAt)
+      : 0;
     entries.push({
       rank: 0,
       student_id: studentId,
-      name: latest.name,
+      name: latest?.name ?? latestCompletion?.name ?? studentId,
       streak,
       total_solved: totalSolved,
-      last_submitted_at_ms: latest.lastSubmittedAt ?? latest.submittedAt,
+      on_time_solved: onTimeSolved,
+      last_submitted_at_ms: lastSubmittedAt,
+      last_solved_at_ms: Math.max(
+        lastSubmittedAt,
+        latestCompletion?.completedAt ?? 0,
+      ),
       is_me: false,
     });
   }

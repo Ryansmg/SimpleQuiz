@@ -1,8 +1,10 @@
 import "server-only";
 import type { PoolConnection, RowDataPacket } from "mysql2/promise";
-import { dailyMathPool } from "./dailymath";
+import { dailyMathPool, ensureDailyMathSchema } from "./dailymath";
 import {
   calculateRanking,
+  koreanDate,
+  schoolTime,
   parseRankingPosts,
   parseRankingReplies,
   studentAccount,
@@ -21,6 +23,7 @@ const BATCH_SIZE = 8;
 
 export async function ensureRankingSchema() {
   state.dailyMathRankingSchema ??= (async () => {
+    await ensureDailyMathSchema();
     for (const sql of [
       `CREATE TABLE IF NOT EXISTS dailymath_ranking_posts (
         post_id BIGINT UNSIGNED PRIMARY KEY, exercise_key VARCHAR(64) NOT NULL,
@@ -45,6 +48,18 @@ export async function ensureRankingSchema() {
       "INSERT IGNORE INTO dailymath_ranking_state (id) VALUES (1)",
     ])
       await dailyMathPool().query(sql);
+    for (const sql of [
+      "ALTER TABLE dailymath_ranking_students ADD COLUMN on_time_solved INT UNSIGNED NOT NULL DEFAULT 0",
+      "ALTER TABLE dailymath_ranking_students ADD COLUMN last_solved_at_ms BIGINT UNSIGNED NOT NULL DEFAULT 0",
+      "ALTER TABLE dailymath_ranking_state ADD COLUMN metrics_version TINYINT UNSIGNED NOT NULL DEFAULT 1",
+    ]) {
+      try {
+        await dailyMathPool().query(sql);
+      } catch (error) {
+        if ((error as { code?: string }).code !== "ER_DUP_FIELDNAME")
+          throw error;
+      }
+    }
   })().catch((error) => {
     state.dailyMathRankingSchema = undefined;
     throw error;
@@ -59,8 +74,9 @@ export async function rankingSnapshot(
 ) {
   await ensureRankingSchema();
   const pool = dailyMathPool();
+  await upgradeStoredSnapshot();
   const [stateRows] = await pool.query<RowDataPacket[]>(
-    "SELECT ready, updated_at_ms FROM dailymath_ranking_state WHERE id = 1",
+    "SELECT ready, updated_at_ms, metrics_version FROM dailymath_ranking_state WHERE id = 1",
   );
   const [counts] = await pool.query<RowDataPacket[]>(
     "SELECT COUNT(*) AS total, COUNT(scanned_at_ms) AS scanned FROM dailymath_ranking_posts WHERE active = TRUE",
@@ -74,6 +90,8 @@ export async function rankingSnapshot(
     name: String(row.display_name),
     streak: Number(row.current_streak),
     total_solved: Number(row.total_solved),
+    on_time_solved: Number(row.on_time_solved),
+    last_solved_at_ms: Number(row.last_solved_at_ms),
     last_submitted_at_ms: Number(row.last_submitted_at_ms),
     is_me: studentAccount(String(row.student_id)) === account,
   }));
@@ -84,6 +102,7 @@ export async function rankingSnapshot(
   const scanned = Number(counts[0].scanned);
   return {
     ready: Boolean(stateRows[0].ready),
+    metrics_version: Number(stateRows[0].metrics_version),
     updated_at_ms:
       stateRows[0].updated_at_ms == null
         ? null
@@ -191,15 +210,55 @@ async function publishSnapshot(
     submittedAt: Number(row.first_submitted_at_ms),
     lastSubmittedAt: Number(row.last_submitted_at_ms),
   }));
+  const [profiles] = await connection.query<RowDataPacket[]>(
+    "SELECT student_id, display_name FROM dailymath_student_profiles",
+  );
+  const identities = new Map(
+    submissions.map((record) => [
+      studentAccount(record.studentId),
+      { id: record.studentId, name: record.name },
+    ]),
+  );
+  for (const profile of profiles) {
+    const id = String(profile.student_id);
+    if (!identities.has(studentAccount(id)))
+      identities.set(studentAccount(id), {
+        id,
+        name: String(profile.display_name),
+      });
+  }
+  const [progress] = await connection.query<
+    RowDataPacket[]
+  >(`SELECT g.school_account, g.post_id,
+    DATE_FORMAT(g.solved_on, '%Y-%m-%d') AS solved_on, g.updated_at_ms
+    FROM dailymath_account_progress g JOIN dailymath_ranking_posts p ON p.post_id = g.post_id
+    WHERE p.active = TRUE AND g.state = 'late' AND g.solved_on IS NOT NULL`);
+  const completions = progress.flatMap((row) => {
+    const identity = identities.get(String(row.school_account));
+    const solvedOn = String(row.solved_on);
+    const updatedAt = Number(row.updated_at_ms);
+    const completedAt =
+      koreanDate(updatedAt) === solvedOn ? updatedAt : schoolTime(solvedOn);
+    return identity && completedAt !== null
+      ? [
+          {
+            postId: Number(row.post_id),
+            studentId: identity.id,
+            name: identity.name,
+            completedAt,
+          },
+        ]
+      : [];
+  });
   const now = Date.now();
-  const entries = calculateRanking(posts, submissions, now);
+  const entries = calculateRanking(posts, submissions, now, completions);
   await connection.beginTransaction();
   try {
     await connection.query("DELETE FROM dailymath_ranking_students");
     if (entries.length)
       await connection.query(
         `INSERT INTO dailymath_ranking_students
-      (student_id, display_name, current_streak, total_solved, last_submitted_at_ms, ranking_position) VALUES ?`,
+      (student_id, display_name, current_streak, total_solved, last_submitted_at_ms, ranking_position, on_time_solved, last_solved_at_ms) VALUES ?`,
         [
           entries.map((entry) => [
             entry.student_id,
@@ -208,11 +267,13 @@ async function publishSnapshot(
             entry.total_solved,
             entry.last_submitted_at_ms,
             entry.rank,
+            entry.on_time_solved,
+            entry.last_solved_at_ms,
           ]),
         ],
       );
     await connection.execute(
-      "UPDATE dailymath_ranking_state SET ready = TRUE, updated_at_ms = ? WHERE id = 1",
+      "UPDATE dailymath_ranking_state SET ready = TRUE, updated_at_ms = ?, metrics_version = 2 WHERE id = 1",
       [now],
     );
     await connection.commit();
@@ -304,4 +365,48 @@ export async function refreshRanking(account: string, input: RankingUpload) {
     connection.release();
   }
   return rankingSnapshot(account, false, queue);
+}
+
+/** Backfill new metrics from stored raw data without another school crawl after deployment. */
+async function upgradeStoredSnapshot() {
+  const [rows] = await dailyMathPool().query<RowDataPacket[]>(
+    "SELECT ready, metrics_version FROM dailymath_ranking_state WHERE id = 1",
+  );
+  if (!rows[0]?.ready || Number(rows[0].metrics_version) >= 2) return;
+  const connection = await dailyMathPool().getConnection();
+  let locked = false;
+  try {
+    const [locks] = await connection.query<RowDataPacket[]>(
+      "SELECT GET_LOCK(?, 5) AS acquired",
+      [LOCK],
+    );
+    locked = Number(locks[0].acquired) === 1;
+    if (!locked)
+      throw new DailyMathRequestError(
+        "랭킹 집계 중입니다. 잠시 후 다시 시도해 주세요.",
+        503,
+      );
+    const [state] = await connection.query<RowDataPacket[]>(
+      "SELECT metrics_version FROM dailymath_ranking_state WHERE id = 1",
+    );
+    if (Number(state[0].metrics_version) >= 2) return;
+    const [posts] = await connection.query<RowDataPacket[]>(
+      "SELECT * FROM dailymath_ranking_posts WHERE active = TRUE",
+    );
+    await publishSnapshot(
+      connection,
+      posts.map((row) => ({
+        id: Number(row.post_id),
+        key: String(row.exercise_key),
+        publishedAt: Number(row.published_at_ms),
+        publishedOn: koreanDate(Number(row.published_at_ms)),
+      })),
+    );
+  } finally {
+    if (locked)
+      await connection
+        .query("SELECT RELEASE_LOCK(?)", [LOCK])
+        .catch(() => undefined);
+    connection.release();
+  }
 }

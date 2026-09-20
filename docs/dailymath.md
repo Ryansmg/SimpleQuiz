@@ -18,11 +18,11 @@
 
 `GET /api/dailymath/progress`는 해당 앱 토큰 계정의 기록을 반환합니다. `PUT`은 최대 200개를 한 트랜잭션으로 저장하고 204를 반환합니다.
 
-필드는 `post_id`, `state` (`draft` 또는 `submitted`), `reply_id`, `solved_on`, `updated_at_ms`, `first_submitted_at_ms`입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 가장 이른 확인된 제출 시각을 보존합니다. 시각이 없는 과거 기록을 추정하여 채우지 않습니다. `pending`은 앱이 학교에서 확인해야 하므로 동기화 대상에서 제외합니다.
+필드는 `post_id`, `state` (`new`, `draft`, `submitted`, `late`), `reply_id`, `solved_on`, `updated_at_ms`, `first_submitted_at_ms`입니다. 오래된 요청은 최신 상태를 덮어쓰지 않으며 가장 이른 확인된 제출 시각을 보존합니다. 시각이 없는 과거 기록을 추정하여 채우지 않습니다. `pending`은 앱이 학교에서 확인해야 하므로 동기화 대상에서 제외합니다.
 
-## 스트릭 랭킹
+## 스트릭·해결 수 랭킹
 
-사용자는 학교 댓글에 표시되는 학생 이름·학번·제출 시각의 저장과 랭킹 표시를 승인했습니다. 앱을 쓰지 않는 학생도 댓글 제출 이력이 있으면 포함하며, 제출 이력이 전혀 없는 학생 명단은 수집하지 않습니다.
+사용자는 학교 댓글에 표시되는 학생 이름·학번·제출 시각의 저장과 랭킹 표시를 승인했습니다. 앱을 쓰지 않는 학생도 댓글 제출 이력이 있으면 포함하며, 앱에서 늦은 완료만 기록한 학생도 전체 해결 수에 포함합니다. 활동 기록이 전혀 없는 학생 명단은 수집하지 않습니다.
 
 랭킹용 학교 게시판·댓글 조회는 **기기에서만** 합니다. 앱은 전체 HTML에서 문제 제목·번호·날짜와 댓글 작성자·시각만 골라 작은 메타데이터 HTML을 만듭니다. 프로필의 다른 정보, 댓글 본문, PDF, 첨부 주소, 학교 쿠키와 스크립트는 quiz 서버에 전송하지 않습니다. 서버는 학교 인증을 마친 클라이언트가 보고한 메타데이터를 신뢰하고 파싱·집계합니다. 학교 계정 인증은 자료 자체의 위변조까지 검증하는 것은 아닙니다.
 
@@ -37,11 +37,11 @@
 
 같은 문제의 중복 게시글은 한 번만 셉니다. 동점은 공동 순위(1, 1, 3)입니다. 동일 학생의 풀이 교체에서는 이미 확인한 최초 제출 시각을 유지하며, 마지막 제출 시각은 별도로 가장 최근 값을 저장합니다. 학교가 삭제한 댓글은 해당 문제를 다시 조회할 때 반영합니다.
 
-응답 필드: `ready`, `updated_at_ms`, `scanned_posts`, `total_posts`, `has_more`, `refreshing`, `scan_post_ids`, `entries`. 항목에는 `rank`, `student_id`, `name`, `streak`, `total_solved`, `last_submitted_at_ms`, `is_me`가 있습니다.
+응답 필드: `metrics_version`, `ready`, `updated_at_ms`, `scanned_posts`, `total_posts`, `has_more`, `refreshing`, `scan_post_ids`, `entries`. 항목에는 `rank`, `student_id`, `name`, `streak`, `on_time_solved`, `total_solved`, `last_submitted_at_ms`, `last_solved_at_ms`, `is_me`가 있습니다.
 
 ## 저장소와 제한
 
-기존 `dailymath_account_progress`, `dailymath_sessions`와 랭킹 전용 `dailymath_ranking_posts`, `dailymath_ranking_submissions`, `dailymath_ranking_students`, `dailymath_ranking_state`를 사용합니다. 첫 요청 때 없으면 생성하며 기존 퀴즈 테이블은 변경하지 않습니다. 초기 기기별 실험의 `dailymath_progress`는 자동 삭제·이전하지 않습니다.
+기존 `dailymath_account_progress`, `dailymath_sessions`, 학생 표시용 `dailymath_student_profiles`와 랭킹 전용 `dailymath_ranking_posts`, `dailymath_ranking_submissions`, `dailymath_ranking_students`, `dailymath_ranking_state`를 사용합니다. 첫 요청 때 없으면 생성하며 기존 퀴즈 테이블은 변경하지 않습니다. 초기 기기별 실험의 `dailymath_progress`는 자동 삭제·이전하지 않습니다.
 
 `published_at_ms`와 `published_on`은 랭킹 판정용 문제 시작 시각·날짜입니다. 제목 날짜를 수정해도 원본 댓글 시각은 남아 있으므로 전체 재수집 없이 재계산합니다. 최초 수집은 문제 107개, 댓글 제출자 87명으로 완료했습니다.
 
@@ -50,3 +50,11 @@
 Railway의 학교 DNS 조회가 실패하는 환경에서는 독립적으로 확인한 학교 IPv4를 `DAILYMATH_SCHOOL_IPV4`로 설정합니다. 원래 학교 Host·TLS SNI·인증서 검증은 유지합니다. 학교 연결은 새 HTTP/1.1 연결을 사용하며 자동 재시도하지 않습니다. 앱 쿠키를 재사용하지 않고 서버 위치에서 세션을 새로 만듭니다.
 
 검사: `npm run test:dailymath`, `npx tsc --noEmit`, 변경된 파일 ESLint, `npm run build`. 요청·응답 로그에 학생 정보나 인증 정보를 출력하지 않습니다.
+
+## 해결 수 집계와 호환성
+
+- 스트릭은 기존 연속 당일 제출 기준을 유지합니다. 당일 해결 수는 문제 날짜 안에 학교 댓글로 제출한 고유 문제 수, 전체 해결 수는 여기에 늦은 학교 제출과 앱의 늦은 완료 기록을 합친 고유 문제 수입니다. 중복 게시글·재제출·학교와 앱의 중복 기록은 한 번만 셉니다. 앱 완료 기록만으로 당일 해결이나 스트릭을 얻지 않습니다.
+- 앱은 같은 응답으로 스트릭 / 당일 해결 / 전체 해결 탭을 정렬합니다. 동점은 공동 순위이며, 스트릭·당일 해결은 마지막 학교 제출 시각, 전체 해결은 마지막 제출·완료 시각 내림차순입니다. 시각까지 같으면 학번을 사용합니다. 탭 전환은 추가 요청을 만들지 않고 기존 10분 캐시·수동 새로고침 규칙을 유지합니다.
+- 진행 기록 PUT은 기존 배열과 새 `{ records: [...], profile: { student_id, name } }` 본문을 모두 받습니다. 프로필은 이미 학교 인증된 토큰의 계정 해시와 학번이 일치할 때만 저장합니다. 토큰 인증 방식은 바꾸지 않습니다. 앱은 학교 내정보에서 학번·이름만 추출해 기기에 암호화 캐시하고, 학교 댓글이 없는 앱 참가자의 표시 정보로 보냅니다.
+- 앱의 늦은 완료는 기존 진행 기록으로 동기화합니다. 완료 시 동기화를 시도하고, 실패한 로컬 기록은 다음 동기화까지 보존합니다. 랭킹 갱신 전에 본인 진행 기록을 동기화하며 학교 댓글에는 업로드하지 않습니다.
+- 랭킹 테이블에 `on_time_solved`, `last_solved_at_ms`와 집계 버전 `metrics_version`을 추가합니다. 기존 결과는 첫 조회에서 저장된 문제·댓글·완료 기록으로 버전 2 집계로 이전하며 학교 전체 재수집은 하지 않습니다. 이때 기존 랭킹 갱신과 같은 DB 잠금을 사용합니다. 앱은 구형 집계 결과를 해결 수 0으로 표시하지 않습니다.

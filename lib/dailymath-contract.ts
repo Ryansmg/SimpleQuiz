@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 export type ProgressRecord = {
   post_id: number;
   state: "new" | "draft" | "submitted" | "late";
@@ -117,4 +118,31 @@ export async function readJsonBody(request: Request, maxBytes = 128 * 1024) {
 
 export async function readProgressBody(request: Request) {
   return parseProgress(await readJsonBody(request));
+}
+
+export type StudentProfile = { student_id: string; name: string };
+
+/** The profile is metadata, not authentication: its ID must match the already verified token. */
+export function parseStudentProfile(
+  value: unknown,
+  account: string,
+): StudentProfile | null {
+  if (value === undefined) return null;
+  if (!value || typeof value !== "object" || Array.isArray(value))
+    throw new DailyMathRequestError("학생 정보 형식이 올바르지 않습니다.");
+  const { student_id: id, name } = value as Record<string, unknown>;
+  if (
+    typeof id !== "string" ||
+    !/^\d{5}$/.test(id) ||
+    typeof name !== "string" ||
+    !name.trim() ||
+    name.trim().length > 80
+  )
+    throw new DailyMathRequestError("학생 정보 형식이 올바르지 않습니다.");
+  if (createHash("sha256").update(id).digest("hex") !== account)
+    throw new DailyMathRequestError(
+      "로그인한 학교 계정과 학번이 다릅니다.",
+      403,
+    );
+  return { student_id: id, name: name.trim() };
 }

@@ -405,24 +405,146 @@ test("ranking uploads reject empty, oversized and duplicate pages", () => {
   }
 });
 
-
 test("ties show latest submissions first while preserving competition ranks", () => {
   const posts = [
     post(1, 1, "2026.04.06. 08:00"),
     post(2, 2, "2026.04.07. 08:00"),
   ];
-  const rows = calculateRanking(posts, [
-    reply(1, "26101", "2026.04.06. 09:00"),
-    reply(1, "26102", "2026.04.06. 10:00"),
-    reply(2, "26103", "2026.04.07. 09:00"),
-    { ...reply(2, "26104", "2026.04.07. 09:00"), lastSubmittedAt: t("2026.04.07. 12:00") },
-    reply(2, "26105", "2026.04.07. 12:00"),
-  ], t("2026.04.08. 12:00"));
-  assert.deepEqual(rows.map(r => [r.student_id, r.rank, r.streak]), [
-    ["26104", 1, 1],
-    ["26105", 1, 1],
-    ["26103", 1, 1],
-    ["26102", 4, 0],
-    ["26101", 4, 0],
-  ]);
+  const rows = calculateRanking(
+    posts,
+    [
+      reply(1, "26101", "2026.04.06. 09:00"),
+      reply(1, "26102", "2026.04.06. 10:00"),
+      reply(2, "26103", "2026.04.07. 09:00"),
+      {
+        ...reply(2, "26104", "2026.04.07. 09:00"),
+        lastSubmittedAt: t("2026.04.07. 12:00"),
+      },
+      reply(2, "26105", "2026.04.07. 12:00"),
+    ],
+    t("2026.04.08. 12:00"),
+  );
+  assert.deepEqual(
+    rows.map((r) => [r.student_id, r.rank, r.streak]),
+    [
+      ["26104", 1, 1],
+      ["26105", 1, 1],
+      ["26103", 1, 1],
+      ["26102", 4, 0],
+      ["26101", 4, 0],
+    ],
+  );
+});
+
+test("solved metrics distinguish on-time school replies, late replies, and completion-only records", () => {
+  const posts = [
+    post(1, 1, "2026.04.06. 00:00"),
+    post(2, 2, "2026.04.07. 00:00"),
+    post(3, 3, "2026.04.08. 00:00"),
+  ];
+  const rows = calculateRanking(
+    posts,
+    [
+      reply(1, "26101", "2026.04.06. 23:59:59"),
+      reply(2, "26101", "2026.04.08. 00:00"),
+      reply(3, "26101", "2026.04.08. 10:00"),
+    ],
+    t("2026.04.10. 12:00"),
+    [
+      {
+        postId: 1,
+        studentId: "26101",
+        name: "App name",
+        completedAt: t("2026.04.09. 11:00"),
+      },
+      {
+        postId: 2,
+        studentId: "26102",
+        name: "App only",
+        completedAt: t("2026.04.09. 12:00"),
+      },
+    ],
+  );
+  const a = rows.find((r) => r.student_id === "26101");
+  assert.equal(a.on_time_solved, 2);
+  assert.equal(a.total_solved, 3);
+  assert.equal(a.streak, 1);
+  assert.equal(a.last_solved_at_ms, t("2026.04.09. 11:00"));
+  const b = rows.find((r) => r.student_id === "26102");
+  assert.equal(b.name, "App only");
+  assert.equal(b.on_time_solved, 0);
+  assert.equal(b.streak, 0);
+  assert.equal(b.total_solved, 1);
+  assert.equal(b.last_submitted_at_ms, 0);
+});
+
+test("duplicate exercise posts and repeat completion records count only once in both solved rankings", () => {
+  const rows = calculateRanking(
+    [post(1, 1, "2026.04.06. 00:00"), post(2, 1, "2026.04.06. 00:00")],
+    [
+      reply(1, "26101", "2026.04.06. 09:00"),
+      reply(2, "26101", "2026.04.06. 10:00"),
+    ],
+    t("2026.04.08. 12:00"),
+    [1, 2, 2].map((postId) => ({
+      postId,
+      studentId: "26101",
+      name: "Student",
+      completedAt: t("2026.04.07. 10:00"),
+    })),
+  );
+  assert.equal(rows[0].on_time_solved, 1);
+  assert.equal(rows[0].total_solved, 1);
+});
+
+test("local completions cannot supply on-time credit or count before the deadline or in the future", () => {
+  const now = t("2026.04.08. 12:00");
+  const rows = calculateRanking(
+    [post(1, 1, "2026.04.07. 00:00")],
+    [],
+    now,
+    ["2026.04.07. 23:59:59", "2026.04.08. 00:00", "2026.04.09. 00:00"].map(
+      (date, i) => ({
+        postId: 1,
+        studentId: `2610${i}`,
+        name: "Student",
+        completedAt: t(date),
+      }),
+    ),
+  );
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].student_id, "26101");
+  assert.equal(rows[0].total_solved, 1);
+  assert.equal(rows[0].on_time_solved, 0);
+  assert.equal(rows[0].streak, 0);
+});
+
+test("ranking profile metadata must match the authenticated student account", () => {
+  const {
+    parseStudentProfile,
+  } = require("../.next/dailymath-ranking-tests/dailymath-contract.js");
+  assert.deepEqual(
+    parseStudentProfile(
+      { student_id: "26101", name: " Example " },
+      studentAccount("26101"),
+    ),
+    { student_id: "26101", name: "Example" },
+  );
+  assert.equal(parseStudentProfile(undefined, studentAccount("26101")), null);
+  assert.throws(
+    () =>
+      parseStudentProfile(
+        { student_id: "26102", name: "Other" },
+        studentAccount("26101"),
+      ),
+    { status: 403 },
+  );
+  assert.throws(
+    () =>
+      parseStudentProfile(
+        { student_id: "26101", name: " " },
+        studentAccount("26101"),
+      ),
+    { status: 400 },
+  );
 });
