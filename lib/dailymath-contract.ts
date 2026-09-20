@@ -1,6 +1,6 @@
 export type ProgressRecord = {
   post_id: number;
-  state: "draft" | "submitted";
+  state: "new" | "draft" | "submitted" | "late";
   reply_id: number | null;
   solved_on: string | null;
   updated_at_ms: number;
@@ -48,7 +48,12 @@ export function parseProgress(
         "문제 번호가 중복되거나 올바르지 않습니다.",
       );
     seen.add(post_id);
-    if (state !== "draft" && state !== "submitted")
+    if (
+      state !== "new" &&
+      state !== "draft" &&
+      state !== "submitted" &&
+      state !== "late"
+    )
       throw new DailyMathRequestError("동기화할 수 없는 상태입니다.");
     if (reply_id !== null && (!Number.isSafeInteger(reply_id) || reply_id <= 0))
       throw new DailyMathRequestError("댓글 번호가 올바르지 않습니다.");
@@ -60,6 +65,8 @@ export function parseProgress(
         new Date(solved_on).toISOString().slice(0, 10) !== solved_on)
     )
       throw new DailyMathRequestError("학습 날짜가 올바르지 않습니다.");
+    if (state === "late" && solved_on === null)
+      throw new DailyMathRequestError("완료 기록에 학습 날짜가 필요합니다.");
     if (state === "submitted" && reply_id === null)
       throw new DailyMathRequestError("제출 기록에 댓글 번호가 필요합니다.");
     if (

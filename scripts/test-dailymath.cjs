@@ -571,3 +571,15 @@ test("transient school responses are 503; only explicit credential expiry is 401
     assert.ok(calls <= 4);
   }
 });
+
+
+test("late completion syncs without inventing a school reply or submission time", () => {
+  const completed = { ...record, state: "late", reply_id: null, first_submitted_at_ms: null };
+  assert.deepEqual(parseProgress([completed]), [completed]);
+  assert.throws(() => parseProgress([{ ...completed, solved_on: null }]));
+});
+
+test("cleared drafts sync as unsubmitted instead of resurrecting the old draft", () => {
+  const empty = { ...record, state: "new", reply_id: null, solved_on: null, first_submitted_at_ms: null };
+  assert.deepEqual(parseProgress([empty]), [empty]);
+});
