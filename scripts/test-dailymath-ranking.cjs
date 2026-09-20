@@ -3,7 +3,11 @@ const { test } = require("node:test");
 const fs = require("node:fs");
 const path = require("node:path");
 const ts = require("typescript");
-for (const name of ["dailymath-contract", "dailymath-ranking-model"]) {
+for (const name of [
+  "dailymath-contract",
+  "dailymath-problem-dates",
+  "dailymath-ranking-model",
+]) {
   const output = path.resolve(`.next/dailymath-ranking-tests/${name}.js`);
   fs.mkdirSync(path.dirname(output), { recursive: true });
   fs.writeFileSync(
@@ -546,5 +550,66 @@ test("ranking profile metadata must match the authenticated student account", ()
         studentAccount("26101"),
       ),
     { status: 400 },
+  );
+});
+
+test("verified PDF dates repair all 34 historical titleless posts", () => {
+  const evidence = JSON.parse(
+    fs.readFileSync("docs/dailymath-problem-dates-2026.json", "utf8"),
+  );
+  assert.equal(evidence.length, 34);
+  const rows = evidence.map(
+    (item) =>
+      `<tr><td><a href="/student/notice/info.do?noticeNo=${item.post_id}">post</a></td><td></td><td>${item.year}</td><td>2026 Daily Math ${item.day}일차 문제</td><td><span class="gsDateFormat" title="2026.03.14. 23:59"></span></td></tr>`,
+  );
+  const posts = parseRankingPosts(login + `<table>${rows.join("")}</table>`);
+  for (const item of evidence) {
+    const parsed = posts.find((post) => post.id === item.post_id);
+    assert.equal(parsed.publishedOn, item.date);
+    assert.equal(parsed.publishedAt, t(item.date));
+  }
+});
+
+test("stored dates are corrected idempotently and count the original comment times", () => {
+  const {
+    correctVerifiedProblemDates,
+  } = require("../.next/dailymath-ranking-tests/dailymath-ranking-model.js");
+  const original = [post(17505, 17, "2026.04.06. 19:30")];
+  const submissions = [
+    reply(17505, "26101", "2026.04.07. 10:52"),
+    reply(17505, "26102", "2026.04.08. 00:00"),
+  ];
+  assert.equal(
+    calculateRanking(original, submissions, t("2026.04.08. 12:00"))[0]
+      .on_time_solved,
+    0,
+  );
+  const corrected = correctVerifiedProblemDates(original);
+  assert.equal(original[0].publishedOn, "2026-04-06");
+  assert.equal(corrected[0].publishedOn, "2026-04-07");
+  assert.equal(correctVerifiedProblemDates(corrected)[0], corrected[0]);
+  const entries = calculateRanking(
+    corrected,
+    submissions,
+    t("2026.04.08. 12:00"),
+  );
+  assert.equal(entries.find((e) => e.student_id === "26101").on_time_solved, 1);
+  assert.equal(entries.find((e) => e.student_id === "26101").streak, 1);
+  assert.equal(entries.find((e) => e.student_id === "26102").on_time_solved, 0);
+  assert.ok(entries.every((e) => e.total_solved === 1));
+});
+
+test("PDF corrections require exact post/year/day and preserve ordinary title dates", () => {
+  const {
+    verifiedProblemDate,
+  } = require("../.next/dailymath-ranking-tests/dailymath-problem-dates.js");
+  assert.equal(verifiedProblemDate(17513, 2026, 21), t("2026.04.28."));
+  assert.equal(verifiedProblemDate(17515, 2026, 22), t("2026.05.06."));
+  assert.equal(verifiedProblemDate(17505, 2025, 17), null);
+  assert.equal(verifiedProblemDate(17505, 2026, 18), null);
+  assert.equal(verifiedProblemDate(1, 2026, 17), null);
+  assert.equal(
+    problemDateFromTitle("107일차 문제(26.09.18.)"),
+    t("2026.09.18."),
   );
 });

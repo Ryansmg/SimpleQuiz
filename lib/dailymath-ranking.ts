@@ -3,6 +3,7 @@ import type { PoolConnection, RowDataPacket } from "mysql2/promise";
 import { dailyMathPool, ensureDailyMathSchema } from "./dailymath";
 import {
   calculateRanking,
+  correctVerifiedProblemDates,
   koreanDate,
   schoolTime,
   parseRankingPosts,
@@ -251,9 +252,23 @@ async function publishSnapshot(
       : [];
   });
   const now = Date.now();
-  const entries = calculateRanking(posts, submissions, now, completions);
+  const correctedPosts = correctVerifiedProblemDates(posts);
+  const entries = calculateRanking(
+    correctedPosts,
+    submissions,
+    now,
+    completions,
+  );
   await connection.beginTransaction();
   try {
+    for (let index = 0; index < posts.length; index++) {
+      const corrected = correctedPosts[index];
+      if (corrected === posts[index]) continue;
+      await connection.execute(
+        "UPDATE dailymath_ranking_posts SET published_at_ms = ?, published_on = ? WHERE post_id = ?",
+        [corrected.publishedAt, corrected.publishedOn, corrected.id],
+      );
+    }
     await connection.query("DELETE FROM dailymath_ranking_students");
     if (entries.length)
       await connection.query(
@@ -273,7 +288,7 @@ async function publishSnapshot(
         ],
       );
     await connection.execute(
-      "UPDATE dailymath_ranking_state SET ready = TRUE, updated_at_ms = ?, metrics_version = 2 WHERE id = 1",
+      "UPDATE dailymath_ranking_state SET ready = TRUE, updated_at_ms = ?, metrics_version = 3 WHERE id = 1",
       [now],
     );
     await connection.commit();
@@ -372,7 +387,7 @@ async function upgradeStoredSnapshot() {
   const [rows] = await dailyMathPool().query<RowDataPacket[]>(
     "SELECT ready, metrics_version FROM dailymath_ranking_state WHERE id = 1",
   );
-  if (!rows[0]?.ready || Number(rows[0].metrics_version) >= 2) return;
+  if (!rows[0]?.ready || Number(rows[0].metrics_version) >= 3) return;
   const connection = await dailyMathPool().getConnection();
   let locked = false;
   try {
@@ -389,7 +404,7 @@ async function upgradeStoredSnapshot() {
     const [state] = await connection.query<RowDataPacket[]>(
       "SELECT metrics_version FROM dailymath_ranking_state WHERE id = 1",
     );
-    if (Number(state[0].metrics_version) >= 2) return;
+    if (Number(state[0].metrics_version) >= 3) return;
     const [posts] = await connection.query<RowDataPacket[]>(
       "SELECT * FROM dailymath_ranking_posts WHERE active = TRUE",
     );

@@ -1,3 +1,4 @@
+import { verifiedProblemDate } from "./dailymath-problem-dates";
 import { createHash } from "node:crypto";
 import { load } from "cheerio";
 import { DailyMathRequestError } from "./dailymath-contract";
@@ -102,22 +103,25 @@ export function parseRankingPosts(html: string): RankingPost[] {
       !/문제|problem/i.test(title)
     )
       return;
-    const assignedDate = problemDateFromTitle(title);
-    // The board's timestamp is creation time; teachers often prepare future problems.
-    const publishedAt =
-      assignedDate ??
-      schoolTime(
-        $(row).find(".gsDateFormat[title]").first().attr("title") ?? "",
-      );
-    if (publishedAt === null)
-      throw new DailyMathRequestError("문제 게시 날짜를 읽지 못했습니다.", 503);
+    const titleDate = problemDateFromTitle(title);
+    const boardTime = schoolTime(
+      $(row).find(".gsDateFormat[title]").first().attr("title") ?? "",
+    );
+    const fallbackTime = titleDate ?? boardTime;
     const year =
       /(?<!\d)20\d{2}(?!\d)/.exec(title)?.[0] ??
       /20\d{2}/.exec(cells.eq(2).text())?.[0] ??
-      koreanDate(publishedAt).slice(0, 4);
+      (fallbackTime === null ? null : koreanDate(fallbackTime).slice(0, 4));
     const dayMatch =
       /(?:제\s*)?(\d{1,4})\s*일\s*차|day\s*[_ .-]*0*(\d{1,4})/i.exec(title);
     const day = dayMatch ? Number(dayMatch[1] ?? dayMatch[2]) : null;
+    // Verified headers cover historical posts prepared before their assigned date.
+    const assignedDate =
+      verifiedProblemDate(id, year === null ? null : Number(year), day) ??
+      titleDate;
+    const publishedAt = assignedDate ?? boardTime;
+    if (publishedAt === null)
+      throw new DailyMathRequestError("문제 게시 날짜를 읽지 못했습니다.", 503);
     posts.set(id, {
       id,
       key:
@@ -135,6 +139,24 @@ export function parseRankingPosts(html: string): RankingPost[] {
   return [...posts.values()].sort(
     (a, b) => b.publishedAt - a.publishedAt || b.id - a.id,
   );
+}
+
+export function correctVerifiedProblemDates(
+  posts: RankingPost[],
+): RankingPost[] {
+  return posts.map((post) => {
+    const match = /^day:(\d{4}):(\d+)$/.exec(post.key);
+    if (!match) return post;
+    const assigned = verifiedProblemDate(
+      post.id,
+      Number(match[1]),
+      Number(match[2]),
+    );
+    if (assigned === null) return post;
+    const date = koreanDate(assigned);
+    if (post.publishedAt === assigned && post.publishedOn === date) return post;
+    return { ...post, publishedAt: assigned, publishedOn: date };
+  });
 }
 
 export function parseRankingReplies(
