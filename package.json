@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test:dailymath": "node --test scripts/test-dailymath.cjs scripts/test-dailymath-ranking.cjs"
+    "test:dailymath": "node --test scripts/test-dailymath.cjs scripts/test-dailymath-ranking.cjs scripts/test-dailymath-ink.cjs"
   },
   "dependencies": {
     "cheerio": "^1.2.0",
